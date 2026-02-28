@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import paragraphsData from "../../../../public/data/paragraphs.json";
-import { PART_COLORS, PART_SHORT_NAMES } from "@/lib/colors";
+import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 
 type ParagraphEntry = (typeof paragraphsData)[number];
 
@@ -34,6 +34,11 @@ export default async function ParagraphPage({
   ].filter(Boolean);
 
   const partColor = PART_COLORS[paragraph.part] || "#999";
+
+  const bibleCitations: string[] = (paragraph as Record<string, unknown>).bible_citations as string[] || [];
+  const authorCitations: string[] = (paragraph as Record<string, unknown>).author_citations as string[] || [];
+  const documentCitations: string[] = (paragraph as Record<string, unknown>).document_citations as string[] || [];
+  const themes: string[] = (paragraph as Record<string, unknown>).themes as string[] || [];
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -100,10 +105,94 @@ export default async function ParagraphPage({
         )}
       </div>
 
+      {/* Theme badges */}
+      {themes.length > 0 && (
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {themes.map((theme) => (
+            <span
+              key={theme}
+              className="rounded-full px-2.5 py-0.5 text-xs font-medium text-white"
+              style={{ backgroundColor: THEME_COLORS[theme] || "#999" }}
+            >
+              {theme}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Text */}
       <div className="mb-8 text-base leading-relaxed text-zinc-800 dark:text-zinc-200">
         {paragraph.text}
       </div>
+
+      {/* Bible citations */}
+      {bibleCitations.length > 0 && (
+        <div className="mb-8">
+          <h2 className="mb-2 text-sm font-semibold uppercase text-zinc-500">
+            Bible Citations ({bibleCitations.length})
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {bibleCitations.map((bookId) => {
+              const label = bookId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+              return (
+                <span
+                  key={bookId}
+                  className="rounded bg-green-50 px-2 py-1 text-sm font-medium text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                  style={{ borderLeft: "3px solid #59A14F" }}
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Author citations */}
+      {authorCitations.length > 0 && (
+        <div className="mb-8">
+          <h2 className="mb-2 text-sm font-semibold uppercase text-zinc-500">
+            Church Fathers ({authorCitations.length})
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {authorCitations.map((authorId) => {
+              const label = authorId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+              return (
+                <span
+                  key={authorId}
+                  className="rounded bg-purple-50 px-2 py-1 text-sm font-medium text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+                  style={{ borderLeft: "3px solid #B07AA1" }}
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Document citations */}
+      {documentCitations.length > 0 && (
+        <div className="mb-8">
+          <h2 className="mb-2 text-sm font-semibold uppercase text-zinc-500">
+            Ecclesiastical Documents ({documentCitations.length})
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {documentCitations.map((docId) => {
+              const label = docId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+              return (
+                <span
+                  key={docId}
+                  className="rounded bg-amber-50 px-2 py-1 text-sm font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                  style={{ borderLeft: `3px solid ${SOURCE_COLORS.document}` }}
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Footnotes */}
       {paragraph.footnotes.length > 0 && (

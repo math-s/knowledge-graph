@@ -1,4 +1,4 @@
-import type { GraphData, ParagraphData, SearchEntry } from "./types";
+import type { GraphData, ParagraphData, SearchEntry, ThemeDefinition } from "./types";
 
 const BASE_PATH = process.env.NODE_ENV === "production" ? "/knowledge-graph" : "";
 
@@ -14,5 +14,10 @@ export async function fetchParagraphs(): Promise<ParagraphData[]> {
 
 export async function fetchSearchIndex(): Promise<SearchEntry[]> {
   const res = await fetch(`${BASE_PATH}/data/search-index.json`);
+  return res.json();
+}
+
+export async function fetchThemes(): Promise<Record<string, ThemeDefinition>> {
+  const res = await fetch(`${BASE_PATH}/data/themes.json`);
   return res.json();
 }

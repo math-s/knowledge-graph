@@ -7,7 +7,7 @@ interface SearchBarProps {
   query: string;
   results: SearchEntry[];
   onSearch: (query: string) => void;
-  onSelect: (paragraphId: number) => void;
+  onSelect: (entry: SearchEntry) => void;
 }
 
 export default function SearchBar({
@@ -33,13 +33,25 @@ export default function SearchBar({
   );
 
   const handleSelect = useCallback(
-    (id: number) => {
-      onSelect(id);
+    (entry: SearchEntry) => {
+      onSelect(entry);
       setOpen(false);
       if (inputRef.current) inputRef.current.blur();
     },
     [onSelect],
   );
+
+  const getDisplayLabel = (entry: SearchEntry): string => {
+    if (typeof entry.id === "string") {
+      // Source node: "bible:john" → "John", "author:augustine" → "Augustine"
+      const parts = (entry.id as string).split(":");
+      if (parts.length === 2) {
+        return parts[1].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      }
+      return entry.id as string;
+    }
+    return `CCC ${entry.id}`;
+  };
 
   return (
     <div className="absolute left-1/2 top-4 z-20 w-96 -translate-x-1/2">
@@ -47,7 +59,7 @@ export default function SearchBar({
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search paragraphs..."
+          placeholder="Search paragraphs, themes, sources..."
           defaultValue={query}
           onChange={handleChange}
           onFocus={() => setOpen(true)}
@@ -73,11 +85,11 @@ export default function SearchBar({
         <div className="mt-1 max-h-80 overflow-y-auto rounded-lg border bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
           {results.map((entry) => (
             <button
-              key={entry.id}
-              onMouseDown={() => handleSelect(entry.id)}
+              key={String(entry.id)}
+              onMouseDown={() => handleSelect(entry)}
               className="block w-full px-4 py-2 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800"
             >
-              <div className="text-sm font-medium">CCC {entry.id}</div>
+              <div className="text-sm font-medium">{getDisplayLabel(entry)}</div>
               <div className="line-clamp-2 text-xs text-zinc-500">
                 {entry.text}
               </div>

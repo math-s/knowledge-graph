@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Graph from "graphology";
 import type { ParagraphData } from "@/lib/types";
 import { fetchParagraphs } from "@/lib/graph-data";
-import { PART_SHORT_NAMES } from "@/lib/colors";
+import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 
 interface GraphDetailPanelProps {
   nodeId: string;
@@ -36,18 +36,39 @@ export default function GraphDetailPanel({
   if (!graph.hasNode(nodeId)) return null;
 
   const attrs = graph.getNodeAttributes(nodeId);
-  const isParagraph = attrs.node_type === "paragraph";
+  const nodeType = attrs.node_type;
+  const isParagraph = nodeType === "paragraph";
+  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "document";
   const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
   const paraData = paraId ? paragraphs.get(paraId) : null;
 
-  // Get cross-reference neighbors
+  // Get cross-reference neighbors (for paragraphs)
   const crossRefNeighbors: string[] = [];
+  // Get citing paragraphs (for source nodes)
+  const citingParagraphs: string[] = [];
+
   if (isParagraph) {
     graph.forEachEdge(nodeId, (edge, edgeAttrs, source, target) => {
       if (edgeAttrs.edge_type === "cross_reference") {
         const neighbor = source === nodeId ? target : source;
         crossRefNeighbors.push(neighbor);
       }
+    });
+  }
+
+  if (isSource) {
+    graph.forEachEdge(nodeId, (_edge, edgeAttrs, source, target) => {
+      if (edgeAttrs.edge_type === "cites") {
+        const neighbor = source === nodeId ? target : source;
+        if (neighbor.startsWith("p:")) {
+          citingParagraphs.push(neighbor);
+        }
+      }
+    });
+    citingParagraphs.sort((a, b) => {
+      const aId = parseInt(a.replace("p:", ""));
+      const bId = parseInt(b.replace("p:", ""));
+      return aId - bId;
     });
   }
 
@@ -95,9 +116,30 @@ export default function GraphDetailPanel({
           <span className="text-sm text-zinc-600 dark:text-zinc-400">
             {isParagraph
               ? PART_SHORT_NAMES[attrs.part] || attrs.part
-              : `Structure (${attrs.level})`}
+              : isSource
+                ? nodeType === "bible"
+                  ? "Bible Book"
+                  : nodeType === "author"
+                    ? "Church Father"
+                    : "Ecclesiastical Document"
+                : `Structure (${attrs.level})`}
           </span>
         </div>
+
+        {/* Theme badges */}
+        {paraData && paraData.themes.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {paraData.themes.map((theme) => (
+              <span
+                key={theme}
+                className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
+                style={{ backgroundColor: THEME_COLORS[theme] || "#999" }}
+              >
+                {theme}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Paragraph text */}
         {loaded && paraData ? (
@@ -106,11 +148,96 @@ export default function GraphDetailPanel({
           </div>
         ) : isParagraph && !loaded ? (
           <div className="text-sm text-zinc-400">Loading...</div>
+        ) : isSource ? (
+          <div className="text-sm text-zinc-500">
+            {nodeType === "bible" ? "Bible book" : nodeType === "author" ? "Patristic author" : "Ecclesiastical document"}: {attrs.label}
+          </div>
         ) : !isParagraph ? (
           <div className="text-sm text-zinc-500">
             Structural node: {attrs.label}
           </div>
         ) : null}
+
+        {/* Bible citations (for paragraphs) */}
+        {paraData && paraData.bible_citations.length > 0 && (
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
+              Bible Citations ({paraData.bible_citations.length})
+            </h3>
+            <div className="flex flex-wrap gap-1">
+              {paraData.bible_citations.map((bookId) => {
+                const sourceNodeId = `bible:${bookId}`;
+                const hasNode = graph.hasNode(sourceNodeId);
+                const label = bookId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+                return (
+                  <button
+                    key={bookId}
+                    onClick={() => hasNode && onNavigate(sourceNodeId)}
+                    disabled={!hasNode}
+                    className="rounded bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800 hover:bg-green-100 disabled:opacity-50 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
+                    style={{ borderLeft: "3px solid #59A14F" }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Author citations (for paragraphs) */}
+        {paraData && paraData.author_citations.length > 0 && (
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
+              Church Fathers ({paraData.author_citations.length})
+            </h3>
+            <div className="flex flex-wrap gap-1">
+              {paraData.author_citations.map((authorId) => {
+                const sourceNodeId = `author:${authorId}`;
+                const hasNode = graph.hasNode(sourceNodeId);
+                const label = authorId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+                return (
+                  <button
+                    key={authorId}
+                    onClick={() => hasNode && onNavigate(sourceNodeId)}
+                    disabled={!hasNode}
+                    className="rounded bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-800 hover:bg-purple-100 disabled:opacity-50 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:bg-purple-900/50"
+                    style={{ borderLeft: "3px solid #B07AA1" }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Document citations (for paragraphs) */}
+        {paraData && paraData.document_citations.length > 0 && (
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
+              Ecclesiastical Documents ({paraData.document_citations.length})
+            </h3>
+            <div className="flex flex-wrap gap-1">
+              {paraData.document_citations.map((docId) => {
+                const sourceNodeId = `document:${docId}`;
+                const hasNode = graph.hasNode(sourceNodeId);
+                const label = docId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+                return (
+                  <button
+                    key={docId}
+                    onClick={() => hasNode && onNavigate(sourceNodeId)}
+                    disabled={!hasNode}
+                    className="rounded bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-50 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/50"
+                    style={{ borderLeft: `3px solid ${SOURCE_COLORS.document}` }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Footnotes */}
         {paraData && paraData.footnotes.length > 0 && (
@@ -128,7 +255,7 @@ export default function GraphDetailPanel({
           </div>
         )}
 
-        {/* Cross-references */}
+        {/* Cross-references (for paragraphs) */}
         {crossRefNeighbors.length > 0 && (
           <div>
             <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
@@ -152,11 +279,35 @@ export default function GraphDetailPanel({
           </div>
         )}
 
+        {/* Citing paragraphs (for source nodes) */}
+        {citingParagraphs.length > 0 && (
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
+              Citing Paragraphs ({citingParagraphs.length})
+            </h3>
+            <div className="flex flex-wrap gap-1">
+              {citingParagraphs.map((nId) => {
+                const nAttrs = graph.getNodeAttributes(nId);
+                return (
+                  <button
+                    key={nId}
+                    onClick={() => onNavigate(nId)}
+                    className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                    style={{ borderLeft: `3px solid ${nAttrs.color}` }}
+                  >
+                    {nAttrs.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Stats */}
         <div className="border-t pt-3 dark:border-zinc-700">
           <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500">
             <div>Connections: {attrs.degree}</div>
-            <div>Community: {attrs.community}</div>
+            {isParagraph && <div>Community: {attrs.community}</div>}
           </div>
         </div>
       </div>

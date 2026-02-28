@@ -31,6 +31,7 @@ export function useGraphData() {
             part: node.part,
             degree: node.degree,
             community: node.community,
+            themes: node.themes || [],
           });
         }
 
@@ -38,10 +39,22 @@ export function useGraphData() {
           if (g.hasNode(edge.source) && g.hasNode(edge.target)) {
             const key = `${edge.source}--${edge.target}`;
             if (!g.hasEdge(key)) {
+              let color: string;
+              let size: number;
+              if (edge.edge_type === "cross_reference") {
+                color = "#cc666688";
+                size = 0.5;
+              } else if (edge.edge_type === "cites") {
+                color = "#59A14F44";
+                size = 0.3;
+              } else {
+                color = "#cccccc44";
+                size = 0.2;
+              }
               g.addEdgeWithKey(key, edge.source, edge.target, {
                 edge_type: edge.edge_type,
-                color: edge.edge_type === "cross_reference" ? "#cc666688" : "#cccccc44",
-                size: edge.edge_type === "cross_reference" ? 0.5 : 0.2,
+                color,
+                size,
               });
             }
           }

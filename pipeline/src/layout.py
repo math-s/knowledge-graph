@@ -26,9 +26,9 @@ def compute_layout(G: nx.Graph) -> dict[str, tuple[float, float]]:
         barnesHutOptimize=True,
         barnesHutTheta=1.2,
         multiThreaded=False,
-        scalingRatio=2.0,
+        scalingRatio=3.0,
         strongGravityMode=False,
-        gravity=1.0,
+        gravity=1.5,
         verbose=False,
     )
 

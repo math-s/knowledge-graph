@@ -1,6 +1,6 @@
 "use client";
 
-import { PART_COLORS, PART_SHORT_NAMES, STRUCTURE_COLOR } from "@/lib/colors";
+import { PART_COLORS, PART_SHORT_NAMES, STRUCTURE_COLOR, SOURCE_COLORS } from "@/lib/colors";
 
 export default function GraphLegend() {
   return (
@@ -27,6 +27,33 @@ export default function GraphLegend() {
           />
           <span className="text-xs text-zinc-700 dark:text-zinc-300">
             Structural node
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: SOURCE_COLORS.bible }}
+          />
+          <span className="text-xs text-zinc-700 dark:text-zinc-300">
+            Bible book
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: SOURCE_COLORS.author }}
+          />
+          <span className="text-xs text-zinc-700 dark:text-zinc-300">
+            Church Father
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: SOURCE_COLORS.document }}
+          />
+          <span className="text-xs text-zinc-700 dark:text-zinc-300">
+            Ecclesiastical Document
           </span>
         </div>
       </div>
