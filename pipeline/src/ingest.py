@@ -354,9 +354,26 @@ def save_processed(paragraphs: list[Paragraph], structures: list[StructuralNode]
     logger.info("Saved %d structural nodes to %s", len(structures), structures_out)
 
 
-def run() -> tuple[list[Paragraph], list[StructuralNode]]:
-    """Run the full ingestion pipeline."""
-    raw_path = download_raw_data()
+def run(lang: str = "en") -> tuple[list[Paragraph], list[StructuralNode]]:
+    """Run the full ingestion pipeline.
+
+    Args:
+        lang: "en" for English (downloads from nossbigg), "pt" for Portuguese
+              (reads from data/raw/ccc-pt.json, must be scraped first).
+    """
+    if lang == "pt":
+        raw_path = RAW_DATA_DIR / "ccc-pt.json"
+        if not raw_path.exists():
+            raise FileNotFoundError(
+                f"{raw_path} not found. Run the Portuguese scraper first: "
+                "python pipeline/scripts/run_scraper_pt.py"
+            )
+    else:
+        raw_path = download_raw_data()
+
     paragraphs, structures = parse_ccc(raw_path)
-    save_processed(paragraphs, structures)
+
+    if lang == "en":
+        save_processed(paragraphs, structures)
+
     return paragraphs, structures

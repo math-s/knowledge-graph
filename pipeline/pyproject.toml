@@ -9,6 +9,8 @@ dependencies = [
     "fa2-modified>=0.3",
     "python-louvain>=0.16",
     "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
 ]
 
 [project.optional-dependencies]
