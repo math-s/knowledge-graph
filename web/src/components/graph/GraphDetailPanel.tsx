@@ -51,35 +51,37 @@ export default function GraphDetailPanel({
   const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
   const paraData = paraId ? paragraphs.get(paraId) : null;
 
-  // Get cross-reference neighbors (for paragraphs)
-  const crossRefNeighbors: string[] = [];
-  // Get citing paragraphs (for source nodes)
-  const citingParagraphs: string[] = [];
+  // All connections grouped by edge type
+  const connectionsByType: Record<string, string[]> = {};
 
-  if (isParagraph) {
-    graph.forEachEdge(nodeId, (edge, edgeAttrs, source, target) => {
-      if (edgeAttrs.edge_type === "cross_reference") {
-        const neighbor = source === nodeId ? target : source;
-        crossRefNeighbors.push(neighbor);
+  graph.forEachEdge(nodeId, (_edge, edgeAttrs, source, target) => {
+    const neighbor = source === nodeId ? target : source;
+    const type: string = edgeAttrs.edge_type;
+    if (!connectionsByType[type]) connectionsByType[type] = [];
+    connectionsByType[type].push(neighbor);
+  });
+
+  // Sort each connection group
+  for (const type of Object.keys(connectionsByType)) {
+    connectionsByType[type].sort((a, b) => {
+      // Paragraphs sort numerically
+      if (a.startsWith("p:") && b.startsWith("p:")) {
+        return parseInt(a.replace("p:", "")) - parseInt(b.replace("p:", ""));
       }
+      const labelA = graph.hasNode(a) ? graph.getNodeAttributes(a).label : a;
+      const labelB = graph.hasNode(b) ? graph.getNodeAttributes(b).label : b;
+      return labelA.localeCompare(labelB);
     });
   }
 
-  if (isSource) {
-    graph.forEachEdge(nodeId, (_edge, edgeAttrs, source, target) => {
-      if (edgeAttrs.edge_type === "cites") {
-        const neighbor = source === nodeId ? target : source;
-        if (neighbor.startsWith("p:")) {
-          citingParagraphs.push(neighbor);
-        }
-      }
-    });
-    citingParagraphs.sort((a, b) => {
-      const aId = parseInt(a.replace("p:", ""));
-      const bId = parseInt(b.replace("p:", ""));
-      return aId - bId;
-    });
-  }
+  const EDGE_TYPE_LABELS: Record<string, string> = {
+    cross_reference: "Cross-References",
+    cites: "Citations",
+    belongs_to: "Structure",
+    child_of: "Children",
+    shared_theme: "Shared Theme",
+  };
+  const totalConnections = Object.values(connectionsByType).reduce((s, arr) => s + arr.length, 0);
 
   // Build breadcrumb (use English keys for PART_SHORT_NAMES lookup)
   const partEn = paraData?.part ? t(paraData.part, "en") : "";
@@ -301,61 +303,47 @@ export default function GraphDetailPanel({
           </div>
         )}
 
-        {/* Cross-references (for paragraphs) */}
-        {crossRefNeighbors.length > 0 && (
-          <div>
+        {/* Connections list */}
+        {totalConnections > 0 && (
+          <div className="border-t pt-3 dark:border-zinc-700">
             <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
-              Cross-References ({crossRefNeighbors.length})
+              Connections ({totalConnections})
             </h3>
-            <div className="flex flex-wrap gap-1">
-              {crossRefNeighbors.sort().map((nId) => {
-                const nAttrs = graph.getNodeAttributes(nId);
-                return (
-                  <button
-                    key={nId}
-                    onClick={() => onNavigate(nId)}
-                    className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
-                    style={{ borderLeft: `3px solid ${nAttrs.color}` }}
-                  >
-                    {nAttrs.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Citing paragraphs (for source nodes) */}
-        {citingParagraphs.length > 0 && (
-          <div>
-            <h3 className="mb-2 text-xs font-semibold uppercase text-zinc-500">
-              Citing Paragraphs ({citingParagraphs.length})
-            </h3>
-            <div className="flex flex-wrap gap-1">
-              {citingParagraphs.map((nId) => {
-                const nAttrs = graph.getNodeAttributes(nId);
-                return (
-                  <button
-                    key={nId}
-                    onClick={() => onNavigate(nId)}
-                    className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
-                    style={{ borderLeft: `3px solid ${nAttrs.color}` }}
-                  >
-                    {nAttrs.label}
-                  </button>
-                );
-              })}
+            <div className="space-y-3">
+              {Object.entries(connectionsByType).map(([type, neighbors]) => (
+                <div key={type}>
+                  <div className="mb-1 text-xs text-zinc-400">
+                    {EDGE_TYPE_LABELS[type] || type} ({neighbors.length})
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {neighbors.map((nId) => {
+                      const nAttrs = graph.getNodeAttributes(nId);
+                      return (
+                        <button
+                          key={nId}
+                          onClick={() => onNavigate(nId)}
+                          className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-medium hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                          style={{ borderLeft: `3px solid ${nAttrs.color}` }}
+                        >
+                          {nAttrs.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
         {/* Stats */}
-        <div className="border-t pt-3 dark:border-zinc-700">
-          <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500">
-            <div>Connections: {attrs.degree}</div>
-            {isParagraph && <div>Community: {attrs.community}</div>}
+        {isParagraph && (
+          <div className="border-t pt-3 dark:border-zinc-700">
+            <div className="text-xs text-zinc-500">
+              Community: {attrs.community}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
