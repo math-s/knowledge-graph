@@ -1,6 +1,6 @@
 import type { GraphData, ParagraphData, SearchEntry, ThemeDefinition } from "./types";
 
-const BASE_PATH = process.env.NODE_ENV === "production" ? "/knowledge-graph" : "";
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export async function fetchGraphData(): Promise<GraphData> {
   const res = await fetch(`${BASE_PATH}/data/graph.json`);
