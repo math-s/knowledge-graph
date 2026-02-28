@@ -76,18 +76,45 @@ function GraphReducers({
       neighbors.add(activeNode);
     }
 
+    const hasThemeFilter = filters.selectedThemes.size > 0;
+
     setSettings({
       nodeReducer: (node, data) => {
         const attrs = graph.getNodeAttributes(node);
-        const isStructural = attrs.node_type === "structure";
+        const nodeType = attrs.node_type;
         const part = attrs.part || "";
 
-        // Apply filters
-        if (isStructural && !filters.showStructural) {
+        // Apply node type filters
+        if (nodeType === "structure" && !filters.showStructural) {
           return { ...data, hidden: true };
         }
-        if (!isStructural && part && !filters.visibleParts.has(part)) {
+        if (nodeType === "bible" && !filters.showBibleNodes) {
           return { ...data, hidden: true };
+        }
+        if (nodeType === "author" && !filters.showAuthorNodes) {
+          return { ...data, hidden: true };
+        }
+        if (nodeType === "document" && !filters.showDocumentNodes) {
+          return { ...data, hidden: true };
+        }
+        if (nodeType === "paragraph" && part && !filters.visibleParts.has(part)) {
+          return { ...data, hidden: true };
+        }
+
+        // Apply theme filter: dim paragraphs without selected themes
+        if (hasThemeFilter && nodeType === "paragraph") {
+          const nodeThemes: string[] = attrs.themes || [];
+          const matchesTheme = nodeThemes.some((t: string) =>
+            filters.selectedThemes.has(t),
+          );
+          if (!matchesTheme) {
+            return {
+              ...data,
+              color: "#ddd",
+              size: Math.max(data.size * 0.4, 1),
+              zIndex: 0,
+            };
+          }
         }
 
         // Apply neighbor highlighting — dim non-neighbors but keep them visible
@@ -111,6 +138,9 @@ function GraphReducers({
 
         // Apply edge type filters
         if (edgeType === "cross_reference" && !filters.showCrossRefs) {
+          return { ...data, hidden: true };
+        }
+        if (edgeType === "cites" && !filters.showCites) {
           return { ...data, hidden: true };
         }
         if (edgeType === "belongs_to" && !filters.showBelongsTo) {

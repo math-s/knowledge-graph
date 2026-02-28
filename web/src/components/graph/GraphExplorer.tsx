@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useGraphData } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
+import type { SearchEntry } from "@/lib/types";
 import GraphCanvas from "./GraphCanvas";
 import GraphDetailPanel from "./GraphDetailPanel";
 import GraphLegend from "./GraphLegend";
@@ -33,8 +34,14 @@ export default function GraphExplorer() {
   );
 
   const handleSearchSelect = useCallback(
-    (paragraphId: number) => {
-      selectNode(`p:${paragraphId}`);
+    (entry: SearchEntry) => {
+      if (typeof entry.id === "string") {
+        // Source node ID like "bible:john" or "author:augustine"
+        selectNode(entry.id);
+      } else {
+        // Paragraph numeric ID
+        selectNode(`p:${entry.id}`);
+      }
     },
     [selectNode],
   );

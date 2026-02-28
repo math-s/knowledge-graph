@@ -84,3 +84,85 @@ def build_graph(
     )
 
     return G
+
+
+# Source node colors
+SOURCE_COLORS = {
+    "bible": "#59A14F",   # Green
+    "author": "#B07AA1",  # Purple
+    "document": "#EDC948",  # Gold/amber
+}
+
+
+def add_source_nodes(G: nx.Graph, paragraphs: list[Paragraph]) -> nx.Graph:
+    """Add Bible book, patristic author, and document nodes with cites edges."""
+    bible_labels: dict[str, str] = {}  # canon_id → display name
+    author_labels: dict[str, str] = {}  # canon_id → display name
+    document_labels: dict[str, str] = {}  # canon_id → display name
+
+    # Collect all unique sources and build edges
+    cites_edges: set[tuple[str, str]] = set()  # (paragraph_node_id, source_node_id)
+
+    for p in paragraphs:
+        para_node = f"p:{p.id}"
+        for pf in p.parsed_footnotes:
+            for br in pf.bible_refs:
+                source_node = f"bible:{br.book}"
+                cites_edges.add((para_node, source_node))
+                if br.book not in bible_labels:
+                    # Capitalize nicely for display
+                    bible_labels[br.book] = br.book.replace("-", " ").title()
+            for ar in pf.author_refs:
+                source_node = f"author:{ar.author}"
+                cites_edges.add((para_node, source_node))
+                if ar.author not in author_labels:
+                    author_labels[ar.author] = ar.author.replace("-", " ").title()
+            for dr in pf.document_refs:
+                source_node = f"document:{dr.document}"
+                cites_edges.add((para_node, source_node))
+                if dr.document not in document_labels:
+                    document_labels[dr.document] = dr.document.replace("-", " ").title()
+
+    # Add Bible book nodes
+    for book_id, label in bible_labels.items():
+        node_id = f"bible:{book_id}"
+        G.add_node(
+            node_id,
+            node_type="bible",
+            label=label,
+            color=SOURCE_COLORS["bible"],
+        )
+
+    # Add author nodes
+    for author_id, label in author_labels.items():
+        node_id = f"author:{author_id}"
+        G.add_node(
+            node_id,
+            node_type="author",
+            label=label,
+            color=SOURCE_COLORS["author"],
+        )
+
+    # Add document nodes
+    for doc_id, label in document_labels.items():
+        node_id = f"document:{doc_id}"
+        G.add_node(
+            node_id,
+            node_type="document",
+            label=label,
+            color=SOURCE_COLORS["document"],
+        )
+
+    # Add cites edges (deduplicated by set)
+    for para_node, source_node in cites_edges:
+        G.add_edge(para_node, source_node, edge_type="cites")
+
+    logger.info(
+        "Added source nodes: %d Bible books, %d authors, %d documents, %d cites edges",
+        len(bible_labels),
+        len(author_labels),
+        len(document_labels),
+        len(cites_edges),
+    )
+
+    return G

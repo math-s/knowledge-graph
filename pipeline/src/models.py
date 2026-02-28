@@ -5,6 +5,35 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
+class BibleReference(BaseModel):
+    """A parsed Bible reference from a footnote."""
+
+    book: str  # Canonical ID: "matthew", "1-corinthians"
+    abbreviation: str  # As found: "Mt", "1 Cor"
+
+
+class PatristicReference(BaseModel):
+    """A parsed patristic author reference from a footnote."""
+
+    author: str  # Canonical ID: "augustine", "thomas-aquinas"
+
+
+class DocumentReference(BaseModel):
+    """A parsed ecclesiastical document reference from a footnote."""
+
+    document: str  # Canonical ID: "lumen-gentium", "cic"
+    abbreviation: str  # As found: "LG", "CIC"
+
+
+class ParsedFootnote(BaseModel):
+    """A footnote parsed into structured references."""
+
+    raw: str
+    bible_refs: list[BibleReference] = []
+    author_refs: list[PatristicReference] = []
+    document_refs: list[DocumentReference] = []
+
+
 class Paragraph(BaseModel):
     """A CCC paragraph with its text and cross-references."""
 
@@ -12,6 +41,8 @@ class Paragraph(BaseModel):
     text: str
     cross_references: list[int] = []
     footnotes: list[str] = []
+    parsed_footnotes: list[ParsedFootnote] = []
+    themes: list[str] = []
     part: str = ""
     section: str = ""
     chapter: str = ""
@@ -33,7 +64,7 @@ class GraphNode(BaseModel):
 
     id: str
     label: str
-    node_type: str  # "paragraph" or "structure"
+    node_type: str  # "paragraph", "structure", "bible", or "author"
     x: float = 0.0
     y: float = 0.0
     size: float = 1.0
@@ -41,6 +72,7 @@ class GraphNode(BaseModel):
     part: str = ""
     degree: int = 0
     community: int = 0
+    themes: list[str] = []
 
 
 class GraphEdge(BaseModel):

@@ -10,6 +10,7 @@ import community as community_louvain
 import networkx as nx
 
 from .models import GraphData, GraphEdge, GraphNode, Paragraph
+from .themes import THEME_DEFINITIONS
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,9 @@ def export_graph(
     """Export graph to JSON files for the web UI."""
     WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Build paragraph lookup for themes
+    para_lookup = {p.id: p for p in paragraphs}
+
     # Compute communities
     communities = compute_communities(G)
 
@@ -48,17 +52,29 @@ def export_graph(
         data = G.nodes[node_id]
         x, y = positions.get(node_id, (0.0, 0.0))
         degree = G.degree(node_id)
+        node_type = data.get("node_type", "paragraph")
 
-        # Size: structural nodes larger, paragraph nodes sized by degree
-        if data.get("node_type") == "structure":
+        # Size: type-dependent sizing
+        if node_type == "structure":
             size = 8.0
+        elif node_type in ("bible", "author", "document"):
+            # Source nodes sized by degree (number of citing paragraphs)
+            size = max(4.0, min(25.0, 4.0 + degree * 0.04))
         else:
             size = max(2.0, min(15.0, 2.0 + degree * 0.5))
+
+        # Get themes for paragraph nodes
+        themes: list[str] = []
+        if node_type == "paragraph" and node_id.startswith("p:"):
+            pid = int(node_id[2:])
+            para = para_lookup.get(pid)
+            if para:
+                themes = para.themes
 
         nodes.append(GraphNode(
             id=node_id,
             label=data.get("label", node_id),
-            node_type=data.get("node_type", "paragraph"),
+            node_type=node_type,
             x=x,
             y=y,
             size=size,
@@ -66,6 +82,7 @@ def export_graph(
             part=data.get("part", ""),
             degree=degree,
             community=communities.get(node_id, 0),
+            themes=themes,
         ))
 
     # Build edge list
@@ -87,11 +104,36 @@ def export_graph(
     # Export paragraphs.json (full text for lazy loading)
     paragraphs_data = []
     for p in paragraphs:
+        # Collect unique Bible, author, and document citations
+        bible_citations: list[str] = []
+        author_citations: list[str] = []
+        document_citations: list[str] = []
+        seen_bible: set[str] = set()
+        seen_author: set[str] = set()
+        seen_document: set[str] = set()
+        for pf in p.parsed_footnotes:
+            for br in pf.bible_refs:
+                if br.book not in seen_bible:
+                    seen_bible.add(br.book)
+                    bible_citations.append(br.book)
+            for ar in pf.author_refs:
+                if ar.author not in seen_author:
+                    seen_author.add(ar.author)
+                    author_citations.append(ar.author)
+            for dr in pf.document_refs:
+                if dr.document not in seen_document:
+                    seen_document.add(dr.document)
+                    document_citations.append(dr.document)
+
         paragraphs_data.append({
             "id": p.id,
             "text": p.text,
             "footnotes": p.footnotes,
             "cross_references": p.cross_references,
+            "bible_citations": bible_citations,
+            "author_citations": author_citations,
+            "document_citations": document_citations,
+            "themes": p.themes,
             "part": p.part,
             "section": p.section,
             "chapter": p.chapter,
@@ -103,17 +145,49 @@ def export_graph(
     logger.info("Exported paragraphs.json: %d paragraphs", len(paragraphs_data))
 
     # Export search-index.json (lightweight for Fuse.js)
-    search_data = []
+    search_data: list[dict] = []
     for p in paragraphs:
         search_data.append({
             "id": p.id,
             "text": p.text[:300],  # Truncate for search index
+            "themes": " ".join(p.themes),
             "part": p.part,
             "section": p.section,
             "chapter": p.chapter,
             "article": p.article,
         })
+    # Also add source nodes to search index
+    for node_id in G.nodes:
+        ndata = G.nodes[node_id]
+        ntype = ndata.get("node_type", "")
+        if ntype in ("bible", "author", "document"):
+            search_data.append({
+                "id": node_id,
+                "text": ndata.get("label", node_id),
+                "themes": "",
+                "part": "",
+                "section": "",
+                "chapter": "",
+                "article": "",
+            })
     search_path = WEB_DATA_DIR / "search-index.json"
     with open(search_path, "w", encoding="utf-8") as f:
         json.dump(search_data, f, ensure_ascii=False)
     logger.info("Exported search-index.json: %d entries", len(search_data))
+
+    # Export themes.json metadata
+    theme_counts: dict[str, int] = {}
+    for p in paragraphs:
+        for t in p.themes:
+            theme_counts[t] = theme_counts.get(t, 0) + 1
+
+    themes_meta: dict[str, dict] = {}
+    for td in THEME_DEFINITIONS:
+        themes_meta[td.id] = {
+            "label": td.label,
+            "count": theme_counts.get(td.id, 0),
+        }
+    themes_path = WEB_DATA_DIR / "themes.json"
+    with open(themes_path, "w", encoding="utf-8") as f:
+        json.dump(themes_meta, f, ensure_ascii=False)
+    logger.info("Exported themes.json: %d themes", len(themes_meta))
