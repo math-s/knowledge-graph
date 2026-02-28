@@ -15,6 +15,7 @@ export interface GraphFilters {
   showCites: boolean;
   showBelongsTo: boolean;
   showChildOf: boolean;
+  showSharedTheme: boolean;
   selectedThemes: Set<string>;
 }
 
@@ -28,14 +29,34 @@ export const DEFAULT_FILTERS: GraphFilters = {
   showCites: true,
   showBelongsTo: true,
   showChildOf: true,
+  showSharedTheme: false,
   selectedThemes: new Set(),
 };
+
+function filtersMatchDefaults(filters: GraphFilters): boolean {
+  if (filters.showStructural !== DEFAULT_FILTERS.showStructural) return false;
+  if (filters.showBibleNodes !== DEFAULT_FILTERS.showBibleNodes) return false;
+  if (filters.showAuthorNodes !== DEFAULT_FILTERS.showAuthorNodes) return false;
+  if (filters.showDocumentNodes !== DEFAULT_FILTERS.showDocumentNodes) return false;
+  if (filters.showCrossRefs !== DEFAULT_FILTERS.showCrossRefs) return false;
+  if (filters.showCites !== DEFAULT_FILTERS.showCites) return false;
+  if (filters.showBelongsTo !== DEFAULT_FILTERS.showBelongsTo) return false;
+  if (filters.showChildOf !== DEFAULT_FILTERS.showChildOf) return false;
+  if (filters.showSharedTheme !== DEFAULT_FILTERS.showSharedTheme) return false;
+  if (filters.visibleParts.size !== DEFAULT_FILTERS.visibleParts.size) return false;
+  for (const p of DEFAULT_FILTERS.visibleParts) {
+    if (!filters.visibleParts.has(p)) return false;
+  }
+  if (filters.selectedThemes.size !== DEFAULT_FILTERS.selectedThemes.size) return false;
+  return true;
+}
 
 interface FilterPanelProps {
   filters: GraphFilters;
   onFiltersChange: (filters: GraphFilters) => void;
   isOpen: boolean;
   onToggle: () => void;
+  onReset: () => void;
 }
 
 export default function FilterPanel({
@@ -43,8 +64,10 @@ export default function FilterPanel({
   onFiltersChange,
   isOpen,
   onToggle,
+  onReset,
 }: FilterPanelProps) {
   const [themes, setThemes] = useState<Record<string, ThemeDefinition>>({});
+  const isDefault = filtersMatchDefaults(filters);
 
   useEffect(() => {
     fetchThemes().then(setThemes).catch(() => {});
@@ -69,14 +92,25 @@ export default function FilterPanel({
       {/* Toggle button */}
       <button
         onClick={onToggle}
-        className="absolute left-4 top-4 z-20 rounded bg-white px-3 py-1.5 text-sm shadow hover:bg-zinc-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+        className="absolute left-4 top-4 z-20 flex items-center gap-1.5 rounded bg-white px-3 py-1.5 text-sm shadow hover:bg-zinc-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
       >
         {isOpen ? "Hide Filters" : "Filters"}
+        {!isDefault && (
+          <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
+        )}
       </button>
 
       {/* Panel */}
       {isOpen && (
         <div className="absolute left-4 top-14 z-20 w-56 max-h-[calc(100vh-5rem)] overflow-y-auto rounded-lg bg-white/95 p-4 shadow-lg backdrop-blur dark:bg-zinc-900/95">
+          {!isDefault && (
+            <button
+              onClick={onReset}
+              className="mb-3 w-full rounded bg-zinc-100 px-2 py-1 text-xs text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+            >
+              Reset to defaults
+            </button>
+          )}
           <h3 className="mb-3 text-xs font-semibold uppercase text-zinc-500">
             Parts
           </h3>
@@ -252,6 +286,22 @@ export default function FilterPanel({
               />
               <span className="text-zinc-700 dark:text-zinc-300">
                 Child-of (hierarchy)
+              </span>
+            </label>
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={filters.showSharedTheme}
+                onChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    showSharedTheme: !filters.showSharedTheme,
+                  })
+                }
+                className="rounded"
+              />
+              <span className="text-zinc-700 dark:text-zinc-300">
+                Shared themes
               </span>
             </label>
           </div>

@@ -13,7 +13,8 @@ import SearchBar from "../search/SearchBar";
 
 export default function GraphExplorer() {
   const { graph, loading, error } = useGraphData();
-  const { selectedNode, selectNode, clearSelection } = useNodeSelection();
+  const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
+    useNodeSelection();
   const { query, results, search } = useSearch();
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [filters, setFilters] = useState<GraphFilters>(DEFAULT_FILTERS);
@@ -28,10 +29,61 @@ export default function GraphExplorer() {
 
   const handleNavigate = useCallback(
     (nodeId: string) => {
+      // Push current state so we can go back
+      if (selectedNode) {
+        pushState(selectedNode, filters);
+      }
+
+      // Auto-enable the relevant source filter based on node ID prefix
+      const nextFilters = { ...filters, visibleParts: new Set(filters.visibleParts), selectedThemes: new Set(filters.selectedThemes) };
+      if (nodeId.startsWith("bible:")) {
+        nextFilters.showBibleNodes = true;
+      } else if (nodeId.startsWith("author:")) {
+        nextFilters.showAuthorNodes = true;
+      } else if (nodeId.startsWith("document:")) {
+        nextFilters.showDocumentNodes = true;
+      }
+      setFilters(nextFilters);
       selectNode(nodeId);
     },
-    [selectNode],
+    [selectedNode, filters, pushState, selectNode],
   );
+
+  const handleThemeFilter = useCallback(
+    (themeId: string) => {
+      // Push current state so we can go back
+      if (selectedNode) {
+        pushState(selectedNode, filters);
+      }
+
+      // Set selectedThemes to just this one theme (exclusive focus)
+      setFilters({
+        ...filters,
+        visibleParts: new Set(filters.visibleParts),
+        selectedThemes: new Set([themeId]),
+      });
+    },
+    [selectedNode, filters, pushState],
+  );
+
+  const handleGoBack = useCallback(() => {
+    const entry = goBack();
+    if (entry) {
+      setFilters(entry.filters);
+    }
+  }, [goBack]);
+
+  const handleResetFilters = useCallback(() => {
+    // Push current state so reset is undoable
+    if (selectedNode) {
+      pushState(selectedNode, filters);
+    }
+    setFilters({
+      ...DEFAULT_FILTERS,
+      visibleParts: new Set(DEFAULT_FILTERS.visibleParts),
+      selectedThemes: new Set(DEFAULT_FILTERS.selectedThemes),
+    });
+  }, [selectedNode, filters, pushState]);
 
   const handleSearchSelect = useCallback(
     (entry: SearchEntry) => {
@@ -90,6 +142,7 @@ export default function GraphExplorer() {
         onFiltersChange={setFilters}
         isOpen={filterOpen}
         onToggle={() => setFilterOpen(!filterOpen)}
+        onReset={handleResetFilters}
       />
 
       <GraphLegend />
@@ -100,6 +153,9 @@ export default function GraphExplorer() {
           graph={graph}
           onClose={clearSelection}
           onNavigate={handleNavigate}
+          onThemeFilter={handleThemeFilter}
+          canGoBack={canGoBack}
+          onGoBack={handleGoBack}
         />
       )}
     </div>

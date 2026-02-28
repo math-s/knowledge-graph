@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
+from itertools import combinations
 
 import networkx as nx
 
@@ -83,6 +85,38 @@ def build_graph(
         G.number_of_edges(),
     )
 
+    return G
+
+
+def add_shared_theme_edges(G: nx.Graph, paragraphs: list[Paragraph], min_shared: int = 4) -> nx.Graph:
+    """Add edges between paragraphs that share at least `min_shared` themes."""
+    # Build theme → paragraph list index
+    theme_to_paras: dict[str, list[int]] = defaultdict(list)
+    for p in paragraphs:
+        for t in p.themes:
+            theme_to_paras[t].append(p.id)
+
+    # Count shared themes per paragraph pair
+    pair_counts: dict[tuple[int, int], int] = defaultdict(int)
+    for theme_id, para_ids in theme_to_paras.items():
+        for a, b in combinations(para_ids, 2):
+            key = (min(a, b), max(a, b))
+            pair_counts[key] += 1
+
+    # Add edges for pairs meeting the threshold
+    edge_count = 0
+    for (a, b), count in pair_counts.items():
+        if count >= min_shared:
+            src, tgt = f"p:{a}", f"p:{b}"
+            if G.has_node(src) and G.has_node(tgt) and not G.has_edge(src, tgt):
+                G.add_edge(src, tgt, edge_type="shared_theme", shared_count=count)
+                edge_count += 1
+
+    logger.info(
+        "Added %d shared-theme edges (threshold: %d+ shared themes)",
+        edge_count,
+        min_shared,
+    )
     return G
 
 
