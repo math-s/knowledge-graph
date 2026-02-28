@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Graph from "graphology";
 import type { ParagraphData } from "@/lib/types";
+import { t, tArr } from "@/lib/types";
 import { fetchParagraphs } from "@/lib/graph-data";
+import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 
 interface GraphDetailPanelProps {
@@ -11,6 +13,9 @@ interface GraphDetailPanelProps {
   graph: Graph;
   onClose: () => void;
   onNavigate: (nodeId: string) => void;
+  onThemeFilter: (themeId: string) => void;
+  canGoBack: boolean;
+  onGoBack: () => void;
 }
 
 export default function GraphDetailPanel({
@@ -18,7 +23,11 @@ export default function GraphDetailPanel({
   graph,
   onClose,
   onNavigate,
+  onThemeFilter,
+  canGoBack,
+  onGoBack,
 }: GraphDetailPanelProps) {
+  const { lang, setLang } = useLang();
   const [paragraphs, setParagraphs] = useState<Map<number, ParagraphData>>(
     new Map(),
   );
@@ -72,21 +81,39 @@ export default function GraphDetailPanel({
     });
   }
 
-  // Build breadcrumb
+  // Build breadcrumb (use English keys for PART_SHORT_NAMES lookup)
+  const partEn = paraData?.part ? t(paraData.part, "en") : "";
   const breadcrumb = [
-    paraData?.part && PART_SHORT_NAMES[paraData.part],
-    paraData?.section,
-    paraData?.chapter,
-    paraData?.article,
+    partEn && PART_SHORT_NAMES[partEn],
+    paraData?.section && t(paraData.section, lang),
+    paraData?.chapter && t(paraData.chapter, lang),
+    paraData?.article && t(paraData.article, lang),
   ].filter(Boolean);
+
+  const hasPt = paraData
+    ? typeof paraData.text === "object" && !!paraData.text.pt
+    : false;
 
   return (
     <div className="absolute right-0 top-0 h-full w-96 overflow-y-auto bg-white shadow-lg dark:bg-zinc-900 z-20">
       <div className="sticky top-0 flex items-center justify-between border-b bg-white px-4 py-3 dark:border-zinc-700 dark:bg-zinc-900">
-        <h2 className="text-lg font-semibold">{attrs.label}</h2>
+        <div className="flex items-center gap-1 min-w-0">
+          {canGoBack && (
+            <button
+              onClick={onGoBack}
+              className="rounded p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 shrink-0"
+              title="Go back"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+              </svg>
+            </button>
+          )}
+          <h2 className="text-lg font-semibold truncate">{attrs.label}</h2>
+        </div>
         <button
           onClick={onClose}
-          className="rounded p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          className="rounded p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 shrink-0"
         >
           <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -115,7 +142,7 @@ export default function GraphDetailPanel({
           />
           <span className="text-sm text-zinc-600 dark:text-zinc-400">
             {isParagraph
-              ? PART_SHORT_NAMES[attrs.part] || attrs.part
+              ? PART_SHORT_NAMES[t(attrs.part)] || t(attrs.part)
               : isSource
                 ? nodeType === "bible"
                   ? "Bible Book"
@@ -130,21 +157,40 @@ export default function GraphDetailPanel({
         {paraData && paraData.themes.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {paraData.themes.map((theme) => (
-              <span
+              <button
                 key={theme}
-                className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
+                onClick={() => onThemeFilter(theme)}
+                className="rounded-full px-2 py-0.5 text-xs font-medium text-white hover:opacity-80 cursor-pointer"
                 style={{ backgroundColor: THEME_COLORS[theme] || "#999" }}
               >
                 {theme}
-              </span>
+              </button>
             ))}
+          </div>
+        )}
+
+        {/* Language toggle */}
+        {loaded && hasPt && (
+          <div className="flex gap-1 text-xs">
+            <button
+              onClick={() => setLang("en")}
+              className={`rounded px-2 py-0.5 ${lang === "en" ? "bg-zinc-200 font-semibold dark:bg-zinc-700" : "text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
+            >
+              EN
+            </button>
+            <button
+              onClick={() => setLang("pt")}
+              className={`rounded px-2 py-0.5 ${lang === "pt" ? "bg-zinc-200 font-semibold dark:bg-zinc-700" : "text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
+            >
+              PT
+            </button>
           </div>
         )}
 
         {/* Paragraph text */}
         {loaded && paraData ? (
           <div className="text-sm leading-relaxed text-zinc-800 dark:text-zinc-200">
-            {paraData.text}
+            {t(paraData.text, lang)}
           </div>
         ) : isParagraph && !loaded ? (
           <div className="text-sm text-zinc-400">Loading...</div>
@@ -240,13 +286,13 @@ export default function GraphDetailPanel({
         )}
 
         {/* Footnotes */}
-        {paraData && paraData.footnotes.length > 0 && (
+        {paraData && tArr(paraData.footnotes, lang).length > 0 && (
           <div>
             <h3 className="mb-1 text-xs font-semibold uppercase text-zinc-500">
-              Footnotes
+              {lang === "pt" ? "Notas" : "Footnotes"}
             </h3>
             <ul className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
-              {paraData.footnotes.map((fn, i) => (
+              {tArr(paraData.footnotes, lang).map((fn, i) => (
                 <li key={i} className="pl-2 border-l-2 border-zinc-200">
                   {fn}
                 </li>
