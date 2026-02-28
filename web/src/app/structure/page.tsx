@@ -8,11 +8,17 @@ interface TreeNode {
   paragraphs: number[];
 }
 
+/** Extract English string from a bilingual field or plain string. */
+function en(value: string | { en: string; pt: string }): string {
+  if (typeof value === "string") return value;
+  return value.en || "";
+}
+
 function buildTree(): TreeNode {
   const root: TreeNode = { label: "Catechism", children: new Map(), paragraphs: [] };
 
   for (const p of paragraphsData) {
-    const parts = [p.part, p.section, p.chapter, p.article].filter(Boolean);
+    const parts = [en(p.part), en(p.section), en(p.chapter), en(p.article)].filter(Boolean);
     let node = root;
     for (const part of parts) {
       if (!node.children.has(part)) {

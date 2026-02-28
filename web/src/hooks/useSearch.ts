@@ -15,11 +15,12 @@ export function useSearch() {
     fetchSearchIndex().then((data) => {
       fuseRef.current = new Fuse(data, {
         keys: [
-          { name: "text", weight: 0.5 },
-          { name: "themes", weight: 0.15 },
+          { name: "text", weight: 0.4 },
+          { name: "text_pt", weight: 0.2 },
+          { name: "themes", weight: 0.1 },
           { name: "part", weight: 0.1 },
           { name: "section", weight: 0.1 },
-          { name: "chapter", weight: 0.1 },
+          { name: "chapter", weight: 0.05 },
           { name: "article", weight: 0.05 },
         ],
         threshold: 0.4,
