@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   SigmaContainer,
   useLoadGraph,
@@ -71,7 +71,7 @@ function GraphReducers({
     const graph = sigma.getGraph();
 
     let neighbors: Set<string> | null = null;
-    if (activeNode) {
+    if (activeNode && graph.hasNode(activeNode)) {
       neighbors = new Set(graph.neighbors(activeNode));
       neighbors.add(activeNode);
     }
@@ -90,15 +90,15 @@ function GraphReducers({
           return { ...data, hidden: true };
         }
 
-        // Apply neighbor highlighting
+        // Apply neighbor highlighting — dim non-neighbors but keep them visible
         if (neighbors) {
           if (neighbors.has(node)) {
-            return { ...data, zIndex: 1 };
+            return { ...data, highlighted: true, zIndex: 1 };
           }
           return {
             ...data,
-            color: "#e0e0e0",
-            label: null,
+            color: "#ddd",
+            size: Math.max(data.size * 0.5, 1),
             zIndex: 0,
           };
         }
@@ -145,8 +145,11 @@ function CameraAnimator({ targetNode }: { targetNode: string | null }) {
     if (!targetNode) return;
     const nodeData = sigma.getNodeDisplayData(targetNode);
     if (nodeData) {
+      // Convert graph coordinates → viewport pixels → framed graph (camera) coordinates
+      const viewportPos = sigma.graphToViewport({ x: nodeData.x, y: nodeData.y });
+      const framedPos = sigma.viewportToFramedGraph(viewportPos);
       sigma.getCamera().animate(
-        { x: nodeData.x, y: nodeData.y, ratio: 0.15 },
+        { x: framedPos.x, y: framedPos.y },
         { duration: 300 },
       );
     }
@@ -163,22 +166,24 @@ export default function GraphCanvas({
   onHoverNode,
   filters,
 }: GraphCanvasProps) {
+  const sigmaSettings = useMemo(
+    () => ({
+      defaultNodeColor: "#999",
+      defaultEdgeColor: "#ccc",
+      defaultEdgeType: "line" as const,
+      labelDensity: 0.15,
+      labelGridCellSize: 100,
+      labelRenderedSizeThreshold: 6,
+      renderEdgeLabels: false,
+      zIndex: true,
+      minCameraRatio: 0.02,
+      maxCameraRatio: 10,
+    }),
+    [],
+  );
+
   return (
-    <SigmaContainer
-      className="h-full w-full"
-      settings={{
-        defaultNodeColor: "#999",
-        defaultEdgeColor: "#ccc",
-        defaultEdgeType: "line",
-        labelDensity: 0.15,
-        labelGridCellSize: 100,
-        labelRenderedSizeThreshold: 6,
-        renderEdgeLabels: false,
-        zIndex: true,
-        minCameraRatio: 0.02,
-        maxCameraRatio: 10,
-      }}
-    >
+    <SigmaContainer className="h-full w-full" settings={sigmaSettings}>
       <GraphLoader graph={graph} />
       <GraphEvents onSelectNode={onSelectNode} onHoverNode={onHoverNode} />
       <GraphReducers
