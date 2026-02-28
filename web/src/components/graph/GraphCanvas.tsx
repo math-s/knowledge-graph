@@ -149,6 +149,9 @@ function GraphReducers({
         if (edgeType === "child_of" && !filters.showChildOf) {
           return { ...data, hidden: true };
         }
+        if (edgeType === "shared_theme" && !filters.showSharedTheme) {
+          return { ...data, hidden: true };
+        }
 
         // Apply neighbor highlighting
         if (neighbors) {
