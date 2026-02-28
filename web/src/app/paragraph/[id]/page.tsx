@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import paragraphsData from "../../../../public/data/paragraphs.json";
 import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
+import ParagraphContent from "./ParagraphContent";
 
 type ParagraphEntry = (typeof paragraphsData)[number];
 
@@ -120,10 +121,11 @@ export default async function ParagraphPage({
         </div>
       )}
 
-      {/* Text */}
-      <div className="mb-8 text-base leading-relaxed text-zinc-800 dark:text-zinc-200">
-        {paragraph.text}
-      </div>
+      {/* Text + Footnotes (client component for bilingual toggle) */}
+      <ParagraphContent
+        text={paragraph.text}
+        footnotes={paragraph.footnotes}
+      />
 
       {/* Bible citations */}
       {bibleCitations.length > 0 && (
@@ -191,22 +193,6 @@ export default async function ParagraphPage({
               );
             })}
           </div>
-        </div>
-      )}
-
-      {/* Footnotes */}
-      {paragraph.footnotes.length > 0 && (
-        <div className="mb-8">
-          <h2 className="mb-2 text-sm font-semibold uppercase text-zinc-500">
-            Footnotes
-          </h2>
-          <ul className="space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
-            {paragraph.footnotes.map((fn, i) => (
-              <li key={i} className="border-l-2 border-zinc-200 pl-3 dark:border-zinc-700">
-                {fn}
-              </li>
-            ))}
-          </ul>
         </div>
       )}
 
