@@ -35,13 +35,22 @@ def compute_communities(G: nx.Graph) -> dict[str, int]:
 def export_graph(
     G: nx.Graph,
     positions: dict[str, tuple[float, float]],
-    paragraphs: list[Paragraph],
+    paragraphs_en: list[Paragraph],
+    paragraphs_pt: list[Paragraph] | None = None,
 ) -> None:
-    """Export graph to JSON files for the web UI."""
+    """Export graph to JSON files for the web UI.
+
+    Args:
+        G: The graph.
+        positions: Node positions.
+        paragraphs_en: English paragraph list.
+        paragraphs_pt: Optional Portuguese paragraph list.  When provided,
+            paragraphs.json and search-index.json gain bilingual fields.
+    """
     WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     # Build paragraph lookup for themes
-    para_lookup = {p.id: p for p in paragraphs}
+    para_lookup = {p.id: p for p in paragraphs_en}
 
     # Compute communities
     communities = compute_communities(G)
@@ -94,16 +103,24 @@ def export_graph(
             edge_type=data.get("edge_type", "cross_reference"),
         ))
 
-    # Export graph.json
+    # Export graph.json (language-independent)
     graph_data = GraphData(nodes=nodes, edges=edges)
     graph_path = WEB_DATA_DIR / "graph.json"
     with open(graph_path, "w", encoding="utf-8") as f:
         json.dump(graph_data.model_dump(), f, ensure_ascii=False)
     logger.info("Exported graph.json: %d nodes, %d edges", len(nodes), len(edges))
 
-    # Export paragraphs.json (full text for lazy loading)
+    # Build PT lookup by id
+    pt_map: dict[int, Paragraph] = {}
+    if paragraphs_pt:
+        for p in paragraphs_pt:
+            pt_map[p.id] = p
+
+    # Export paragraphs.json (bilingual when PT available)
     paragraphs_data = []
-    for p in paragraphs:
+    for p in paragraphs_en:
+        pt = pt_map.get(p.id)
+
         # Collect unique Bible, author, and document citations
         bible_citations: list[str] = []
         author_citations: list[str] = []
@@ -125,37 +142,54 @@ def export_graph(
                     seen_document.add(dr.document)
                     document_citations.append(dr.document)
 
-        paragraphs_data.append({
+        entry: dict = {
             "id": p.id,
-            "text": p.text,
-            "footnotes": p.footnotes,
             "cross_references": p.cross_references,
             "bible_citations": bible_citations,
             "author_citations": author_citations,
             "document_citations": document_citations,
             "themes": p.themes,
-            "part": p.part,
-            "section": p.section,
-            "chapter": p.chapter,
-            "article": p.article,
-        })
+        }
+
+        if paragraphs_pt is not None:
+            entry["text"] = {"en": p.text, "pt": pt.text if pt else ""}
+            entry["footnotes"] = {"en": p.footnotes, "pt": pt.footnotes if pt else []}
+            entry["part"] = {"en": p.part, "pt": pt.part if pt else ""}
+            entry["section"] = {"en": p.section, "pt": pt.section if pt else ""}
+            entry["chapter"] = {"en": p.chapter, "pt": pt.chapter if pt else ""}
+            entry["article"] = {"en": p.article, "pt": pt.article if pt else ""}
+        else:
+            entry["text"] = p.text
+            entry["footnotes"] = p.footnotes
+            entry["part"] = p.part
+            entry["section"] = p.section
+            entry["chapter"] = p.chapter
+            entry["article"] = p.article
+
+        paragraphs_data.append(entry)
+
     paragraphs_path = WEB_DATA_DIR / "paragraphs.json"
     with open(paragraphs_path, "w", encoding="utf-8") as f:
         json.dump(paragraphs_data, f, ensure_ascii=False)
     logger.info("Exported paragraphs.json: %d paragraphs", len(paragraphs_data))
 
-    # Export search-index.json (lightweight for Fuse.js)
+    # Export search-index.json (bilingual when PT available)
     search_data: list[dict] = []
-    for p in paragraphs:
-        search_data.append({
+    for p in paragraphs_en:
+        pt = pt_map.get(p.id)
+        entry = {
             "id": p.id,
-            "text": p.text[:300],  # Truncate for search index
+            "text": p.text[:300],
             "themes": " ".join(p.themes),
             "part": p.part,
             "section": p.section,
             "chapter": p.chapter,
             "article": p.article,
-        })
+        }
+        if paragraphs_pt is not None:
+            entry["text_pt"] = pt.text[:300] if pt else ""
+        search_data.append(entry)
+
     # Also add source nodes to search index
     for node_id in G.nodes:
         ndata = G.nodes[node_id]
@@ -170,6 +204,7 @@ def export_graph(
                 "chapter": "",
                 "article": "",
             })
+
     search_path = WEB_DATA_DIR / "search-index.json"
     with open(search_path, "w", encoding="utf-8") as f:
         json.dump(search_data, f, ensure_ascii=False)
@@ -177,7 +212,7 @@ def export_graph(
 
     # Export themes.json metadata
     theme_counts: dict[str, int] = {}
-    for p in paragraphs:
+    for p in paragraphs_en:
         for t in p.themes:
             theme_counts[t] = theme_counts.get(t, 0) + 1
 

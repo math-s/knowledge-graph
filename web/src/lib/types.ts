@@ -15,7 +15,7 @@ export interface GraphNode {
 export interface GraphEdge {
   source: string;
   target: string;
-  edge_type: "cross_reference" | "belongs_to" | "child_of" | "cites";
+  edge_type: "cross_reference" | "belongs_to" | "child_of" | "cites" | "shared_theme";
 }
 
 export interface GraphData {

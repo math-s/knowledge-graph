@@ -2,12 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import paragraphsData from "../../../../public/data/paragraphs.json";
 import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
+import type { ParagraphData } from "@/lib/types";
 import ParagraphContent from "./ParagraphContent";
 
-type ParagraphEntry = (typeof paragraphsData)[number];
-
-const paragraphMap = new Map<number, ParagraphEntry>(
-  paragraphsData.map((p) => [p.id, p]),
+const paragraphMap = new Map<number, ParagraphData>(
+  (paragraphsData as ParagraphData[]).map((p) => [p.id, p]),
 );
 
 export function generateStaticParams() {
@@ -27,19 +26,24 @@ export default async function ParagraphPage({
     notFound();
   }
 
+  const partEn = typeof paragraph.part === "object" ? paragraph.part.en : paragraph.part;
+  const sectionEn = typeof paragraph.section === "object" ? paragraph.section.en : paragraph.section;
+  const chapterEn = typeof paragraph.chapter === "object" ? paragraph.chapter.en : paragraph.chapter;
+  const articleEn = typeof paragraph.article === "object" ? paragraph.article.en : paragraph.article;
+
   const breadcrumb = [
-    paragraph.part,
-    paragraph.section,
-    paragraph.chapter,
-    paragraph.article,
+    partEn,
+    sectionEn,
+    chapterEn,
+    articleEn,
   ].filter(Boolean);
 
-  const partColor = PART_COLORS[paragraph.part] || "#999";
+  const partColor = PART_COLORS[partEn] || "#999";
 
-  const bibleCitations: string[] = (paragraph as Record<string, unknown>).bible_citations as string[] || [];
-  const authorCitations: string[] = (paragraph as Record<string, unknown>).author_citations as string[] || [];
-  const documentCitations: string[] = (paragraph as Record<string, unknown>).document_citations as string[] || [];
-  const themes: string[] = (paragraph as Record<string, unknown>).themes as string[] || [];
+  const bibleCitations: string[] = (paragraph as unknown as Record<string, unknown>).bible_citations as string[] || [];
+  const authorCitations: string[] = (paragraph as unknown as Record<string, unknown>).author_citations as string[] || [];
+  const documentCitations: string[] = (paragraph as unknown as Record<string, unknown>).document_citations as string[] || [];
+  const themes: string[] = (paragraph as unknown as Record<string, unknown>).themes as string[] || [];
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -205,8 +209,9 @@ export default async function ParagraphPage({
           <div className="flex flex-wrap gap-2">
             {paragraph.cross_references.map((refId) => {
               const refPara = paragraphMap.get(refId);
+              const refPartEn = refPara ? (typeof refPara.part === "object" ? refPara.part.en : refPara.part) : "";
               const refColor = refPara
-                ? PART_COLORS[refPara.part] || "#999"
+                ? PART_COLORS[refPartEn] || "#999"
                 : "#999";
               return (
                 <Link
