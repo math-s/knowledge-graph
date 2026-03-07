@@ -10,6 +10,7 @@ class BibleReference(BaseModel):
 
     book: str  # Canonical ID: "matthew", "1-corinthians"
     abbreviation: str  # As found: "Mt", "1 Cor"
+    reference: str = ""  # Chapter:verse e.g. "28:19-20"
 
 
 class PatristicReference(BaseModel):
@@ -23,6 +24,7 @@ class DocumentReference(BaseModel):
 
     document: str  # Canonical ID: "lumen-gentium", "cic"
     abbreviation: str  # As found: "LG", "CIC"
+    section: str = ""  # Section number e.g. "12"
 
 
 class ParsedFootnote(BaseModel):
@@ -57,6 +59,34 @@ class StructuralNode(BaseModel):
     level: str  # "part", "section", "chapter", "article"
     parent_id: str | None = None
     paragraph_ids: list[int] = []
+
+
+class BibleVerse(BaseModel):
+    """A single Bible verse with its text."""
+
+    book_id: str  # "matthew"
+    chapter: int
+    verse: int
+    text: str
+
+
+class DocumentSection(BaseModel):
+    """A numbered section from an ecclesiastical document."""
+
+    document_id: str
+    section_num: int
+    text: str
+
+
+class PatristicPassage(BaseModel):
+    """A passage from a Church Father's work."""
+
+    author_id: str
+    work: str
+    location: str
+    text: str
+    source_url: str = ""
+    citing_paragraphs: list[int] = []
 
 
 class GraphNode(BaseModel):

@@ -41,10 +41,19 @@ class TestParseBibleReference:
         pf = parse_footnote("See Mt 28:19 for further reference")
         assert len(pf.bible_refs) == 0
 
-    def test_deduplicates_same_book(self):
+    def test_different_references_same_book(self):
+        """Different chapter:verse refs from the same book are kept."""
         pf = parse_footnote("⇒ Mt 5:1-12; ⇒ Mt 28:19-20")
-        assert len(pf.bible_refs) == 1
+        assert len(pf.bible_refs) == 2
         assert pf.bible_refs[0].book == "matthew"
+        assert pf.bible_refs[0].reference == "5:1-12"
+        assert pf.bible_refs[1].reference == "28:19-20"
+
+    def test_deduplicates_same_book_and_reference(self):
+        """Same book + same reference is deduplicated."""
+        pf = parse_footnote("⇒ Mt 5:1-12; ⇒ Mt 5:1-12")
+        assert len(pf.bible_refs) == 1
+        assert pf.bible_refs[0].reference == "5:1-12"
 
 
 class TestParsePatristicReference:
