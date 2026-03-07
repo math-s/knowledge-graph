@@ -89,6 +89,40 @@ class PatristicPassage(BaseModel):
     citing_paragraphs: list[int] = []
 
 
+class BibleBookSource(BaseModel):
+    """Source data for a Bible book cited by the CCC."""
+
+    id: str
+    name: str
+    abbreviation: str
+    testament: str  # "old" or "new"
+    citing_paragraphs: list[int] = []
+    verses: dict[str, str] = {}  # "5:1" -> verse text (only cited verses)
+
+
+class DocumentSource(BaseModel):
+    """Source data for an ecclesiastical document cited by the CCC."""
+
+    id: str
+    name: str
+    abbreviation: str
+    category: str  # "vatican-ii", "encyclical", "canon-law", "reference"
+    source_url: str = ""
+    fetchable: bool = True
+    citing_paragraphs: list[int] = []
+    sections: dict[str, str] = {}  # "12" -> section text (only cited sections)
+
+
+class AuthorSource(BaseModel):
+    """Source data for a patristic author cited by the CCC."""
+
+    id: str
+    name: str
+    era: str = ""
+    works: list[dict] = []  # [{"title": "...", "url": "..."}]
+    citing_paragraphs: list[int] = []
+
+
 class GraphNode(BaseModel):
     """A node in the exported graph."""
 

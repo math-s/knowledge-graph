@@ -1,6 +1,7 @@
 # Data directories
 data/raw/
 data/processed/
+pipeline/data/raw/
 
 # Python
 __pycache__/

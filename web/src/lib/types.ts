@@ -47,6 +47,8 @@ export interface ParagraphData {
   bible_citations: string[];
   author_citations: string[];
   document_citations: string[];
+  bible_citation_details?: { book: string; reference: string }[];
+  document_citation_details?: { document: string; section: string }[];
   themes: string[];
   part: string | BilingualStr;
   section: string | BilingualStr;
@@ -68,4 +70,32 @@ export interface SearchEntry {
 export interface ThemeDefinition {
   label: string;
   count: number;
+}
+
+export interface BibleBookData {
+  id: string;
+  name: string;
+  abbreviation: string;
+  testament: string;
+  citing_paragraphs: number[];
+  verses: Record<string, string>;
+}
+
+export interface DocumentData {
+  id: string;
+  name: string;
+  abbreviation: string;
+  category: string;
+  source_url: string;
+  fetchable: boolean;
+  citing_paragraphs: number[];
+  sections: Record<string, string>;
+}
+
+export interface AuthorData {
+  id: string;
+  name: string;
+  era: string;
+  works: { title: string; url: string }[];
+  citing_paragraphs: number[];
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Graph from "graphology";
-import type { ParagraphData } from "@/lib/types";
+import type { AuthorData, BibleBookData, DocumentData, ParagraphData } from "@/lib/types";
 import { t, tArr } from "@/lib/types";
-import { fetchParagraphs } from "@/lib/graph-data";
+import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchParagraphs } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 
@@ -16,6 +17,110 @@ interface GraphDetailPanelProps {
   onThemeFilter: (themeId: string) => void;
   canGoBack: boolean;
   onGoBack: () => void;
+}
+
+function SourcePreview({
+  nodeType,
+  nodeId,
+  label,
+  bibleSources,
+  documentSources,
+  authorSources,
+}: {
+  nodeType: string;
+  nodeId: string;
+  label: string;
+  bibleSources: Record<string, BibleBookData>;
+  documentSources: Record<string, DocumentData>;
+  authorSources: Record<string, AuthorData>;
+}) {
+  const sourceId = nodeId.split(":").slice(1).join(":");
+
+  if (nodeType === "bible") {
+    const book = bibleSources[sourceId];
+    if (book) {
+      const verseKeys = Object.keys(book.verses || {}).slice(0, 3);
+      return (
+        <div className="space-y-2 text-sm">
+          <div className="text-zinc-500">
+            <span className="capitalize">{book.testament} Testament</span>
+            {" \u00b7 "}
+            {book.citing_paragraphs.length} citing paragraphs
+          </div>
+          {verseKeys.length > 0 && (
+            <div className="space-y-1">
+              {verseKeys.map((ref) => (
+                <div key={ref} className="rounded bg-green-50/50 p-2 text-xs dark:bg-green-900/10">
+                  <span className="font-semibold text-green-800 dark:text-green-300">{book.abbreviation} {ref}</span>{" "}
+                  <span className="text-zinc-600 dark:text-zinc-400">{book.verses[ref]?.slice(0, 120)}{(book.verses[ref]?.length || 0) > 120 ? "..." : ""}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          <Link href={`/bible/${sourceId}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+            View full details &rarr;
+          </Link>
+        </div>
+      );
+    }
+    return <div className="text-sm text-zinc-500">Bible book: {label}</div>;
+  }
+
+  if (nodeType === "document") {
+    const doc = documentSources[sourceId];
+    if (doc) {
+      const firstSection = Object.entries(doc.sections || {})[0];
+      return (
+        <div className="space-y-2 text-sm">
+          <div className="text-zinc-500">
+            <span className="rounded bg-amber-50 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">{doc.abbreviation}</span>
+            {" \u00b7 "}
+            {doc.citing_paragraphs.length} citing paragraphs
+          </div>
+          {firstSection && (
+            <div className="rounded bg-amber-50/50 p-2 text-xs dark:bg-amber-900/10">
+              <span className="font-semibold text-amber-800 dark:text-amber-300">{doc.abbreviation} {firstSection[0]}</span>{" "}
+              <span className="text-zinc-600 dark:text-zinc-400">{firstSection[1].slice(0, 150)}{firstSection[1].length > 150 ? "..." : ""}</span>
+            </div>
+          )}
+          {!doc.fetchable && (
+            <div className="text-xs text-amber-600 dark:text-amber-400">Print reference collection</div>
+          )}
+          <Link href={`/document/${sourceId}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+            View full details &rarr;
+          </Link>
+        </div>
+      );
+    }
+    return <div className="text-sm text-zinc-500">Ecclesiastical document: {label}</div>;
+  }
+
+  if (nodeType === "author") {
+    const author = authorSources[sourceId];
+    if (author) {
+      return (
+        <div className="space-y-2 text-sm">
+          <div className="text-zinc-500">
+            {author.era && <span>{author.era}</span>}
+            {author.era && " \u00b7 "}
+            {author.citing_paragraphs.length} citing paragraphs
+          </div>
+          {author.works.length > 0 && (
+            <div className="text-xs text-zinc-600 dark:text-zinc-400">
+              Works: {author.works.slice(0, 3).map((w) => w.title).join(", ")}
+              {author.works.length > 3 ? ` +${author.works.length - 3} more` : ""}
+            </div>
+          )}
+          <Link href={`/author/${sourceId}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+            View full details &rarr;
+          </Link>
+        </div>
+      );
+    }
+    return <div className="text-sm text-zinc-500">Patristic author: {label}</div>;
+  }
+
+  return <div className="text-sm text-zinc-500">{label}</div>;
 }
 
 export default function GraphDetailPanel({
@@ -32,6 +137,9 @@ export default function GraphDetailPanel({
     new Map(),
   );
   const [loaded, setLoaded] = useState(false);
+  const [bibleSources, setBibleSources] = useState<Record<string, BibleBookData>>({});
+  const [documentSources, setDocumentSources] = useState<Record<string, DocumentData>>({});
+  const [authorSources, setAuthorSources] = useState<Record<string, AuthorData>>({});
 
   useEffect(() => {
     fetchParagraphs().then((data) => {
@@ -41,6 +149,19 @@ export default function GraphDetailPanel({
       setLoaded(true);
     });
   }, []);
+
+  // Lazy-load source data when a source node is selected
+  useEffect(() => {
+    if (!graph.hasNode(nodeId)) return;
+    const nType = graph.getNodeAttributes(nodeId).node_type;
+    if (nType === "bible" && Object.keys(bibleSources).length === 0) {
+      fetchBibleSources().then(setBibleSources);
+    } else if (nType === "document" && Object.keys(documentSources).length === 0) {
+      fetchDocumentSources().then(setDocumentSources);
+    } else if (nType === "author" && Object.keys(authorSources).length === 0) {
+      fetchAuthorSources().then(setAuthorSources);
+    }
+  }, [nodeId, graph, bibleSources, documentSources, authorSources]);
 
   if (!graph.hasNode(nodeId)) return null;
 
@@ -197,9 +318,14 @@ export default function GraphDetailPanel({
         ) : isParagraph && !loaded ? (
           <div className="text-sm text-zinc-400">Loading...</div>
         ) : isSource ? (
-          <div className="text-sm text-zinc-500">
-            {nodeType === "bible" ? "Bible book" : nodeType === "author" ? "Patristic author" : "Ecclesiastical document"}: {attrs.label}
-          </div>
+          <SourcePreview
+            nodeType={nodeType}
+            nodeId={nodeId}
+            label={attrs.label}
+            bibleSources={bibleSources}
+            documentSources={documentSources}
+            authorSources={authorSources}
+          />
         ) : !isParagraph ? (
           <div className="text-sm text-zinc-500">
             Structural node: {attrs.label}
