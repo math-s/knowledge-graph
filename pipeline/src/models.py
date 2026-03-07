@@ -10,6 +10,7 @@ class BibleReference(BaseModel):
 
     book: str  # Canonical ID: "matthew", "1-corinthians"
     abbreviation: str  # As found: "Mt", "1 Cor"
+    reference: str = ""  # Chapter:verse e.g. "28:19-20"
 
 
 class PatristicReference(BaseModel):
@@ -23,6 +24,7 @@ class DocumentReference(BaseModel):
 
     document: str  # Canonical ID: "lumen-gentium", "cic"
     abbreviation: str  # As found: "LG", "CIC"
+    section: str = ""  # Section number e.g. "12"
 
 
 class ParsedFootnote(BaseModel):
@@ -57,6 +59,68 @@ class StructuralNode(BaseModel):
     level: str  # "part", "section", "chapter", "article"
     parent_id: str | None = None
     paragraph_ids: list[int] = []
+
+
+class BibleVerse(BaseModel):
+    """A single Bible verse with its text."""
+
+    book_id: str  # "matthew"
+    chapter: int
+    verse: int
+    text: str
+
+
+class DocumentSection(BaseModel):
+    """A numbered section from an ecclesiastical document."""
+
+    document_id: str
+    section_num: int
+    text: str
+
+
+class PatristicPassage(BaseModel):
+    """A passage from a Church Father's work."""
+
+    author_id: str
+    work: str
+    location: str
+    text: str
+    source_url: str = ""
+    citing_paragraphs: list[int] = []
+
+
+class BibleBookSource(BaseModel):
+    """Source data for a Bible book cited by the CCC."""
+
+    id: str
+    name: str
+    abbreviation: str
+    testament: str  # "old" or "new"
+    citing_paragraphs: list[int] = []
+    verses: dict[str, str] = {}  # "5:1" -> verse text (only cited verses)
+
+
+class DocumentSource(BaseModel):
+    """Source data for an ecclesiastical document cited by the CCC."""
+
+    id: str
+    name: str
+    abbreviation: str
+    category: str  # "vatican-ii", "encyclical", "canon-law", "reference"
+    source_url: str = ""
+    fetchable: bool = True
+    citing_paragraphs: list[int] = []
+    sections: dict[str, str] = {}  # "12" -> section text (only cited sections)
+
+
+class AuthorSource(BaseModel):
+    """Source data for a patristic author cited by the CCC."""
+
+    id: str
+    name: str
+    era: str = ""
+    works: list[dict] = []  # [{"title": "...", "url": "..."}]
+    citing_paragraphs: list[int] = []
 
 
 class GraphNode(BaseModel):

@@ -36,10 +36,15 @@ export default async function ParagraphPage({
 
   const partColor = PART_COLORS[paragraph.part] || "#999";
 
-  const bibleCitations: string[] = (paragraph as Record<string, unknown>).bible_citations as string[] || [];
-  const authorCitations: string[] = (paragraph as Record<string, unknown>).author_citations as string[] || [];
-  const documentCitations: string[] = (paragraph as Record<string, unknown>).document_citations as string[] || [];
-  const themes: string[] = (paragraph as Record<string, unknown>).themes as string[] || [];
+  const paraAny = paragraph as Record<string, unknown>;
+  const bibleCitations: string[] = paraAny.bible_citations as string[] || [];
+  const authorCitations: string[] = paraAny.author_citations as string[] || [];
+  const documentCitations: string[] = paraAny.document_citations as string[] || [];
+  const bibleCitationDetails: { book: string; reference: string }[] =
+    paraAny.bible_citation_details as { book: string; reference: string }[] || [];
+  const documentCitationDetails: { document: string; section: string }[] =
+    paraAny.document_citation_details as { document: string; section: string }[] || [];
+  const themes: string[] = paraAny.themes as string[] || [];
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -137,16 +142,33 @@ export default async function ParagraphPage({
             {bibleCitations.map((bookId) => {
               const label = bookId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
               return (
-                <span
+                <Link
                   key={bookId}
-                  className="rounded bg-green-50 px-2 py-1 text-sm font-medium text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                  href={`/bible/${bookId}`}
+                  className="rounded bg-green-50 px-2 py-1 text-sm font-medium text-green-800 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                   style={{ borderLeft: "3px solid #59A14F" }}
                 >
                   {label}
-                </span>
+                </Link>
               );
             })}
           </div>
+          {/* Specific references */}
+          {bibleCitationDetails.length > 0 && (
+            <div className="mt-2 text-xs text-zinc-500">
+              {bibleCitationDetails.map((d, i) => {
+                const bookLabel = d.book.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+                return (
+                  <span key={i}>
+                    {i > 0 && ", "}
+                    <Link href={`/bible/${d.book}`} className="hover:text-green-700 dark:hover:text-green-400">
+                      {bookLabel} {d.reference}
+                    </Link>
+                  </span>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 
@@ -160,13 +182,14 @@ export default async function ParagraphPage({
             {authorCitations.map((authorId) => {
               const label = authorId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
               return (
-                <span
+                <Link
                   key={authorId}
-                  className="rounded bg-purple-50 px-2 py-1 text-sm font-medium text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+                  href={`/author/${authorId}`}
+                  className="rounded bg-purple-50 px-2 py-1 text-sm font-medium text-purple-800 hover:bg-purple-100 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:bg-purple-900/50"
                   style={{ borderLeft: "3px solid #B07AA1" }}
                 >
                   {label}
-                </span>
+                </Link>
               );
             })}
           </div>
@@ -183,16 +206,33 @@ export default async function ParagraphPage({
             {documentCitations.map((docId) => {
               const label = docId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
               return (
-                <span
+                <Link
                   key={docId}
-                  className="rounded bg-amber-50 px-2 py-1 text-sm font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                  href={`/document/${docId}`}
+                  className="rounded bg-amber-50 px-2 py-1 text-sm font-medium text-amber-800 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/50"
                   style={{ borderLeft: `3px solid ${SOURCE_COLORS.document}` }}
                 >
                   {label}
-                </span>
+                </Link>
               );
             })}
           </div>
+          {/* Specific sections */}
+          {documentCitationDetails.length > 0 && (
+            <div className="mt-2 text-xs text-zinc-500">
+              {documentCitationDetails.map((d, i) => {
+                const docLabel = d.document.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+                return (
+                  <span key={i}>
+                    {i > 0 && ", "}
+                    <Link href={`/document/${d.document}`} className="hover:text-amber-700 dark:hover:text-amber-400">
+                      {docLabel} {d.section}
+                    </Link>
+                  </span>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 

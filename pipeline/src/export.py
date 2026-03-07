@@ -9,7 +9,15 @@ from pathlib import Path
 import community as community_louvain
 import networkx as nx
 
-from .models import GraphData, GraphEdge, GraphNode, Paragraph
+from .models import (
+    AuthorSource,
+    BibleBookSource,
+    DocumentSource,
+    GraphData,
+    GraphEdge,
+    GraphNode,
+    Paragraph,
+)
 from .themes import THEME_DEFINITIONS
 
 logger = logging.getLogger(__name__)
@@ -108,14 +116,22 @@ def export_graph(
         bible_citations: list[str] = []
         author_citations: list[str] = []
         document_citations: list[str] = []
+        bible_citation_details: list[dict] = []
+        document_citation_details: list[dict] = []
         seen_bible: set[str] = set()
         seen_author: set[str] = set()
         seen_document: set[str] = set()
+        seen_bible_detail: set[tuple[str, str]] = set()
+        seen_doc_detail: set[tuple[str, str]] = set()
         for pf in p.parsed_footnotes:
             for br in pf.bible_refs:
                 if br.book not in seen_bible:
                     seen_bible.add(br.book)
                     bible_citations.append(br.book)
+                detail_key = (br.book, br.reference)
+                if detail_key not in seen_bible_detail and br.reference:
+                    seen_bible_detail.add(detail_key)
+                    bible_citation_details.append({"book": br.book, "reference": br.reference})
             for ar in pf.author_refs:
                 if ar.author not in seen_author:
                     seen_author.add(ar.author)
@@ -124,6 +140,10 @@ def export_graph(
                 if dr.document not in seen_document:
                     seen_document.add(dr.document)
                     document_citations.append(dr.document)
+                detail_key_doc = (dr.document, dr.section)
+                if detail_key_doc not in seen_doc_detail and dr.section:
+                    seen_doc_detail.add(detail_key_doc)
+                    document_citation_details.append({"document": dr.document, "section": dr.section})
 
         paragraphs_data.append({
             "id": p.id,
@@ -133,6 +153,8 @@ def export_graph(
             "bible_citations": bible_citations,
             "author_citations": author_citations,
             "document_citations": document_citations,
+            "bible_citation_details": bible_citation_details,
+            "document_citation_details": document_citation_details,
             "themes": p.themes,
             "part": p.part,
             "section": p.section,
@@ -191,3 +213,33 @@ def export_graph(
     with open(themes_path, "w", encoding="utf-8") as f:
         json.dump(themes_meta, f, ensure_ascii=False)
     logger.info("Exported themes.json: %d themes", len(themes_meta))
+
+
+def export_sources(
+    bible_sources: dict[str, BibleBookSource],
+    document_sources: dict[str, DocumentSource],
+    author_sources: dict[str, AuthorSource],
+) -> None:
+    """Export source data to JSON files for the web UI."""
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Export sources-bible.json
+    bible_data = {k: v.model_dump() for k, v in bible_sources.items()}
+    bible_path = WEB_DATA_DIR / "sources-bible.json"
+    with open(bible_path, "w", encoding="utf-8") as f:
+        json.dump(bible_data, f, ensure_ascii=False)
+    logger.info("Exported sources-bible.json: %d books", len(bible_data))
+
+    # Export sources-documents.json
+    doc_data = {k: v.model_dump() for k, v in document_sources.items()}
+    doc_path = WEB_DATA_DIR / "sources-documents.json"
+    with open(doc_path, "w", encoding="utf-8") as f:
+        json.dump(doc_data, f, ensure_ascii=False)
+    logger.info("Exported sources-documents.json: %d documents", len(doc_data))
+
+    # Export sources-authors.json
+    author_data = {k: v.model_dump() for k, v in author_sources.items()}
+    author_path = WEB_DATA_DIR / "sources-authors.json"
+    with open(author_path, "w", encoding="utf-8") as f:
+        json.dump(author_data, f, ensure_ascii=False)
+    logger.info("Exported sources-authors.json: %d authors", len(author_data))

@@ -10,6 +10,15 @@ export default function Home() {
   const crossRefCount = graphData.edges.filter(
     (e) => e.edge_type === "cross_reference",
   ).length;
+  const bibleBookCount = graphData.nodes.filter(
+    (n) => n.node_type === "bible",
+  ).length;
+  const documentCount = graphData.nodes.filter(
+    (n) => n.node_type === "document",
+  ).length;
+  const authorCount = graphData.nodes.filter(
+    (n) => n.node_type === "author",
+  ).length;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 px-6 dark:bg-zinc-950">
@@ -28,6 +37,9 @@ export default function Home() {
           {[
             { label: "Paragraphs", value: paragraphCount.toLocaleString() },
             { label: "Cross-refs", value: crossRefCount.toLocaleString() },
+            { label: "Bible books", value: bibleBookCount.toLocaleString() },
+            { label: "Documents", value: documentCount.toLocaleString() },
+            { label: "Church Fathers", value: authorCount.toLocaleString() },
             { label: "Total nodes", value: nodeCount.toLocaleString() },
             { label: "Total edges", value: edgeCount.toLocaleString() },
           ].map((stat) => (

@@ -110,7 +110,7 @@ _sorted_abbrevs = sorted(_ABBREV_TO_BOOK.keys(), key=len, reverse=True)
 _abbrev_pattern = "|".join(re.escape(a) for a in _sorted_abbrevs)
 # Match: ⇒ (optional whitespace) (book abbreviation) (chapter:verse reference)
 _BIBLE_RE = re.compile(
-    r"⇒\s*(" + _abbrev_pattern + r")\s+\d",
+    r"⇒\s*(" + _abbrev_pattern + r")\s+(\d[\d:,\s\-]*\d|\d)",
     re.UNICODE,
 )
 
@@ -240,7 +240,7 @@ _general_doc_abbrevs = sorted(
 )
 _general_doc_pattern = "|".join(re.escape(a) for a in _general_doc_abbrevs)
 _DOCUMENT_RE = re.compile(
-    r"\b(" + _general_doc_pattern + r")\s+\d",
+    r"\b(" + _general_doc_pattern + r")\s+(\d[\d,\s\-]*\d|\d)",
     re.UNICODE,
 )
 
@@ -257,13 +257,15 @@ def parse_footnote(raw: str) -> ParsedFootnote:
     author_refs: list[PatristicReference] = []
 
     # Extract Bible references (anchored on ⇒ arrow)
-    seen_books: set[str] = set()
+    seen_books: set[tuple[str, str]] = set()
     for match in _BIBLE_RE.finditer(raw):
         abbrev = match.group(1)
+        reference = match.group(2).strip()
         canon_id, display_abbr = _ABBREV_TO_BOOK[abbrev]
-        if canon_id not in seen_books:
-            seen_books.add(canon_id)
-            bible_refs.append(BibleReference(book=canon_id, abbreviation=display_abbr))
+        key = (canon_id, reference)
+        if key not in seen_books:
+            seen_books.add(key)
+            bible_refs.append(BibleReference(book=canon_id, abbreviation=display_abbr, reference=reference))
 
     # Extract patristic references (St./Saint prefix)
     seen_authors: set[str] = set()
@@ -286,13 +288,14 @@ def parse_footnote(raw: str) -> ParsedFootnote:
     document_refs: list[DocumentReference] = []
     seen_docs: set[str] = set()
 
-    # General document pattern (ABBR + digit)
+    # General document pattern (ABBR + section number)
     for match in _DOCUMENT_RE.finditer(raw):
         abbrev = match.group(1)
+        section = match.group(2).strip()
         doc_id, display_abbr = _DOC_ABBREV_TO_ID[abbrev]
         if doc_id not in seen_docs:
             seen_docs.add(doc_id)
-            document_refs.append(DocumentReference(document=doc_id, abbreviation=display_abbr))
+            document_refs.append(DocumentReference(document=doc_id, abbreviation=display_abbr, section=section))
 
     # Canon law pattern (CIC/CCEO + can.)
     for match in _CANON_LAW_RE.finditer(raw):
