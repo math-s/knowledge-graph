@@ -180,7 +180,7 @@ def parse_reference(ref: str) -> list[tuple[int, int]]:
                     end = int(range_m.group(2))
                     for v in range(start, end + 1):
                         results.append((chapter, v))
-                elif re.match(r"\d+", segment):
+                elif re.fullmatch(r"\d+", segment):
                     results.append((chapter, int(segment)))
         else:
             # Chapter-only reference (e.g., just "5")
