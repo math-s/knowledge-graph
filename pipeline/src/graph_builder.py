@@ -8,7 +8,8 @@ from itertools import combinations
 
 import networkx as nx
 
-from .models import Paragraph, StructuralNode
+from .models import BibleBookFull, Paragraph, PatristicWork, StructuralNode
+from .fetch_bible import parse_reference
 
 logger = logging.getLogger(__name__)
 
@@ -127,6 +128,19 @@ SOURCE_COLORS = {
     "document": "#EDC948",  # Gold/amber
 }
 
+# Bible hierarchy colors
+BIBLE_HIERARCHY_COLORS = {
+    "bible-testament": "#3D7A35",
+    "bible-book": "#59A14F",
+    "bible-chapter": "#7BC474",
+    "bible-verse": "#A3D99B",
+}
+
+# Patristic hierarchy colors
+PATRISTIC_HIERARCHY_COLORS = {
+    "patristic-work": "#9B6AA1",  # Lighter purple than author (#B07AA1)
+}
+
 
 def add_source_nodes(G: nx.Graph, paragraphs: list[Paragraph]) -> nx.Graph:
     """Add Bible book, patristic author, and document nodes with cites edges."""
@@ -199,4 +213,228 @@ def add_source_nodes(G: nx.Graph, paragraphs: list[Paragraph]) -> nx.Graph:
         len(cites_edges),
     )
 
+    return G
+
+
+def add_bible_hierarchy(
+    G: nx.Graph,
+    bible_books: dict[str, BibleBookFull],
+    paragraphs: list[Paragraph],
+) -> nx.Graph:
+    """Add full Bible hierarchy: testament -> book -> chapter -> verse nodes.
+
+    Replaces the flat bible:{book_id} nodes with a hierarchical structure.
+    Rewires CCC cites edges to point to specific verse nodes where possible.
+    """
+    if not bible_books:
+        logger.info("No Bible data — skipping hierarchy")
+        return G
+
+    # Remove existing flat Bible book nodes and their cites edges
+    old_bible_nodes = [n for n in G.nodes if G.nodes[n].get("node_type") == "bible"]
+    for node in old_bible_nodes:
+        G.remove_node(node)
+
+    # Add testament nodes
+    for testament_id, testament_label in [("ot", "Old Testament"), ("nt", "New Testament")]:
+        node_id = f"bible-testament:{testament_id}"
+        G.add_node(
+            node_id,
+            node_type="bible-testament",
+            label=testament_label,
+            color=BIBLE_HIERARCHY_COLORS["bible-testament"],
+        )
+
+    # Add book, chapter, and verse nodes
+    book_count = 0
+    chapter_count = 0
+    verse_count = 0
+
+    for book_id, book in bible_books.items():
+        # Book node
+        book_node = f"bible-book:{book_id}"
+        testament_node = f"bible-testament:{'ot' if book.testament == 'old' else 'nt'}"
+        G.add_node(
+            book_node,
+            node_type="bible-book",
+            label=book.name,
+            color=BIBLE_HIERARCHY_COLORS["bible-book"],
+            testament=book.testament,
+            category=book.category,
+        )
+        G.add_edge(book_node, testament_node, edge_type="child_of")
+        book_count += 1
+
+        for ch_num, chapter in book.chapters.items():
+            # Chapter node
+            ch_node = f"bible-chapter:{book_id}-{ch_num}"
+            G.add_node(
+                ch_node,
+                node_type="bible-chapter",
+                label=f"{book.name} {ch_num}",
+                color=BIBLE_HIERARCHY_COLORS["bible-chapter"],
+            )
+            G.add_edge(ch_node, book_node, edge_type="child_of")
+            chapter_count += 1
+
+            for v_num in chapter.verses:
+                # Verse node
+                v_node = f"bible-verse:{book_id}-{ch_num}:{v_num}"
+                G.add_node(
+                    v_node,
+                    node_type="bible-verse",
+                    label=f"{book.abbreviation} {ch_num}:{v_num}",
+                    color=BIBLE_HIERARCHY_COLORS["bible-verse"],
+                )
+                G.add_edge(v_node, ch_node, edge_type="child_of")
+                verse_count += 1
+
+    logger.info(
+        "Added Bible hierarchy: 2 testaments, %d books, %d chapters, %d verses",
+        book_count,
+        chapter_count,
+        verse_count,
+    )
+
+    # Rewire CCC cites edges to specific verses
+    # Build index of which verses exist in the graph
+    verse_nodes: set[str] = {n for n in G.nodes if G.nodes[n].get("node_type") == "bible-verse"}
+    chapter_nodes: set[str] = {n for n in G.nodes if G.nodes[n].get("node_type") == "bible-chapter"}
+    book_nodes: set[str] = {n for n in G.nodes if G.nodes[n].get("node_type") == "bible-book"}
+
+    cites_count = 0
+    for p in paragraphs:
+        para_node = f"p:{p.id}"
+        if not G.has_node(para_node):
+            continue
+
+        for pf in p.parsed_footnotes:
+            for br in pf.bible_refs:
+                if br.reference:
+                    # Try to link to specific verses
+                    parsed = parse_reference(br.reference)
+                    linked = False
+                    for chapter, verse in parsed:
+                        if verse == 0:
+                            # Whole chapter reference
+                            ch_node = f"bible-chapter:{br.book}-{chapter}"
+                            if ch_node in chapter_nodes:
+                                if not G.has_edge(para_node, ch_node):
+                                    G.add_edge(para_node, ch_node, edge_type="cites")
+                                    cites_count += 1
+                                    linked = True
+                        else:
+                            v_node = f"bible-verse:{br.book}-{chapter}:{verse}"
+                            if v_node in verse_nodes:
+                                if not G.has_edge(para_node, v_node):
+                                    G.add_edge(para_node, v_node, edge_type="cites")
+                                    cites_count += 1
+                                    linked = True
+
+                    # If no specific verse was linked, link to book
+                    if not linked:
+                        book_node = f"bible-book:{br.book}"
+                        if book_node in book_nodes and not G.has_edge(para_node, book_node):
+                            G.add_edge(para_node, book_node, edge_type="cites")
+                            cites_count += 1
+                else:
+                    # No reference — link to book level
+                    book_node = f"bible-book:{br.book}"
+                    if book_node in book_nodes and not G.has_edge(para_node, book_node):
+                        G.add_edge(para_node, book_node, edge_type="cites")
+                        cites_count += 1
+
+    logger.info("Rewired %d CCC-to-Bible cites edges", cites_count)
+    return G
+
+
+def add_bible_crossref_edges(
+    G: nx.Graph,
+    crossrefs: dict[str, list[str]],
+) -> nx.Graph:
+    """Add bible_cross_reference edges from TSK cross-reference data.
+
+    Args:
+        G: The graph to add edges to.
+        crossrefs: Dict mapping verse_id -> list[verse_id].
+            Verse IDs use format "book_id-chapter:verse".
+    """
+    if not crossrefs:
+        logger.info("No cross-references to add")
+        return G
+
+    verse_nodes = {n for n in G.nodes if G.nodes[n].get("node_type") == "bible-verse"}
+
+    edge_count = 0
+    for source_verse_id, target_verse_ids in crossrefs.items():
+        source_node = f"bible-verse:{source_verse_id}"
+        if source_node not in verse_nodes:
+            continue
+
+        for target_verse_id in target_verse_ids:
+            target_node = f"bible-verse:{target_verse_id}"
+            if target_node in verse_nodes and not G.has_edge(source_node, target_node):
+                G.add_edge(source_node, target_node, edge_type="bible_cross_reference")
+                edge_count += 1
+
+    logger.info("Added %d bible_cross_reference edges", edge_count)
+    return G
+
+
+def add_patristic_work_hierarchy(
+    G: nx.Graph,
+    patristic_works: dict[str, list[PatristicWork]],
+    paragraphs: list[Paragraph],
+) -> nx.Graph:
+    """Add patristic work nodes with child_of edges to author nodes.
+
+    Creates patristic-work:{author_id}/{work_id} nodes linked to their
+    author:{author_id} parent. Rewires CCC cites edges to work-level
+    nodes where the footnote parser resolved a specific work.
+    """
+    if not patristic_works:
+        logger.info("No patristic works — skipping hierarchy")
+        return G
+
+    work_count = 0
+    for author_id, works in patristic_works.items():
+        author_node = f"author:{author_id}"
+        if not G.has_node(author_node):
+            continue
+
+        for work in works:
+            work_node = f"patristic-work:{work.id}"
+            G.add_node(
+                work_node,
+                node_type="patristic-work",
+                label=work.title,
+                color=PATRISTIC_HIERARCHY_COLORS["patristic-work"],
+                author_id=author_id,
+            )
+            G.add_edge(work_node, author_node, edge_type="child_of")
+            work_count += 1
+
+    logger.info("Added %d patristic work nodes", work_count)
+
+    # Rewire CCC cites edges to work-level nodes where possible
+    work_nodes = {
+        n for n in G.nodes if G.nodes[n].get("node_type") == "patristic-work"
+    }
+
+    cites_count = 0
+    for p in paragraphs:
+        para_node = f"p:{p.id}"
+        if not G.has_node(para_node):
+            continue
+
+        for pf in p.parsed_footnotes:
+            for ar in pf.author_refs:
+                if ar.work:
+                    work_node = f"patristic-work:{ar.author}/{ar.work}"
+                    if work_node in work_nodes:
+                        if not G.has_edge(para_node, work_node):
+                            G.add_edge(para_node, work_node, edge_type="cites")
+                            cites_count += 1
+
+    logger.info("Added %d CCC-to-work cites edges", cites_count)
     return G

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
+import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, THEME_COLORS } from "@/lib/colors";
 import type { ThemeDefinition } from "@/lib/types";
 import { fetchThemes } from "@/lib/graph-data";
 
@@ -9,13 +9,17 @@ export interface GraphFilters {
   visibleParts: Set<string>;
   showStructural: boolean;
   showBibleNodes: boolean;
+  showBibleChapters: boolean;
+  showBibleVerses: boolean;
   showAuthorNodes: boolean;
+  showPatristicWorks: boolean;
   showDocumentNodes: boolean;
   showCrossRefs: boolean;
   showCites: boolean;
   showBelongsTo: boolean;
   showChildOf: boolean;
   showSharedTheme: boolean;
+  showBibleCrossRefs: boolean;
   selectedThemes: Set<string>;
 }
 
@@ -23,26 +27,34 @@ export const DEFAULT_FILTERS: GraphFilters = {
   visibleParts: new Set(Object.keys(PART_COLORS)),
   showStructural: false,
   showBibleNodes: false,
+  showBibleChapters: false,
+  showBibleVerses: false,
   showAuthorNodes: false,
+  showPatristicWorks: false,
   showDocumentNodes: false,
   showCrossRefs: true,
   showCites: true,
   showBelongsTo: true,
   showChildOf: true,
   showSharedTheme: false,
+  showBibleCrossRefs: false,
   selectedThemes: new Set(),
 };
 
 function filtersMatchDefaults(filters: GraphFilters): boolean {
   if (filters.showStructural !== DEFAULT_FILTERS.showStructural) return false;
   if (filters.showBibleNodes !== DEFAULT_FILTERS.showBibleNodes) return false;
+  if (filters.showBibleChapters !== DEFAULT_FILTERS.showBibleChapters) return false;
+  if (filters.showBibleVerses !== DEFAULT_FILTERS.showBibleVerses) return false;
   if (filters.showAuthorNodes !== DEFAULT_FILTERS.showAuthorNodes) return false;
+  if (filters.showPatristicWorks !== DEFAULT_FILTERS.showPatristicWorks) return false;
   if (filters.showDocumentNodes !== DEFAULT_FILTERS.showDocumentNodes) return false;
   if (filters.showCrossRefs !== DEFAULT_FILTERS.showCrossRefs) return false;
   if (filters.showCites !== DEFAULT_FILTERS.showCites) return false;
   if (filters.showBelongsTo !== DEFAULT_FILTERS.showBelongsTo) return false;
   if (filters.showChildOf !== DEFAULT_FILTERS.showChildOf) return false;
   if (filters.showSharedTheme !== DEFAULT_FILTERS.showSharedTheme) return false;
+  if (filters.showBibleCrossRefs !== DEFAULT_FILTERS.showBibleCrossRefs) return false;
   if (filters.visibleParts.size !== DEFAULT_FILTERS.visibleParts.size) return false;
   for (const p of DEFAULT_FILTERS.visibleParts) {
     if (!filters.visibleParts.has(p)) return false;
@@ -158,6 +170,50 @@ export default function FilterPanel({
                 Bible books
               </span>
             </label>
+            {filters.showBibleNodes && (
+              <>
+                <label className="ml-4 flex items-center gap-2 text-xs">
+                  <input
+                    type="checkbox"
+                    checked={filters.showBibleChapters}
+                    onChange={() =>
+                      onFiltersChange({
+                        ...filters,
+                        showBibleChapters: !filters.showBibleChapters,
+                      })
+                    }
+                    className="rounded"
+                  />
+                  <span
+                    className="inline-block h-2 w-2 rounded-full"
+                    style={{ backgroundColor: BIBLE_HIERARCHY_COLORS["bible-chapter"] }}
+                  />
+                  <span className="text-zinc-700 dark:text-zinc-300">
+                    Chapters
+                  </span>
+                </label>
+                <label className="ml-4 flex items-center gap-2 text-xs">
+                  <input
+                    type="checkbox"
+                    checked={filters.showBibleVerses}
+                    onChange={() =>
+                      onFiltersChange({
+                        ...filters,
+                        showBibleVerses: !filters.showBibleVerses,
+                      })
+                    }
+                    className="rounded"
+                  />
+                  <span
+                    className="inline-block h-2 w-2 rounded-full"
+                    style={{ backgroundColor: BIBLE_HIERARCHY_COLORS["bible-verse"] }}
+                  />
+                  <span className="text-zinc-700 dark:text-zinc-300">
+                    Verses
+                  </span>
+                </label>
+              </>
+            )}
             <label className="flex items-center gap-2 text-xs">
               <input
                 type="checkbox"
@@ -178,6 +234,28 @@ export default function FilterPanel({
                 Church Fathers
               </span>
             </label>
+            {filters.showAuthorNodes && (
+              <label className="ml-4 flex items-center gap-2 text-xs">
+                <input
+                  type="checkbox"
+                  checked={filters.showPatristicWorks}
+                  onChange={() =>
+                    onFiltersChange({
+                      ...filters,
+                      showPatristicWorks: !filters.showPatristicWorks,
+                    })
+                  }
+                  className="rounded"
+                />
+                <span
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: PATRISTIC_HIERARCHY_COLORS["patristic-work"] }}
+                />
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  Works
+                </span>
+              </label>
+            )}
             <label className="flex items-center gap-2 text-xs">
               <input
                 type="checkbox"
@@ -302,6 +380,22 @@ export default function FilterPanel({
               />
               <span className="text-zinc-700 dark:text-zinc-300">
                 Shared themes
+              </span>
+            </label>
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={filters.showBibleCrossRefs}
+                onChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    showBibleCrossRefs: !filters.showBibleCrossRefs,
+                  })
+                }
+                className="rounded"
+              />
+              <span className="text-zinc-700 dark:text-zinc-300">
+                Bible cross-refs
               </span>
             </label>
           </div>

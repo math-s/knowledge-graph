@@ -11,7 +11,10 @@ export default function Home() {
     (e) => e.edge_type === "cross_reference",
   ).length;
   const bibleBookCount = graphData.nodes.filter(
-    (n) => n.node_type === "bible",
+    (n) => n.node_type === "bible" || n.node_type === "bible-book",
+  ).length;
+  const bibleVerseCount = graphData.nodes.filter(
+    (n) => n.node_type === "bible-verse",
   ).length;
   const documentCount = graphData.nodes.filter(
     (n) => n.node_type === "document",
@@ -38,6 +41,7 @@ export default function Home() {
             { label: "Paragraphs", value: paragraphCount.toLocaleString() },
             { label: "Cross-refs", value: crossRefCount.toLocaleString() },
             { label: "Bible books", value: bibleBookCount.toLocaleString() },
+            ...(bibleVerseCount > 0 ? [{ label: "Bible verses", value: bibleVerseCount.toLocaleString() }] : []),
             { label: "Documents", value: documentCount.toLocaleString() },
             { label: "Church Fathers", value: authorCount.toLocaleString() },
             { label: "Total nodes", value: nodeCount.toLocaleString() },

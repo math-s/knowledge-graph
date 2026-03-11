@@ -1,9 +1,13 @@
 import type {
   AuthorData,
+  AuthorMeta,
   BibleBookData,
+  BibleBookMeta,
+  BibleChapterData,
   DocumentData,
   GraphData,
   ParagraphData,
+  PatristicWorkData,
   SearchEntry,
   ThemeDefinition,
 } from "./types";
@@ -35,6 +39,23 @@ export async function fetchBibleSources(): Promise<Record<string, BibleBookData>
   return res.json();
 }
 
+/** Fetch lightweight Bible book metadata (no verse text). */
+export async function fetchBibleMeta(): Promise<Record<string, BibleBookMeta>> {
+  const res = await fetch(`${BASE_PATH}/data/sources-bible-meta.json`);
+  if (!res.ok) {
+    // Fallback to legacy sources-bible.json
+    return fetchBibleSources() as unknown as Promise<Record<string, BibleBookMeta>>;
+  }
+  return res.json();
+}
+
+/** Fetch verse data for a specific Bible book (lazy-loaded). */
+export async function fetchBibleBookVerses(bookId: string): Promise<BibleChapterData[] | null> {
+  const res = await fetch(`${BASE_PATH}/data/sources-bible-verses/${bookId}.json`);
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function fetchDocumentSources(): Promise<Record<string, DocumentData>> {
   const res = await fetch(`${BASE_PATH}/data/sources-documents.json`);
   return res.json();
@@ -42,5 +63,22 @@ export async function fetchDocumentSources(): Promise<Record<string, DocumentDat
 
 export async function fetchAuthorSources(): Promise<Record<string, AuthorData>> {
   const res = await fetch(`${BASE_PATH}/data/sources-authors.json`);
+  return res.json();
+}
+
+/** Fetch lightweight author metadata (no work text). */
+export async function fetchAuthorMeta(): Promise<Record<string, AuthorMeta>> {
+  const res = await fetch(`${BASE_PATH}/data/sources-authors-meta.json`);
+  if (!res.ok) {
+    // Fallback to legacy sources-authors.json
+    return fetchAuthorSources() as unknown as Promise<Record<string, AuthorMeta>>;
+  }
+  return res.json();
+}
+
+/** Fetch work data for a specific author (lazy-loaded). */
+export async function fetchAuthorWorks(authorId: string): Promise<PatristicWorkData[] | null> {
+  const res = await fetch(`${BASE_PATH}/data/sources-authors-works/${authorId}.json`);
+  if (!res.ok) return null;
   return res.json();
 }

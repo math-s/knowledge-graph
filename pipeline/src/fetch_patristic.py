@@ -184,12 +184,23 @@ def _download_author_page(author_id: str, url: str) -> str | None:
 
 
 def _parse_works_list(html: str, base_url: str) -> list[dict]:
-    """Parse a New Advent page to extract a list of works with URLs."""
+    """Parse a New Advent page to extract a list of works with URLs.
+
+    Only includes links that point to actual work pages under /fathers/ or
+    /summa/. Filters out site navigation, encyclopedia cross-references,
+    Bible links, contact/advertising links, etc.
+    """
     soup = BeautifulSoup(html, "html.parser")
     works: list[dict] = []
-    seen_titles: set[str] = set()
+    seen_urls: set[str] = set()
 
-    # Look for links that point to other /fathers/ pages (works)
+    # Navigation / non-work link text to skip (lowercase)
+    _SKIP_TITLES = {
+        "home", "encyclopedia", "fathers", "summa", "bible", "library",
+        "contact us", "advertise with new advent", "new advent",
+        "fathers of the church", "please help support",
+    }
+
     for a_tag in soup.find_all("a", href=True):
         href = a_tag.get("href", "")
         title = a_tag.get_text(strip=True)
@@ -197,23 +208,39 @@ def _parse_works_list(html: str, base_url: str) -> list[dict]:
         if not title or len(title) < 3 or len(title) > 200:
             continue
 
-        # Skip navigation links
-        if title.lower() in ("home", "encyclopedia", "fathers", "summa", "bible"):
+        # Skip known navigation text
+        if title.lower().strip() in _SKIP_TITLES:
+            continue
+        # Skip fundraising / support links
+        if "help support" in title.lower() or "full contents" in title.lower():
             continue
 
-        # Build absolute URL
-        if href.startswith("http"):
-            full_url = href
-        elif href.startswith("/"):
-            full_url = "https://www.newadvent.org" + href
-        else:
-            # Relative URL
-            base = base_url.rsplit("/", 1)[0]
-            full_url = base + "/" + href
+        # Resolve to absolute URL (handles ../ properly)
+        from urllib.parse import urljoin, urlparse
+        from posixpath import normpath
+        full_url = urljoin(base_url, href)
+        parsed = urlparse(full_url)
 
-        if title not in seen_titles:
-            seen_titles.add(title)
-            works.append({"title": title, "url": full_url})
+        # Normalize path to resolve ../
+        norm_path = normpath(parsed.path)
+
+        # Must be on newadvent.org
+        if parsed.netloc and "newadvent.org" not in parsed.netloc:
+            continue
+        # Only accept links to /fathers/ or /summa/ work pages
+        if not (norm_path.startswith("/fathers/") or norm_path.startswith("/summa/")):
+            continue
+        # Must end in .htm (actual work pages, not directory indexes)
+        if not norm_path.endswith(".htm"):
+            continue
+
+        # Rebuild URL with normalized path
+        full_url = f"{parsed.scheme}://{parsed.netloc}{norm_path}"
+
+        if full_url in seen_urls:
+            continue
+        seen_urls.add(full_url)
+        works.append({"title": title, "url": full_url})
 
     return works[:50]  # Cap at 50 works
 

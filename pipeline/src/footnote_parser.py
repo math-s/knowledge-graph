@@ -174,6 +174,187 @@ _STANDALONE_RE = re.compile(
     re.UNICODE,
 )
 
+# ── Patristic work abbreviation lookup ────────────────────────────────────
+# Maps per-author work abbreviations found in CCC footnotes to canonical work IDs.
+# CCC footnote patterns: "St. Augustine, Conf. 1, 1, 1: PL 32, 659-661."
+# After matching an author, we look for these abbreviations in the same footnote.
+
+_AUTHOR_WORK_ABBREVS: dict[str, dict[str, str]] = {
+    "augustine": {
+        "Conf.": "confessions",
+        "De civ. Dei": "city-of-god",
+        "De Trin.": "on-the-trinity",
+        "De doctr. chr.": "on-christian-doctrine",
+        "Serm.": "sermons",
+        "En. in Ps.": "enarrations-on-psalms",
+        "Ep.": "letters",
+        "In Jo. ev.": "homilies-on-john",
+        "De cat. rud.": "on-catechizing",
+        "De Gen. ad litt.": "on-genesis",
+        "De mor. eccl.": "on-the-morals-of-the-church",
+        "De virg.": "on-virginity",
+        "De nupt. et concup.": "on-marriage-and-concupiscence",
+        "De lib. arb.": "on-free-will",
+        "De grat. et lib. arb.": "on-grace-and-free-will",
+        "De bapt.": "on-baptism",
+        "De spir. et litt.": "on-the-spirit-and-the-letter",
+        "De nat. et grat.": "on-nature-and-grace",
+        "De cont.": "on-continence",
+        "De bon. coniug.": "on-the-good-of-marriage",
+    },
+    "thomas-aquinas": {
+        "STh": "summa-theologica",
+        "S. Th.": "summa-theologica",
+        "S.Th.": "summa-theologica",
+    },
+    "irenaeus": {
+        "Adv. haeres.": "against-heresies",
+    },
+    "john-chrysostom": {
+        "Hom. in Mt.": "homilies-on-matthew",
+        "Hom. in Jo.": "homilies-on-john",
+        "Hom. in Rom.": "homilies-on-romans",
+        "Hom. in 1 Cor.": "homilies-on-1-corinthians",
+        "Hom. in 2 Cor.": "homilies-on-2-corinthians",
+        "Hom. in Eph.": "homilies-on-ephesians",
+        "Hom. in Heb.": "homilies-on-hebrews",
+        "De sac.": "on-the-priesthood",
+        "De incomprehens.": "on-the-incomprehensible",
+        "De prod. Judae": "on-the-betrayal-of-judas",
+    },
+    "athanasius": {
+        "De inc.": "on-the-incarnation",
+        "Ep. Serap.": "letters-to-serapion",
+    },
+    "basil": {
+        "De Spir. S.": "on-the-holy-spirit",
+        "Adv. Eunom.": "against-eunomius",
+        "Reg. fus.": "longer-rules",
+        "Reg. brev.": "shorter-rules",
+    },
+    "jerome": {
+        "Comm. in Is.": "commentary-on-isaiah",
+        "Comm. in Ezech.": "commentary-on-ezekiel",
+    },
+    "ambrose": {
+        "De Sacr.": "on-the-sacraments",
+        "De Myst.": "on-the-mysteries",
+        "De off.": "on-the-duties",
+        "Exam.": "hexameron",
+        "In Luc.": "commentary-on-luke",
+    },
+    "gregory-nazianzen": {
+        "Or. theol.": "theological-orations",
+        "Or.": "orations",
+    },
+    "gregory-nyssa": {
+        "De vita Mos.": "life-of-moses",
+        "Or. cat.": "catechetical-oration",
+        "Hom. in Cant.": "homilies-on-song-of-songs",
+        "De hom. opif.": "on-the-making-of-man",
+    },
+    "gregory-great": {
+        "Mor.": "moralia-on-job",
+        "Past.": "pastoral-rule",
+        "Hom. in Ev.": "homilies-on-gospels",
+    },
+    "cyril-jerusalem": {
+        "Cat. myst.": "mystagogical-catecheses",
+        "Catech. illum.": "catechetical-lectures",
+    },
+    "cyril-alexandria": {
+        "In Jo. ev.": "commentary-on-john",
+    },
+    "john-damascene": {
+        "De fide orth.": "exposition-of-orthodox-faith",
+    },
+    "leo-great": {
+        "Serm.": "sermons",
+    },
+    "tertullian": {
+        "De orat.": "on-prayer",
+        "De bapt.": "on-baptism",
+        "Apol.": "apologeticum",
+        "De praescr.": "on-prescription",
+        "De res.": "on-the-resurrection",
+    },
+    "origen": {
+        "De princ.": "on-first-principles",
+        "Hom. in Ex.": "homilies-on-exodus",
+        "Hom. in Lev.": "homilies-on-leviticus",
+        "Contra Cels.": "against-celsus",
+    },
+    "cyprian": {
+        "De unit.": "on-the-unity-of-the-church",
+    },
+    "clement-rome": {
+        "Ad Cor.": "first-epistle-to-corinthians",
+    },
+    "ignatius-antioch": {
+        "Ad Eph.": "epistle-to-ephesians",
+        "Ad Magn.": "epistle-to-magnesians",
+        "Ad Rom.": "epistle-to-romans",
+        "Ad Smyrn.": "epistle-to-smyrnaeans",
+        "Ad Trall.": "epistle-to-trallians",
+        "Ad Philad.": "epistle-to-philadelphians",
+    },
+    "polycarp": {
+        "Ad Phil.": "epistle-to-philippians",
+    },
+    "bonaventure": {
+        "In Sent.": "commentary-on-sentences",
+        "Brev.": "breviloquium",
+    },
+    "anselm": {
+        "Prosl.": "proslogion",
+    },
+    "hilary": {
+        "In Mt.": "commentary-on-matthew",
+        "De Trin.": "on-the-trinity",
+    },
+    "clement-alexandria": {
+        "Strom.": "stromata",
+        "Paed.": "paedagogus",
+    },
+    "justin-martyr": {
+        "Dial.": "dialogue-with-trypho",
+    },
+}
+
+# Build per-author work abbreviation regexes for efficient matching
+_AUTHOR_WORK_REGEXES: dict[str, tuple[re.Pattern, dict[str, str]]] = {}
+for _auth_id, _works_map in _AUTHOR_WORK_ABBREVS.items():
+    if _works_map:
+        _sorted_abbrevs_work = sorted(_works_map.keys(), key=len, reverse=True)
+        _work_pattern = "|".join(re.escape(a) for a in _sorted_abbrevs_work)
+        _AUTHOR_WORK_REGEXES[_auth_id] = (
+            re.compile(
+                r"(" + _work_pattern + r")\s*([\dIVXLCDM,\s.\-:]+)",
+                re.UNICODE,
+            ),
+            _works_map,
+        )
+
+
+def _extract_work_info(raw: str, author_id: str) -> tuple[str, str]:
+    """Try to extract work ID and location for a given author from footnote text.
+
+    Returns (work_id, location) or ("", "") if not found.
+    """
+    entry = _AUTHOR_WORK_REGEXES.get(author_id)
+    if not entry:
+        return "", ""
+
+    regex, abbrev_map = entry
+    match = regex.search(raw)
+    if not match:
+        return "", ""
+
+    abbrev = match.group(1)
+    location = match.group(2).strip().rstrip(".,;:")
+    work_id = abbrev_map[abbrev]
+    return work_id, location
+
 # ── Ecclesiastical document lookup ────────────────────────────────────────
 # Maps abbreviation → (canonical_id, display_name)
 # Organized by category for clarity.
@@ -283,6 +464,13 @@ def parse_footnote(raw: str) -> ParsedFootnote:
         if author_id not in seen_authors:
             seen_authors.add(author_id)
             author_refs.append(PatristicReference(author=author_id))
+
+    # Second pass: enhance author references with work abbreviation info
+    for ar in author_refs:
+        work_id, location = _extract_work_info(raw, ar.author)
+        if work_id:
+            ar.work = work_id
+            ar.location = location
 
     # Extract ecclesiastical document references
     document_refs: list[DocumentReference] = []

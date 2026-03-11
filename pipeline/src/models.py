@@ -4,6 +4,32 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 
+# ── Multi-language support ────────────────────────────────────────────────────
+
+# Text stored as dict[lang_code, str] where available.
+# Not all texts exist in all languages.
+MultiLangText = dict[str, str]  # {"en": "...", "la": "...", "pt": "...", "el": "..."}
+
+SUPPORTED_LANGS = ("la", "en", "pt", "el")
+FALLBACK_ORDER = ("la", "en", "pt", "el")  # when preferred lang unavailable
+
+
+def resolve_lang(text: MultiLangText, preferred: str = "en") -> str:
+    """Resolve a MultiLangText to a single string using fallback chain."""
+    if preferred in text and text[preferred]:
+        return text[preferred]
+    for lang in FALLBACK_ORDER:
+        if lang in text and text[lang]:
+            return text[lang]
+    # Return first available
+    for v in text.values():
+        if v:
+            return v
+    return ""
+
+
+# ── Reference models (from footnote parsing) ─────────────────────────────────
+
 
 class BibleReference(BaseModel):
     """A parsed Bible reference from a footnote."""
@@ -17,6 +43,8 @@ class PatristicReference(BaseModel):
     """A parsed patristic author reference from a footnote."""
 
     author: str  # Canonical ID: "augustine", "thomas-aquinas"
+    work: str = ""  # Canonical work ID if resolved
+    location: str = ""  # Specific location within work
 
 
 class DocumentReference(BaseModel):
@@ -34,6 +62,9 @@ class ParsedFootnote(BaseModel):
     bible_refs: list[BibleReference] = []
     author_refs: list[PatristicReference] = []
     document_refs: list[DocumentReference] = []
+
+
+# ── CCC models ────────────────────────────────────────────────────────────────
 
 
 class Paragraph(BaseModel):
@@ -61,36 +92,41 @@ class StructuralNode(BaseModel):
     paragraph_ids: list[int] = []
 
 
+# ── Bible models ──────────────────────────────────────────────────────────────
+
+
 class BibleVerse(BaseModel):
     """A single Bible verse with its text."""
 
     book_id: str  # "matthew"
     chapter: int
     verse: int
-    text: str
+    text: MultiLangText  # {"en": "Blessed are...", "la": "Beati pauperes..."}
 
 
-class DocumentSection(BaseModel):
-    """A numbered section from an ecclesiastical document."""
+class BibleChapter(BaseModel):
+    """A chapter in a Bible book."""
 
-    document_id: str
-    section_num: int
-    text: str
+    book_id: str
+    chapter: int
+    verses: dict[int, MultiLangText] = {}  # verse_num -> MultiLangText
 
 
-class PatristicPassage(BaseModel):
-    """A passage from a Church Father's work."""
+class BibleBookFull(BaseModel):
+    """Full Bible book with all chapters and verses."""
 
-    author_id: str
-    work: str
-    location: str
-    text: str
-    source_url: str = ""
+    id: str
+    name: str
+    abbreviation: str
+    testament: str  # "old" or "new"
+    category: str = ""  # "pentateuch", "historical", "wisdom", "prophetic", "gospel", "epistle", "apocalyptic"
+    chapters: dict[int, BibleChapter] = {}
+    total_verses: int = 0
     citing_paragraphs: list[int] = []
 
 
 class BibleBookSource(BaseModel):
-    """Source data for a Bible book cited by the CCC."""
+    """Source data for a Bible book cited by the CCC (legacy, for backward compat)."""
 
     id: str
     name: str
@@ -98,6 +134,17 @@ class BibleBookSource(BaseModel):
     testament: str  # "old" or "new"
     citing_paragraphs: list[int] = []
     verses: dict[str, str] = {}  # "5:1" -> verse text (only cited verses)
+
+
+# ── Document models ───────────────────────────────────────────────────────────
+
+
+class DocumentSection(BaseModel):
+    """A numbered section from an ecclesiastical document."""
+
+    document_id: str
+    section_num: int
+    text: MultiLangText  # {"en": "...", "la": "...", "pt": "..."}
 
 
 class DocumentSource(BaseModel):
@@ -113,6 +160,49 @@ class DocumentSource(BaseModel):
     sections: dict[str, str] = {}  # "12" -> section text (only cited sections)
 
 
+# ── Patristic models ─────────────────────────────────────────────────────────
+
+
+class PatristicPassage(BaseModel):
+    """A passage from a Church Father's work."""
+
+    author_id: str
+    work: str
+    location: str
+    text: str
+    source_url: str = ""
+    citing_paragraphs: list[int] = []
+
+
+class PatristicSection(BaseModel):
+    """A section within a patristic chapter."""
+
+    id: str
+    chapter_id: str
+    number: int
+    text: MultiLangText  # {"en": "...", "la": "..."} or {"en": "...", "el": "..."}
+
+
+class PatristicChapter(BaseModel):
+    """A chapter within a patristic work."""
+
+    id: str
+    work_id: str
+    number: int
+    title: str = ""
+    sections: list[PatristicSection] = []
+
+
+class PatristicWork(BaseModel):
+    """A complete work by a Church Father."""
+
+    id: str
+    author_id: str
+    title: str
+    source_url: str = ""
+    chapters: list[PatristicChapter] = []
+
+
 class AuthorSource(BaseModel):
     """Source data for a patristic author cited by the CCC."""
 
@@ -123,12 +213,15 @@ class AuthorSource(BaseModel):
     citing_paragraphs: list[int] = []
 
 
+# ── Graph export models ───────────────────────────────────────────────────────
+
+
 class GraphNode(BaseModel):
     """A node in the exported graph."""
 
     id: str
     label: str
-    node_type: str  # "paragraph", "structure", "bible", or "author"
+    node_type: str  # "paragraph", "structure", "bible", "bible-testament", "bible-book", "bible-chapter", "bible-verse", "author", "patristic-work", "document"
     x: float = 0.0
     y: float = 0.0
     size: float = 1.0
@@ -144,7 +237,7 @@ class GraphEdge(BaseModel):
 
     source: str
     target: str
-    edge_type: str  # "cross_reference", "belongs_to", "child_of"
+    edge_type: str  # "cross_reference", "belongs_to", "child_of", "cites", "shared_theme", "bible_cross_reference"
 
 
 class GraphData(BaseModel):

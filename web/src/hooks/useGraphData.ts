@@ -47,6 +47,12 @@ export function useGraphData() {
               } else if (edge.edge_type === "cites") {
                 color = "#59A14F44";
                 size = 0.3;
+              } else if (edge.edge_type === "bible_cross_reference") {
+                color = "#59A14F22";
+                size = 0.15;
+              } else if (edge.edge_type === "shared_theme") {
+                color = "#6A3D9A33";
+                size = 0.25;
               } else {
                 color = "#cccccc44";
                 size = 0.2;

@@ -88,10 +88,19 @@ function GraphReducers({
         if (nodeType === "structure" && !filters.showStructural) {
           return { ...data, hidden: true };
         }
-        if (nodeType === "bible" && !filters.showBibleNodes) {
+        if ((nodeType === "bible" || nodeType === "bible-testament" || nodeType === "bible-book") && !filters.showBibleNodes) {
+          return { ...data, hidden: true };
+        }
+        if (nodeType === "bible-chapter" && !filters.showBibleChapters) {
+          return { ...data, hidden: true };
+        }
+        if (nodeType === "bible-verse" && !filters.showBibleVerses) {
           return { ...data, hidden: true };
         }
         if (nodeType === "author" && !filters.showAuthorNodes) {
+          return { ...data, hidden: true };
+        }
+        if (nodeType === "patristic-work" && !filters.showPatristicWorks) {
           return { ...data, hidden: true };
         }
         if (nodeType === "document" && !filters.showDocumentNodes) {
@@ -150,6 +159,9 @@ function GraphReducers({
           return { ...data, hidden: true };
         }
         if (edgeType === "shared_theme" && !filters.showSharedTheme) {
+          return { ...data, hidden: true };
+        }
+        if (edgeType === "bible_cross_reference" && !filters.showBibleCrossRefs) {
           return { ...data, hidden: true };
         }
 

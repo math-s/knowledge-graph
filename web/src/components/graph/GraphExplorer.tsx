@@ -36,10 +36,20 @@ export default function GraphExplorer() {
 
       // Auto-enable the relevant source filter based on node ID prefix
       const nextFilters = { ...filters, visibleParts: new Set(filters.visibleParts), selectedThemes: new Set(filters.selectedThemes) };
-      if (nodeId.startsWith("bible:")) {
+      if (nodeId.startsWith("bible:") || nodeId.startsWith("bible-book:") || nodeId.startsWith("bible-testament:")) {
         nextFilters.showBibleNodes = true;
+      } else if (nodeId.startsWith("bible-chapter:")) {
+        nextFilters.showBibleNodes = true;
+        nextFilters.showBibleChapters = true;
+      } else if (nodeId.startsWith("bible-verse:")) {
+        nextFilters.showBibleNodes = true;
+        nextFilters.showBibleChapters = true;
+        nextFilters.showBibleVerses = true;
       } else if (nodeId.startsWith("author:")) {
         nextFilters.showAuthorNodes = true;
+      } else if (nodeId.startsWith("patristic-work:")) {
+        nextFilters.showAuthorNodes = true;
+        nextFilters.showPatristicWorks = true;
       } else if (nodeId.startsWith("document:")) {
         nextFilters.showDocumentNodes = true;
       }

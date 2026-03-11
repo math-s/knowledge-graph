@@ -2,6 +2,7 @@
 data/raw/
 data/processed/
 pipeline/data/raw/
+pipeline/data/checkpoints/
 
 # Python
 __pycache__/

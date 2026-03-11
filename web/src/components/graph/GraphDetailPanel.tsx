@@ -36,7 +36,7 @@ function SourcePreview({
 }) {
   const sourceId = nodeId.split(":").slice(1).join(":");
 
-  if (nodeType === "bible") {
+  if (nodeType === "bible" || nodeType === "bible-book") {
     const book = bibleSources[sourceId];
     if (book) {
       const verseKeys = Object.keys(book.verses || {}).slice(0, 3);
@@ -64,6 +64,37 @@ function SourcePreview({
       );
     }
     return <div className="text-sm text-zinc-500">Bible book: {label}</div>;
+  }
+
+  if (nodeType === "bible-testament") {
+    return <div className="text-sm text-zinc-500">Bible: {label}</div>;
+  }
+
+  if (nodeType === "bible-chapter") {
+    // Parse chapter node ID: "bible-chapter:matthew-5" -> bookId=matthew, ch=5
+    const parts = sourceId.split("-");
+    const chNum = parts.pop();
+    const bookId = parts.join("-");
+    return (
+      <div className="space-y-2 text-sm">
+        <div className="text-zinc-500">{label}</div>
+        <Link href={`/bible/${bookId}/${chNum}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+          Read chapter &rarr;
+        </Link>
+      </div>
+    );
+  }
+
+  if (nodeType === "bible-verse") {
+    // Parse verse node ID: "bible-verse:matthew-5:3" -> bookId=matthew, ch=5, v=3
+    return (
+      <div className="space-y-2 text-sm">
+        <div className="text-zinc-500">{label}</div>
+        <Link href={`/verse/${sourceId}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+          View verse &rarr;
+        </Link>
+      </div>
+    );
   }
 
   if (nodeType === "document") {
@@ -120,6 +151,26 @@ function SourcePreview({
     return <div className="text-sm text-zinc-500">Patristic author: {label}</div>;
   }
 
+  if (nodeType === "patristic-work") {
+    // Parse work node ID: "patristic-work:augustine/confessions"
+    const parts = sourceId.split("/");
+    const authorId = parts[0];
+    const workId = parts.slice(1).join("/");
+    return (
+      <div className="space-y-2 text-sm">
+        <div className="text-zinc-500">
+          Work by {authorId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+        </div>
+        <Link
+          href={`/author/${authorId}/work/${workId}`}
+          className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400"
+        >
+          Read work &rarr;
+        </Link>
+      </div>
+    );
+  }
+
   return <div className="text-sm text-zinc-500">{label}</div>;
 }
 
@@ -158,7 +209,7 @@ export default function GraphDetailPanel({
       fetchBibleSources().then(setBibleSources);
     } else if (nType === "document" && Object.keys(documentSources).length === 0) {
       fetchDocumentSources().then(setDocumentSources);
-    } else if (nType === "author" && Object.keys(authorSources).length === 0) {
+    } else if ((nType === "author" || nType === "patristic-work") && Object.keys(authorSources).length === 0) {
       fetchAuthorSources().then(setAuthorSources);
     }
   }, [nodeId, graph, bibleSources, documentSources, authorSources]);
@@ -168,7 +219,7 @@ export default function GraphDetailPanel({
   const attrs = graph.getNodeAttributes(nodeId);
   const nodeType = attrs.node_type;
   const isParagraph = nodeType === "paragraph";
-  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "document";
+  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document";
   const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
   const paraData = paraId ? paragraphs.get(paraId) : null;
 
@@ -201,6 +252,7 @@ export default function GraphDetailPanel({
     belongs_to: "Structure",
     child_of: "Children",
     shared_theme: "Shared Theme",
+    bible_cross_reference: "Bible Cross-References",
   };
   const totalConnections = Object.values(connectionsByType).reduce((s, arr) => s + arr.length, 0);
 
@@ -271,7 +323,9 @@ export default function GraphDetailPanel({
                   ? "Bible Book"
                   : nodeType === "author"
                     ? "Church Father"
-                    : "Ecclesiastical Document"
+                    : nodeType === "patristic-work"
+                      ? "Patristic Work"
+                      : "Ecclesiastical Document"
                 : `Structure (${attrs.level})`}
           </span>
         </div>

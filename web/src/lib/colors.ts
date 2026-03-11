@@ -23,6 +23,19 @@ export const SOURCE_COLORS = {
   document: "#EDC948",
 };
 
+/** Bible hierarchy node colors. */
+export const BIBLE_HIERARCHY_COLORS = {
+  "bible-testament": "#3D7A35",
+  "bible-book": "#59A14F",
+  "bible-chapter": "#7BC474",
+  "bible-verse": "#A3D99B",
+};
+
+/** Patristic hierarchy node colors. */
+export const PATRISTIC_HIERARCHY_COLORS = {
+  "patristic-work": "#9B6AA1",
+};
+
 export const THEME_COLORS: Record<string, string> = {
   trinity: "#6A3D9A",
   eucharist: "#B15928",
@@ -43,4 +56,19 @@ export const THEME_COLORS: Record<string, string> = {
 
 export function getPartColor(part: string): string {
   return PART_COLORS[part] || "#999999";
+}
+
+/** Get color for any node type, including Bible and patristic hierarchy. */
+export function getNodeColor(nodeType: string): string {
+  if (nodeType in BIBLE_HIERARCHY_COLORS) {
+    return BIBLE_HIERARCHY_COLORS[nodeType as keyof typeof BIBLE_HIERARCHY_COLORS];
+  }
+  if (nodeType in PATRISTIC_HIERARCHY_COLORS) {
+    return PATRISTIC_HIERARCHY_COLORS[nodeType as keyof typeof PATRISTIC_HIERARCHY_COLORS];
+  }
+  if (nodeType in SOURCE_COLORS) {
+    return SOURCE_COLORS[nodeType as keyof typeof SOURCE_COLORS];
+  }
+  if (nodeType === "structure") return STRUCTURE_COLOR;
+  return "#999999";
 }

@@ -11,12 +11,14 @@ import networkx as nx
 
 from .models import (
     AuthorSource,
+    BibleBookFull,
     BibleBookSource,
     DocumentSource,
     GraphData,
     GraphEdge,
     GraphNode,
     Paragraph,
+    PatristicWork,
 )
 from .themes import THEME_DEFINITIONS
 
@@ -65,8 +67,17 @@ def export_graph(
         # Size: type-dependent sizing
         if node_type == "structure":
             size = 8.0
-        elif node_type in ("bible", "author", "document"):
-            # Source nodes sized by degree (number of citing paragraphs)
+        elif node_type == "bible-testament":
+            size = 20.0
+        elif node_type in ("bible", "bible-book"):
+            size = max(4.0, min(25.0, 4.0 + degree * 0.04))
+        elif node_type == "bible-chapter":
+            size = max(2.0, min(10.0, 2.0 + degree * 0.02))
+        elif node_type == "bible-verse":
+            size = max(1.0, min(5.0, 1.0 + degree * 0.3))
+        elif node_type == "patristic-work":
+            size = max(3.0, min(12.0, 3.0 + degree * 0.1))
+        elif node_type in ("author", "document"):
             size = max(4.0, min(25.0, 4.0 + degree * 0.04))
         else:
             size = max(2.0, min(15.0, 2.0 + degree * 0.5))
@@ -182,7 +193,7 @@ def export_graph(
     for node_id in G.nodes:
         ndata = G.nodes[node_id]
         ntype = ndata.get("node_type", "")
-        if ntype in ("bible", "author", "document"):
+        if ntype in ("bible", "bible-book", "author", "patristic-work", "document"):
             search_data.append({
                 "id": node_id,
                 "text": ndata.get("label", node_id),
@@ -220,7 +231,7 @@ def export_sources(
     document_sources: dict[str, DocumentSource],
     author_sources: dict[str, AuthorSource],
 ) -> None:
-    """Export source data to JSON files for the web UI."""
+    """Export source data to JSON files for the web UI (legacy format)."""
     WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     # Export sources-bible.json
@@ -243,3 +254,159 @@ def export_sources(
     with open(author_path, "w", encoding="utf-8") as f:
         json.dump(author_data, f, ensure_ascii=False)
     logger.info("Exported sources-authors.json: %d authors", len(author_data))
+
+
+def export_bible_full(
+    bible_books: dict[str, BibleBookFull],
+) -> None:
+    """Export full Bible data with chunked per-book verse files.
+
+    Creates:
+    - sources-bible-meta.json: Lightweight metadata for all 73 books
+    - sources-bible-verses/{book_id}.json: Per-book verse data (lazy-loaded)
+    """
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    verses_dir = WEB_DATA_DIR / "sources-bible-verses"
+    verses_dir.mkdir(parents=True, exist_ok=True)
+
+    # Export metadata (lightweight)
+    meta: dict[str, dict] = {}
+    for book_id, book in bible_books.items():
+        meta[book_id] = {
+            "id": book.id,
+            "name": book.name,
+            "abbreviation": book.abbreviation,
+            "testament": book.testament,
+            "category": book.category,
+            "total_verses": book.total_verses,
+            "total_chapters": len(book.chapters),
+            "citing_paragraphs": book.citing_paragraphs,
+        }
+
+    meta_path = WEB_DATA_DIR / "sources-bible-meta.json"
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False)
+    logger.info("Exported sources-bible-meta.json: %d books", len(meta))
+
+    # Export per-book verse data
+    total_files = 0
+    for book_id, book in bible_books.items():
+        chapters_data: list[dict] = []
+        for ch_num in sorted(book.chapters.keys()):
+            ch = book.chapters[ch_num]
+            verses_data: dict[str, dict[str, str]] = {}
+            for v_num in sorted(ch.verses.keys()):
+                verses_data[str(v_num)] = ch.verses[v_num]
+
+            chapters_data.append({
+                "book_id": book_id,
+                "chapter": ch_num,
+                "verses": verses_data,
+            })
+
+        if chapters_data:
+            book_path = verses_dir / f"{book_id}.json"
+            with open(book_path, "w", encoding="utf-8") as f:
+                json.dump(chapters_data, f, ensure_ascii=False)
+            total_files += 1
+
+    logger.info("Exported %d per-book Bible verse files", total_files)
+
+    # Also export legacy sources-bible.json for backward compatibility
+    legacy_data: dict[str, dict] = {}
+    for book_id, book in bible_books.items():
+        # Only include English text in legacy format, with cited verses only
+        legacy_verses: dict[str, str] = {}
+        for ch_num, ch in book.chapters.items():
+            for v_num, v_text in ch.verses.items():
+                key = f"{ch_num}:{v_num}"
+                # Use English text for legacy format
+                if "en" in v_text:
+                    legacy_verses[key] = v_text["en"]
+
+        legacy_data[book_id] = {
+            "id": book_id,
+            "name": book.name,
+            "abbreviation": book.abbreviation,
+            "testament": book.testament,
+            "citing_paragraphs": book.citing_paragraphs,
+            "verses": legacy_verses,
+        }
+
+    legacy_path = WEB_DATA_DIR / "sources-bible.json"
+    with open(legacy_path, "w", encoding="utf-8") as f:
+        json.dump(legacy_data, f, ensure_ascii=False)
+    logger.info("Exported sources-bible.json (legacy): %d books", len(legacy_data))
+
+
+def export_authors_full(
+    author_sources: dict[str, AuthorSource],
+    patristic_works: dict[str, list[PatristicWork]],
+) -> None:
+    """Export author data with per-author chunked work text files.
+
+    Creates:
+    - sources-authors-meta.json: Lightweight metadata for all authors
+    - sources-authors-works/{author_id}.json: Per-author work data (lazy-loaded)
+    - sources-authors.json: Legacy format (backward compat)
+    """
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    works_dir = WEB_DATA_DIR / "sources-authors-works"
+    works_dir.mkdir(parents=True, exist_ok=True)
+
+    # Export metadata (lightweight)
+    meta: dict[str, dict] = {}
+    for author_id, author in author_sources.items():
+        works = patristic_works.get(author_id, [])
+        meta[author_id] = {
+            "id": author.id,
+            "name": author.name,
+            "era": author.era,
+            "citing_paragraphs": author.citing_paragraphs,
+            "work_count": len(works),
+            "work_titles": [w.title for w in works],
+        }
+
+    meta_path = WEB_DATA_DIR / "sources-authors-meta.json"
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False)
+    logger.info("Exported sources-authors-meta.json: %d authors", len(meta))
+
+    # Export per-author work data (lazy-loaded)
+    total_files = 0
+    for author_id, works in patristic_works.items():
+        if not works:
+            continue
+
+        works_data: list[dict] = []
+        for work in works:
+            chapters_data: list[dict] = []
+            for ch in work.chapters:
+                sections_data: list[dict] = []
+                for sec in ch.sections:
+                    sections_data.append({
+                        "id": sec.id,
+                        "number": sec.number,
+                        "text": sec.text,
+                    })
+                chapters_data.append({
+                    "id": ch.id,
+                    "number": ch.number,
+                    "title": ch.title,
+                    "sections": sections_data,
+                })
+
+            works_data.append({
+                "id": work.id,
+                "title": work.title,
+                "source_url": work.source_url,
+                "chapter_count": len(work.chapters),
+                "chapters": chapters_data,
+            })
+
+        author_path = works_dir / f"{author_id}.json"
+        with open(author_path, "w", encoding="utf-8") as f:
+            json.dump(works_data, f, ensure_ascii=False)
+        total_files += 1
+
+    logger.info("Exported %d per-author work files", total_files)
