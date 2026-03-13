@@ -182,12 +182,12 @@ class TestParseAllFootnotes:
         paras = [
             Paragraph(
                 id=1,
-                text="Test paragraph",
+                text={"en": "Test paragraph"},
                 footnotes=["⇒ Mt 28:19-20", "St. Augustine, Conf. I"],
             ),
             Paragraph(
                 id=2,
-                text="Another paragraph",
+                text={"en": "Another paragraph"},
                 footnotes=["No references here"],
             ),
         ]

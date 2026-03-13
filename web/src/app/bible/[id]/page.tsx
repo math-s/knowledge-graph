@@ -16,8 +16,8 @@ const paragraphMap = new Map<number, ParagraphEntry>(
 // Generate params from graph nodes (always populated) rather than source JSON
 // (which may be empty before the pipeline fetch step runs).
 const bibleNodeIds = graphData.nodes
-  .filter((n) => n.node_type === "bible")
-  .map((n) => n.id.replace("bible:", ""));
+  .filter((n) => n.node_type === "bible-book")
+  .map((n) => n.id.replace("bible-book:", ""));
 
 export function generateStaticParams() {
   return bibleNodeIds.map((id) => ({ id }));
@@ -35,7 +35,7 @@ export default async function BiblePage({
   }
 
   const book = sourceMap[id];
-  const graphNode = graphData.nodes.find((n) => n.id === `bible:${id}`);
+  const graphNode = graphData.nodes.find((n) => n.id === `bible-book:${id}`);
   const label = book?.name || graphNode?.label || id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
   const verseEntries = Object.entries(book?.verses || {}).sort((a, b) => {

@@ -356,7 +356,7 @@ class TestGraphBuilderPatristic:
 
         para = Paragraph(
             id=1,
-            text="Test",
+            text={"en": "Test"},
             parsed_footnotes=[
                 ParsedFootnote(
                     raw="St. Augustine, Conf. 1, 1, 1",

@@ -74,7 +74,7 @@ class TestFetchDocumentTexts:
         for i, (doc_id, abbrev, section) in enumerate(refs, start=1):
             p = Paragraph(
                 id=i,
-                text=f"Test paragraph {i}",
+                text={"en": f"Test paragraph {i}"},
                 parsed_footnotes=[
                     ParsedFootnote(
                         raw="test",
@@ -86,7 +86,7 @@ class TestFetchDocumentTexts:
         return paragraphs
 
     def test_no_refs_returns_empty(self):
-        paras = [Paragraph(id=1, text="No refs")]
+        paras = [Paragraph(id=1, text={"en": "No refs"})]
         result = fetch_document_texts(paras)
         assert result == {}
 
@@ -111,3 +111,14 @@ class TestFetchDocumentTexts:
         assert "denzinger-schonmetzer" in result
         assert result["denzinger-schonmetzer"].fetchable is False
         assert result["denzinger-schonmetzer"].sections == {}
+
+    def test_sections_are_multilang_text(self):
+        """Sections from fetch_document_texts should be MultiLangText dicts."""
+        paras = self._make_paragraphs([
+            ("lumen-gentium", "LG", "12"),
+        ])
+        result = fetch_document_texts(paras)
+        if result and result["lumen-gentium"].sections:
+            for sec_num, sec_text in result["lumen-gentium"].sections.items():
+                assert isinstance(sec_text, dict), f"Section {sec_num} should be a dict (MultiLangText)"
+                assert "en" in sec_text, f"Section {sec_num} should have 'en' key"

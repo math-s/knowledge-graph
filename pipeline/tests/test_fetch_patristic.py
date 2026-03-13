@@ -70,7 +70,7 @@ class TestFetchPatristicTexts:
         for i, author_id in enumerate(refs, start=1):
             p = Paragraph(
                 id=i,
-                text=f"Test paragraph {i}",
+                text={"en": f"Test paragraph {i}"},
                 parsed_footnotes=[
                     ParsedFootnote(
                         raw="test",
@@ -82,7 +82,7 @@ class TestFetchPatristicTexts:
         return paragraphs
 
     def test_no_refs_returns_empty(self):
-        paras = [Paragraph(id=1, text="No refs")]
+        paras = [Paragraph(id=1, text={"en": "No refs"})]
         result = fetch_patristic_texts(paras)
         assert result == {}
 

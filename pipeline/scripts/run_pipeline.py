@@ -33,9 +33,16 @@ from pipeline.src.graph_builder import (
     add_bible_hierarchy,
     add_bible_crossref_edges,
     add_patristic_work_hierarchy,
+    add_document_section_hierarchy,
 )
 from pipeline.src.layout import compute_layout
-from pipeline.src.export import export_graph, export_sources, export_bible_full, export_authors_full
+from pipeline.src.export import (
+    export_graph,
+    export_sources,
+    export_bible_full,
+    export_authors_full,
+    export_documents_full,
+)
 from pipeline.src.fetch_bible import fetch_bible_texts
 from pipeline.src.fetch_documents import fetch_document_texts
 from pipeline.src.fetch_patristic import fetch_patristic_texts
@@ -48,9 +55,9 @@ logger = logging.getLogger(__name__)
 
 CHECKPOINT_DIR = Path(__file__).resolve().parent.parent / "data" / "checkpoints"
 
+TOTAL_STEPS = 14
+
 # ── Step definitions ────────────────────────────────────────────────────────
-# Step 4 is split into 4a-4d so each fetch sub-step gets its own checkpoint.
-# This means if patristic works fails, Bible data is still checkpointed.
 
 STEPS = {
     1:  "Ingest CCC data",
@@ -59,12 +66,14 @@ STEPS = {
     4:  "Fetch legacy sources (Bible KJV, documents, author metadata)",
     5:  "Fetch full Bible (4 languages + cross-refs)",
     6:  "Fetch patristic full-text works",
-    7:  "Build base graph",
-    8:  "Add shared-theme edges",
-    9:  "Add source nodes + hierarchies",
-    10: "Compute layout",
-    11: "Export graph for web",
-    12: "Export source data",
+    7:  "Fetch multilingual documents (La/Pt)",
+    8:  "Fetch multilingual CCC (La/Pt)",
+    9:  "Build base graph",
+    10: "Add shared-theme edges",
+    11: "Add source nodes + hierarchies",
+    12: "Compute layout",
+    13: "Export graph for web",
+    14: "Export source data",
 }
 
 
@@ -122,8 +131,8 @@ def _clean_checkpoints() -> None:
 def _list_steps() -> None:
     """Print step status table."""
     latest = _latest_checkpoint()
-    print("\n  Step  Status                          Description")
-    print("  ----  ------------------------------  ----------------------------------------")
+    print(f"\n  Step  Status                          Description")
+    print(f"  ----  ------------------------------  ----------------------------------------")
     for step, desc in STEPS.items():
         path = _checkpoint_path(step)
         if path.exists():
@@ -214,13 +223,13 @@ examples:
   %(prog)s --only 5         Run only step 5 (load step 4 checkpoint)
   %(prog)s --list           Show which steps are done / pending
   %(prog)s --clean          Delete all checkpoints and start fresh
-  %(prog)s --skip-fetch     Skip all network fetches (steps 4-6)
+  %(prog)s --skip-fetch     Skip all network fetches (steps 4-8)
 
 steps:
-   1  Ingest CCC             5  Fetch full Bible      9  Add source nodes
-   2  Parse footnotes         6  Fetch patristic      10  Compute layout
-   3  Assign themes           7  Build graph          11  Export graph
-   4  Fetch legacy sources    8  Theme edges          12  Export sources
+   1  Ingest CCC             5  Fetch full Bible      9  Build graph          13  Export graph
+   2  Parse footnotes         6  Fetch patristic      10  Theme edges         14  Export sources
+   3  Assign themes           7  Fetch docs multilang 11  Add source nodes
+   4  Fetch legacy sources    8  Fetch CCC multilang  12  Compute layout
         """,
     )
     parser.add_argument(
@@ -245,7 +254,7 @@ steps:
     )
     parser.add_argument(
         "--skip-fetch", action="store_true",
-        help="Skip all network fetching (steps 4-6)",
+        help="Skip all network fetching (steps 4-8)",
     )
     parser.add_argument(
         "--skip-bible-full", action="store_true",
@@ -254,6 +263,10 @@ steps:
     parser.add_argument(
         "--skip-patristic-works", action="store_true",
         help="Skip patristic full-text fetch (step 6)",
+    )
+    parser.add_argument(
+        "--skip-multilang", action="store_true",
+        help="Skip multilingual document and CCC fetches (steps 7-8)",
     )
     # Keep legacy --step flag for backward compat
     parser.add_argument("--step", type=int, default=0, help=argparse.SUPPRESS)
@@ -358,7 +371,7 @@ steps:
 
     if should_run(1):
         t0 = time.time()
-        logger.info("=== Step 1/12: Ingest CCC data ===")
+        logger.info("=== Step 1/%d: Ingest CCC data ===", TOTAL_STEPS)
         paragraphs, structures = run_ingest()
         logger.info("  Step 1 done in %.1fs (%d paragraphs)", time.time() - t0, len(paragraphs))
         _save_checkpoint(1, _current_state())
@@ -371,7 +384,7 @@ steps:
 
     if should_run(2):
         t0 = time.time()
-        logger.info("=== Step 2/12: Parse footnotes ===")
+        logger.info("=== Step 2/%d: Parse footnotes ===", TOTAL_STEPS)
         paragraphs = parse_all_footnotes(paragraphs)
         logger.info("  Step 2 done in %.1fs", time.time() - t0)
         _save_checkpoint(2, _current_state())
@@ -380,7 +393,7 @@ steps:
 
     if should_run(3):
         t0 = time.time()
-        logger.info("=== Step 3/12: Assign themes ===")
+        logger.info("=== Step 3/%d: Assign themes ===", TOTAL_STEPS)
         paragraphs = assign_themes(paragraphs)
         logger.info("  Step 3 done in %.1fs", time.time() - t0)
         _save_checkpoint(3, _current_state())
@@ -392,9 +405,9 @@ steps:
     if should_run(4):
         t0 = time.time()
         if args.skip_fetch:
-            logger.info("=== Step 4/12: Fetch legacy sources (SKIPPED — --skip-fetch) ===")
+            logger.info("=== Step 4/%d: Fetch legacy sources (SKIPPED — --skip-fetch) ===", TOTAL_STEPS)
         else:
-            logger.info("=== Step 4/12: Fetch legacy sources ===")
+            logger.info("=== Step 4/%d: Fetch legacy sources ===", TOTAL_STEPS)
             bible_sources = fetch_bible_texts(paragraphs)
             logger.info("  Fetched %d Bible book sources", len(bible_sources))
             document_sources = fetch_document_texts(paragraphs)
@@ -411,9 +424,9 @@ steps:
     if should_run(5):
         t0 = time.time()
         if args.skip_fetch or args.skip_bible_full:
-            logger.info("=== Step 5/12: Fetch full Bible (SKIPPED) ===")
+            logger.info("=== Step 5/%d: Fetch full Bible (SKIPPED) ===", TOTAL_STEPS)
         else:
-            logger.info("=== Step 5/12: Fetch full Bible (4 languages) ===")
+            logger.info("=== Step 5/%d: Fetch full Bible (4 languages) ===", TOTAL_STEPS)
             bible_full = _fetch_full_bible()
 
             logger.info("--- Fetching Bible cross-references (TSK) ---")
@@ -440,41 +453,81 @@ steps:
     if should_run(6):
         t0 = time.time()
         if args.skip_fetch or args.skip_patristic_works:
-            logger.info("=== Step 6/12: Fetch patristic works (SKIPPED) ===")
+            logger.info("=== Step 6/%d: Fetch patristic works (SKIPPED) ===", TOTAL_STEPS)
         elif author_sources:
-            logger.info("=== Step 6/12: Fetch patristic full-text works ===")
+            logger.info("=== Step 6/%d: Fetch patristic full-text works ===", TOTAL_STEPS)
             from pipeline.src.fetch_patristic_works import fetch_patristic_works
             patristic_works = fetch_patristic_works(author_sources)
             total_works = sum(len(ws) for ws in patristic_works.values())
             logger.info("  Fetched %d works across %d authors", total_works, len(patristic_works))
+
+            # Fetch Latin originals for Latin Fathers and merge
+            if patristic_works and not args.skip_multilang:
+                logger.info("--- Fetching Latin patristic texts ---")
+                from pipeline.src.fetch_patristic_latin import fetch_patristic_latin
+                patristic_works = fetch_patristic_latin(patristic_works)
+
+                logger.info("--- Fetching Greek patristic texts ---")
+                from pipeline.src.fetch_patristic_greek import fetch_patristic_greek
+                patristic_works = fetch_patristic_greek(patristic_works)
         else:
-            logger.info("=== Step 6/12: Fetch patristic works (no author sources — skipped) ===")
+            logger.info("=== Step 6/%d: Fetch patristic works (no author sources — skipped) ===", TOTAL_STEPS)
         logger.info("  Step 6 done in %.1fs", time.time() - t0)
         _save_checkpoint(6, _current_state())
 
-    # ── Step 7: Build base graph ────────────────────────────────────────────
+    # ── Step 7: Fetch multilingual documents (La/Pt) ─────────────────────────
+    # Downloads Latin and Portuguese editions of existing documents from Vatican.va.
 
     if should_run(7):
         t0 = time.time()
-        logger.info("=== Step 7/12: Build base graph ===")
-        G = build_graph(paragraphs, structures)
-        logger.info("  Step 7 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
+        if args.skip_fetch or args.skip_multilang:
+            logger.info("=== Step 7/%d: Fetch multilingual documents (SKIPPED) ===", TOTAL_STEPS)
+        elif document_sources:
+            logger.info("=== Step 7/%d: Fetch multilingual documents (La/Pt) ===", TOTAL_STEPS)
+            from pipeline.src.fetch_documents_multilang import fetch_documents_multilang
+            document_sources = fetch_documents_multilang(document_sources)
+        else:
+            logger.info("=== Step 7/%d: Fetch multilingual documents (no documents — skipped) ===", TOTAL_STEPS)
+        logger.info("  Step 7 done in %.1fs", time.time() - t0)
         _save_checkpoint(7, _current_state())
 
-    # ── Step 8: Add shared-theme edges ──────────────────────────────────────
+    # ── Step 8: Fetch multilingual CCC (La/Pt) ──────────────────────────────
+    # Scrapes Vatican.va for Latin and Portuguese CCC paragraphs.
 
     if should_run(8):
         t0 = time.time()
-        logger.info("=== Step 8/12: Add shared-theme edges ===")
-        G = add_shared_theme_edges(G, paragraphs)
-        logger.info("  Step 8 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
+        if args.skip_fetch or args.skip_multilang:
+            logger.info("=== Step 8/%d: Fetch multilingual CCC (SKIPPED) ===", TOTAL_STEPS)
+        else:
+            logger.info("=== Step 8/%d: Fetch multilingual CCC (La/Pt) ===", TOTAL_STEPS)
+            from pipeline.src.fetch_ccc_multilang import fetch_ccc_multilang
+            paragraphs = fetch_ccc_multilang(paragraphs)
+        logger.info("  Step 8 done in %.1fs", time.time() - t0)
         _save_checkpoint(8, _current_state())
 
-    # ── Step 9: Add source nodes + hierarchies ──────────────────────────────
+    # ── Step 9: Build base graph ────────────────────────────────────────────
 
     if should_run(9):
         t0 = time.time()
-        logger.info("=== Step 9/12: Add source nodes ===")
+        logger.info("=== Step 9/%d: Build base graph ===", TOTAL_STEPS)
+        G = build_graph(paragraphs, structures)
+        logger.info("  Step 9 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
+        _save_checkpoint(9, _current_state())
+
+    # ── Step 10: Add shared-theme edges ──────────────────────────────────────
+
+    if should_run(10):
+        t0 = time.time()
+        logger.info("=== Step 10/%d: Add shared-theme edges ===", TOTAL_STEPS)
+        G = add_shared_theme_edges(G, paragraphs)
+        logger.info("  Step 10 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
+        _save_checkpoint(10, _current_state())
+
+    # ── Step 11: Add source nodes + hierarchies ──────────────────────────────
+
+    if should_run(11):
+        t0 = time.time()
+        logger.info("=== Step 11/%d: Add source nodes + hierarchies ===", TOTAL_STEPS)
         G = add_source_nodes(G, paragraphs)
 
         if bible_full:
@@ -487,32 +540,36 @@ steps:
             logger.info("--- Adding patristic work hierarchy ---")
             G = add_patristic_work_hierarchy(G, patristic_works, paragraphs)
 
-        logger.info("  Step 9 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
-        _save_checkpoint(9, _current_state())
+        if document_sources:
+            logger.info("--- Adding document section hierarchy ---")
+            G = add_document_section_hierarchy(G, document_sources, paragraphs)
 
-    # ── Step 10: Compute layout ─────────────────────────────────────────────
-
-    if should_run(10):
-        t0 = time.time()
-        logger.info("=== Step 10/12: Compute layout ===")
-        positions = compute_layout(G)
-        logger.info("  Step 10 done in %.1fs", time.time() - t0)
-        _save_checkpoint(10, _current_state())
-
-    # ── Step 11: Export graph for web ───────────────────────────────────────
-
-    if should_run(11):
-        t0 = time.time()
-        logger.info("=== Step 11/12: Export graph for web ===")
-        export_graph(G, positions, paragraphs)
-        logger.info("  Step 11 done in %.1fs", time.time() - t0)
+        logger.info("  Step 11 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
         _save_checkpoint(11, _current_state())
 
-    # ── Step 12: Export source data ─────────────────────────────────────────
+    # ── Step 12: Compute layout ─────────────────────────────────────────────
 
     if should_run(12):
         t0 = time.time()
-        logger.info("=== Step 12/12: Export source data ===")
+        logger.info("=== Step 12/%d: Compute layout ===", TOTAL_STEPS)
+        positions = compute_layout(G)
+        logger.info("  Step 12 done in %.1fs", time.time() - t0)
+        _save_checkpoint(12, _current_state())
+
+    # ── Step 13: Export graph for web ───────────────────────────────────────
+
+    if should_run(13):
+        t0 = time.time()
+        logger.info("=== Step 13/%d: Export graph for web ===", TOTAL_STEPS)
+        export_graph(G, positions, paragraphs)
+        logger.info("  Step 13 done in %.1fs", time.time() - t0)
+        _save_checkpoint(13, _current_state())
+
+    # ── Step 14: Export source data ─────────────────────────────────────────
+
+    if should_run(14):
+        t0 = time.time()
+        logger.info("=== Step 14/%d: Export source data ===", TOTAL_STEPS)
         export_sources(bible_sources, document_sources, author_sources)
 
         if bible_full:
@@ -523,7 +580,11 @@ steps:
             logger.info("--- Exporting patristic works (chunked per-author) ---")
             export_authors_full(author_sources, patristic_works)
 
-        logger.info("  Step 12 done in %.1fs", time.time() - t0)
+        if document_sources:
+            logger.info("--- Exporting documents (chunked per-document) ---")
+            export_documents_full(document_sources)
+
+        logger.info("  Step 14 done in %.1fs", time.time() - t0)
 
     # ── Summary ─────────────────────────────────────────────────────────────
 

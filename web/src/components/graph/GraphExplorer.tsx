@@ -50,6 +50,9 @@ export default function GraphExplorer() {
       } else if (nodeId.startsWith("patristic-work:")) {
         nextFilters.showAuthorNodes = true;
         nextFilters.showPatristicWorks = true;
+      } else if (nodeId.startsWith("document-section:")) {
+        nextFilters.showDocumentNodes = true;
+        nextFilters.showDocumentSections = true;
       } else if (nodeId.startsWith("document:")) {
         nextFilters.showDocumentNodes = true;
       }

@@ -74,7 +74,9 @@ def _pre_position_clusters(G: nx.Graph) -> dict[str, tuple[float, float]]:
         "bible-chapter": (spread * 1.2, 0.2 * spread),
         "bible-verse": (spread * 1.2, 0.2 * spread),
         "author": (-spread * 0.8, spread * 0.5),
+        "patristic-work": (-spread * 0.8, spread * 0.5),
         "document": (spread * 0.3, -spread * 0.8),
+        "document-section": (spread * 0.3, -spread * 0.8),
     }
 
     import random

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, THEME_COLORS } from "@/lib/colors";
+import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, THEME_COLORS } from "@/lib/colors";
 import type { ThemeDefinition } from "@/lib/types";
 import { fetchThemes } from "@/lib/graph-data";
 
@@ -14,6 +14,7 @@ export interface GraphFilters {
   showAuthorNodes: boolean;
   showPatristicWorks: boolean;
   showDocumentNodes: boolean;
+  showDocumentSections: boolean;
   showCrossRefs: boolean;
   showCites: boolean;
   showBelongsTo: boolean;
@@ -32,6 +33,7 @@ export const DEFAULT_FILTERS: GraphFilters = {
   showAuthorNodes: false,
   showPatristicWorks: false,
   showDocumentNodes: false,
+  showDocumentSections: false,
   showCrossRefs: true,
   showCites: true,
   showBelongsTo: true,
@@ -49,6 +51,7 @@ function filtersMatchDefaults(filters: GraphFilters): boolean {
   if (filters.showAuthorNodes !== DEFAULT_FILTERS.showAuthorNodes) return false;
   if (filters.showPatristicWorks !== DEFAULT_FILTERS.showPatristicWorks) return false;
   if (filters.showDocumentNodes !== DEFAULT_FILTERS.showDocumentNodes) return false;
+  if (filters.showDocumentSections !== DEFAULT_FILTERS.showDocumentSections) return false;
   if (filters.showCrossRefs !== DEFAULT_FILTERS.showCrossRefs) return false;
   if (filters.showCites !== DEFAULT_FILTERS.showCites) return false;
   if (filters.showBelongsTo !== DEFAULT_FILTERS.showBelongsTo) return false;
@@ -276,6 +279,28 @@ export default function FilterPanel({
                 Ecclesiastical Documents
               </span>
             </label>
+            {filters.showDocumentNodes && (
+              <label className="ml-4 flex items-center gap-2 text-xs">
+                <input
+                  type="checkbox"
+                  checked={filters.showDocumentSections}
+                  onChange={() =>
+                    onFiltersChange({
+                      ...filters,
+                      showDocumentSections: !filters.showDocumentSections,
+                    })
+                  }
+                  className="rounded"
+                />
+                <span
+                  className="inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: DOCUMENT_HIERARCHY_COLORS["document-section"] }}
+                />
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  Sections
+                </span>
+              </label>
+            )}
           </div>
 
           <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">

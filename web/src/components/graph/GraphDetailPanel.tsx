@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Graph from "graphology";
 import type { AuthorData, BibleBookData, DocumentData, ParagraphData } from "@/lib/types";
-import { t, tArr } from "@/lib/types";
+import { t, tArr, resolveLang } from "@/lib/types";
 import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchParagraphs } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
@@ -108,12 +108,15 @@ function SourcePreview({
             {" \u00b7 "}
             {doc.citing_paragraphs.length} citing paragraphs
           </div>
-          {firstSection && (
-            <div className="rounded bg-amber-50/50 p-2 text-xs dark:bg-amber-900/10">
-              <span className="font-semibold text-amber-800 dark:text-amber-300">{doc.abbreviation} {firstSection[0]}</span>{" "}
-              <span className="text-zinc-600 dark:text-zinc-400">{firstSection[1].slice(0, 150)}{firstSection[1].length > 150 ? "..." : ""}</span>
-            </div>
-          )}
+          {firstSection && (() => {
+            const sectionText = typeof firstSection[1] === "string" ? firstSection[1] : resolveLang(firstSection[1], "en");
+            return (
+              <div className="rounded bg-amber-50/50 p-2 text-xs dark:bg-amber-900/10">
+                <span className="font-semibold text-amber-800 dark:text-amber-300">{doc.abbreviation} {firstSection[0]}</span>{" "}
+                <span className="text-zinc-600 dark:text-zinc-400">{sectionText.slice(0, 150)}{sectionText.length > 150 ? "..." : ""}</span>
+              </div>
+            );
+          })()}
           {!doc.fetchable && (
             <div className="text-xs text-amber-600 dark:text-amber-400">Print reference collection</div>
           )}
@@ -171,6 +174,24 @@ function SourcePreview({
     );
   }
 
+  if (nodeType === "document-section") {
+    // Parse section node ID: "document-section:lumen-gentium/12"
+    const slashIdx = sourceId.indexOf("/");
+    const docId = slashIdx >= 0 ? sourceId.slice(0, slashIdx) : sourceId;
+    const secNum = slashIdx >= 0 ? sourceId.slice(slashIdx + 1) : "";
+    return (
+      <div className="space-y-2 text-sm">
+        <div className="text-zinc-500">{label}</div>
+        <Link
+          href={`/document/${docId}`}
+          className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400"
+        >
+          View document &rarr;
+        </Link>
+      </div>
+    );
+  }
+
   return <div className="text-sm text-zinc-500">{label}</div>;
 }
 
@@ -219,7 +240,7 @@ export default function GraphDetailPanel({
   const attrs = graph.getNodeAttributes(nodeId);
   const nodeType = attrs.node_type;
   const isParagraph = nodeType === "paragraph";
-  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document";
+  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document" || nodeType === "document-section";
   const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
   const paraData = paraId ? paragraphs.get(paraId) : null;
 

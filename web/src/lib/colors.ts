@@ -36,6 +36,11 @@ export const PATRISTIC_HIERARCHY_COLORS = {
   "patristic-work": "#9B6AA1",
 };
 
+/** Document hierarchy node colors. */
+export const DOCUMENT_HIERARCHY_COLORS = {
+  "document-section": "#F5DD7A",
+};
+
 export const THEME_COLORS: Record<string, string> = {
   trinity: "#6A3D9A",
   eucharist: "#B15928",
@@ -65,6 +70,9 @@ export function getNodeColor(nodeType: string): string {
   }
   if (nodeType in PATRISTIC_HIERARCHY_COLORS) {
     return PATRISTIC_HIERARCHY_COLORS[nodeType as keyof typeof PATRISTIC_HIERARCHY_COLORS];
+  }
+  if (nodeType in DOCUMENT_HIERARCHY_COLORS) {
+    return DOCUMENT_HIERARCHY_COLORS[nodeType as keyof typeof DOCUMENT_HIERARCHY_COLORS];
   }
   if (nodeType in SOURCE_COLORS) {
     return SOURCE_COLORS[nodeType as keyof typeof SOURCE_COLORS];

@@ -319,7 +319,7 @@ def parse_ccc(raw_path: Path) -> tuple[list[Paragraph], list[StructuralNode]]:
 
         paragraphs.append(Paragraph(
             id=para_id,
-            text=raw["text"],
+            text={"en": raw["text"]},
             cross_references=sorted(cross_ref_map.get(para_id, set())),
             footnotes=footnote_texts,
             part=hier.get("part", ""),

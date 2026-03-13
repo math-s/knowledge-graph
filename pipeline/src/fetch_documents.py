@@ -348,21 +348,21 @@ def fetch_document_texts(paragraphs: list[Paragraph]) -> dict[str, DocumentSourc
         url = meta.get("url", "")
         fetchable = category not in _UNFETCHABLE_CATEGORIES and bool(url)
 
-        sections: dict[str, str] = {}
+        sections: dict[str, dict[str, str]] = {}
         if fetchable:
             html = _download_document(doc_id, url)
             if html:
                 all_sections = _parse_sections(html)
-                # Only keep cited sections
+                # Only keep cited sections — wrap as MultiLangText {"en": text}
                 cited = doc_sections_cited.get(doc_id, set())
                 if cited:
                     for sec_num in cited:
                         if sec_num in all_sections:
-                            sections[sec_num] = all_sections[sec_num]
+                            sections[sec_num] = {"en": all_sections[sec_num]}
                 # If no specific sections were cited, keep first 10 as preview
                 if not sections and all_sections:
                     for key in sorted(all_sections.keys(), key=lambda x: int(x) if x.isdigit() else 0)[:10]:
-                        sections[key] = all_sections[key]
+                        sections[key] = {"en": all_sections[key]}
 
         citing = sorted(doc_citing.get(doc_id, set()))
         result[doc_id] = DocumentSource(

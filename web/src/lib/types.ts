@@ -11,7 +11,8 @@ export interface GraphNode {
     | "bible-verse"
     | "author"
     | "patristic-work"
-    | "document";
+    | "document"
+    | "document-section";
   x: number;
   y: number;
   size: number;
@@ -189,8 +190,22 @@ export interface DocumentData {
   source_url: string;
   fetchable: boolean;
   citing_paragraphs: number[];
-  sections: Record<string, string>;
+  sections: Record<string, string | MultiLangText>;
 }
+
+export interface DocumentMeta {
+  id: string;
+  name: string;
+  abbreviation: string;
+  category: string;
+  source_url: string;
+  fetchable: boolean;
+  citing_paragraphs: number[];
+  section_count: number;
+  available_langs: string[];
+}
+
+export type DocumentSectionData = Record<string, MultiLangText>;
 
 // ── Author data ───────────────────────────────────────────────────────────────
 

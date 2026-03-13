@@ -17,7 +17,7 @@ class TestKeywordMatch:
         paras = [
             Paragraph(
                 id=9999,
-                text="The Eucharist is the source and summit of the Christian life.",
+                text={"en": "The Eucharist is the source and summit of the Christian life."},
             )
         ]
         assign_themes(paras)
@@ -25,7 +25,7 @@ class TestKeywordMatch:
 
     def test_trinity_keyword(self):
         paras = [
-            Paragraph(id=9999, text="The mystery of the Holy Trinity is central.")
+            Paragraph(id=9999, text={"en": "The mystery of the Holy Trinity is central."})
         ]
         assign_themes(paras)
         assert "trinity" in paras[0].themes
@@ -34,13 +34,27 @@ class TestKeywordMatch:
         paras = [
             Paragraph(
                 id=9999,
-                text="Baptism and the Eucharist are sacraments of initiation.",
+                text={"en": "Baptism and the Eucharist are sacraments of initiation."},
             )
         ]
         assign_themes(paras)
         assert "baptism" in paras[0].themes
         assert "eucharist" in paras[0].themes
         assert "sacraments" in paras[0].themes
+
+    def test_multilang_text_uses_english(self):
+        """Theme assignment should use English text even with other languages present."""
+        paras = [
+            Paragraph(
+                id=9999,
+                text={
+                    "en": "The Eucharist is the source and summit of the Christian life.",
+                    "la": "Eucharistia est fons et culmen totius vitae christianae.",
+                },
+            )
+        ]
+        assign_themes(paras)
+        assert "eucharist" in paras[0].themes
 
 
 class TestRangeMatch:
@@ -50,7 +64,7 @@ class TestRangeMatch:
         paras = [
             Paragraph(
                 id=1350,
-                text="This paragraph discusses the celebration.",
+                text={"en": "This paragraph discusses the celebration."},
             )
         ]
         assign_themes(paras)
@@ -58,14 +72,14 @@ class TestRangeMatch:
 
     def test_baptism_range(self):
         paras = [
-            Paragraph(id=1250, text="A paragraph about the rite.")
+            Paragraph(id=1250, text={"en": "A paragraph about the rite."})
         ]
         assign_themes(paras)
         assert "baptism" in paras[0].themes
 
     def test_outside_range(self):
         paras = [
-            Paragraph(id=50, text="A paragraph about general topics.")
+            Paragraph(id=50, text={"en": "A paragraph about general topics."})
         ]
         assign_themes(paras)
         assert "eucharist" not in paras[0].themes
@@ -79,7 +93,7 @@ class TestNoFalsePositives:
         paras = [
             Paragraph(
                 id=9998,
-                text="The dignity of the human person is rooted in creation.",
+                text={"en": "The dignity of the human person is rooted in creation."},
             )
         ]
         assign_themes(paras)

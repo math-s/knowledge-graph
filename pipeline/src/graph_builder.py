@@ -8,7 +8,7 @@ from itertools import combinations
 
 import networkx as nx
 
-from .models import BibleBookFull, Paragraph, PatristicWork, StructuralNode
+from .models import BibleBookFull, DocumentSource, Paragraph, PatristicWork, StructuralNode, resolve_lang
 from .fetch_bible import parse_reference
 
 logger = logging.getLogger(__name__)
@@ -46,7 +46,7 @@ def build_graph(
             chapter=p.chapter,
             article=p.article,
             color=_assign_part_color(p.part),
-            text_preview=p.text[:150] if p.text else "",
+            text_preview=resolve_lang(p.text, "en")[:150] if p.text else "",
         )
 
     # Add structural nodes
@@ -139,6 +139,11 @@ BIBLE_HIERARCHY_COLORS = {
 # Patristic hierarchy colors
 PATRISTIC_HIERARCHY_COLORS = {
     "patristic-work": "#9B6AA1",  # Lighter purple than author (#B07AA1)
+}
+
+# Document hierarchy colors
+DOCUMENT_HIERARCHY_COLORS = {
+    "document-section": "#F5DD7A",  # Lighter amber than document (#EDC948)
 }
 
 
@@ -437,4 +442,63 @@ def add_patristic_work_hierarchy(
                             cites_count += 1
 
     logger.info("Added %d CCC-to-work cites edges", cites_count)
+    return G
+
+
+def add_document_section_hierarchy(
+    G: nx.Graph,
+    document_sources: dict[str, DocumentSource],
+    paragraphs: list[Paragraph],
+) -> nx.Graph:
+    """Add document section nodes with child_of edges to document nodes.
+
+    Creates document-section:{doc_id}/{section_num} nodes linked to their
+    document:{doc_id} parent. Rewires CCC cites edges to section-level
+    nodes where the footnote parser resolved a specific section.
+    """
+    if not document_sources:
+        logger.info("No document sources — skipping section hierarchy")
+        return G
+
+    section_count = 0
+    for doc_id, doc in document_sources.items():
+        doc_node = f"document:{doc_id}"
+        if not G.has_node(doc_node):
+            continue
+
+        for sec_num in doc.sections:
+            sec_node = f"document-section:{doc_id}/{sec_num}"
+            G.add_node(
+                sec_node,
+                node_type="document-section",
+                label=f"{doc.abbreviation} {sec_num}",
+                color=DOCUMENT_HIERARCHY_COLORS["document-section"],
+                document_id=doc_id,
+            )
+            G.add_edge(sec_node, doc_node, edge_type="child_of")
+            section_count += 1
+
+    logger.info("Added %d document section nodes", section_count)
+
+    # Rewire CCC cites edges to section-level nodes where possible
+    section_nodes = {
+        n for n in G.nodes if G.nodes[n].get("node_type") == "document-section"
+    }
+
+    cites_count = 0
+    for p in paragraphs:
+        para_node = f"p:{p.id}"
+        if not G.has_node(para_node):
+            continue
+
+        for pf in p.parsed_footnotes:
+            for dr in pf.document_refs:
+                if dr.section:
+                    sec_node = f"document-section:{dr.document}/{dr.section}"
+                    if sec_node in section_nodes:
+                        if not G.has_edge(para_node, sec_node):
+                            G.add_edge(para_node, sec_node, edge_type="cites")
+                            cites_count += 1
+
+    logger.info("Added %d CCC-to-section cites edges", cites_count)
     return G

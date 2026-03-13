@@ -361,7 +361,7 @@ class TestGraphBuilderBible:
 
         para = Paragraph(
             id=1,
-            text="Test",
+            text={"en": "Test"},
             parsed_footnotes=[
                 ParsedFootnote(
                     raw="test",

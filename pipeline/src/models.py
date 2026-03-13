@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 # ── Multi-language support ────────────────────────────────────────────────────
 
@@ -71,7 +71,7 @@ class Paragraph(BaseModel):
     """A CCC paragraph with its text and cross-references."""
 
     id: int
-    text: str
+    text: MultiLangText  # {"en": "...", "la": "...", "pt": "..."}
     cross_references: list[int] = []
     footnotes: list[str] = []
     parsed_footnotes: list[ParsedFootnote] = []
@@ -157,7 +157,19 @@ class DocumentSource(BaseModel):
     source_url: str = ""
     fetchable: bool = True
     citing_paragraphs: list[int] = []
-    sections: dict[str, str] = {}  # "12" -> section text (only cited sections)
+    sections: dict[str, MultiLangText] = {}  # "12" -> {"en": "...", "la": "...", "pt": "..."}
+
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize_sections(cls, data: dict) -> dict:  # type: ignore[override]
+        """Wrap any plain-string section values as {"en": text}."""
+        secs = data.get("sections")
+        if isinstance(secs, dict):
+            data["sections"] = {
+                k: {"en": v} if isinstance(v, str) else v
+                for k, v in secs.items()
+            }
+        return data
 
 
 # ── Patristic models ─────────────────────────────────────────────────────────
@@ -221,7 +233,7 @@ class GraphNode(BaseModel):
 
     id: str
     label: str
-    node_type: str  # "paragraph", "structure", "bible", "bible-testament", "bible-book", "bible-chapter", "bible-verse", "author", "patristic-work", "document"
+    node_type: str  # "paragraph", "structure", "bible", "bible-testament", "bible-book", "bible-chapter", "bible-verse", "author", "patristic-work", "document", "document-section"
     x: float = 0.0
     y: float = 0.0
     size: float = 1.0

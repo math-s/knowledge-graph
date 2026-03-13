@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 
-from .models import Paragraph
+from .models import Paragraph, resolve_lang
 
 logger = logging.getLogger(__name__)
 
@@ -141,7 +141,7 @@ def assign_themes(paragraphs: list[Paragraph]) -> list[Paragraph]:
 
     for para in paragraphs:
         themes: list[str] = []
-        text_lower = para.text.lower()
+        text_lower = resolve_lang(para.text, "en").lower()
 
         for theme in THEME_DEFINITIONS:
             matched = False

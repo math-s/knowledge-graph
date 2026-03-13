@@ -15,10 +15,10 @@ help: ## Show this help
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 	@echo "  Pipeline steps:"
-	@echo "    1  Ingest CCC            5  Fetch full Bible    9  Source nodes"
-	@echo "    2  Parse footnotes       6  Fetch patristic    10  Compute layout"
-	@echo "    3  Assign themes         7  Build graph        11  Export graph"
-	@echo "    4  Fetch legacy sources  8  Theme edges        12  Export sources"
+	@echo "    1  Ingest CCC            5  Fetch full Bible     9  Build graph       13  Export graph"
+	@echo "    2  Parse footnotes       6  Fetch patristic     10  Theme edges       14  Export sources"
+	@echo "    3  Assign themes         7  Fetch docs multilang 11  Source nodes"
+	@echo "    4  Fetch legacy sources  8  Fetch CCC multilang 12  Compute layout"
 	@echo ""
 
 install: ## Install pipeline + web dependencies

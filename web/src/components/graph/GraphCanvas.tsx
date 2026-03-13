@@ -106,6 +106,9 @@ function GraphReducers({
         if (nodeType === "document" && !filters.showDocumentNodes) {
           return { ...data, hidden: true };
         }
+        if (nodeType === "document-section" && !filters.showDocumentSections) {
+          return { ...data, hidden: true };
+        }
         if (nodeType === "paragraph" && part && !filters.visibleParts.has(part)) {
           return { ...data, hidden: true };
         }

@@ -5,6 +5,8 @@ import type {
   BibleBookMeta,
   BibleChapterData,
   DocumentData,
+  DocumentMeta,
+  DocumentSectionData,
   GraphData,
   ParagraphData,
   PatristicWorkData,
@@ -58,6 +60,23 @@ export async function fetchBibleBookVerses(bookId: string): Promise<BibleChapter
 
 export async function fetchDocumentSources(): Promise<Record<string, DocumentData>> {
   const res = await fetch(`${BASE_PATH}/data/sources-documents.json`);
+  return res.json();
+}
+
+/** Fetch lightweight document metadata (no section text). */
+export async function fetchDocumentMeta(): Promise<Record<string, DocumentMeta>> {
+  const res = await fetch(`${BASE_PATH}/data/sources-documents-meta.json`);
+  if (!res.ok) {
+    // Fallback to legacy sources-documents.json
+    return fetchDocumentSources() as unknown as Promise<Record<string, DocumentMeta>>;
+  }
+  return res.json();
+}
+
+/** Fetch section data for a specific document (lazy-loaded). */
+export async function fetchDocumentSections(docId: string): Promise<DocumentSectionData | null> {
+  const res = await fetch(`${BASE_PATH}/data/sources-documents-sections/${docId}.json`);
+  if (!res.ok) return null;
   return res.json();
 }
 

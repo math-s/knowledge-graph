@@ -51,7 +51,7 @@ class TestFetchBibleTexts:
         for i, (book, abbrev, ref) in enumerate(refs, start=1):
             p = Paragraph(
                 id=i,
-                text=f"Test paragraph {i}",
+                text={"en": f"Test paragraph {i}"},
                 parsed_footnotes=[
                     ParsedFootnote(
                         raw="test",
@@ -78,7 +78,7 @@ class TestFetchBibleTexts:
 
     def test_no_refs_returns_empty(self):
         """No Bible references should return empty dict."""
-        paras = [Paragraph(id=1, text="No refs")]
+        paras = [Paragraph(id=1, text={"en": "No refs"})]
         result = fetch_bible_texts(paras)
         assert result == {}
 

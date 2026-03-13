@@ -19,6 +19,7 @@ from .models import (
     GraphNode,
     Paragraph,
     PatristicWork,
+    resolve_lang,
 )
 from .themes import THEME_DEFINITIONS
 
@@ -26,6 +27,18 @@ logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 WEB_DATA_DIR = PROJECT_ROOT / "web" / "public" / "data"
+
+
+def _normalize_doc_sections(doc: DocumentSource) -> None:
+    """Wrap any plain-string section values as {"en": text} in place.
+
+    Old pickled checkpoints may store sections as dict[str, str] instead of
+    dict[str, MultiLangText].  This ensures consistent typing before export.
+    """
+    doc.sections = {
+        k: {"en": v} if isinstance(v, str) else v
+        for k, v in doc.sections.items()
+    }
 
 
 def compute_communities(G: nx.Graph) -> dict[str, int]:
@@ -77,6 +90,8 @@ def export_graph(
             size = max(1.0, min(5.0, 1.0 + degree * 0.3))
         elif node_type == "patristic-work":
             size = max(3.0, min(12.0, 3.0 + degree * 0.1))
+        elif node_type == "document-section":
+            size = max(2.0, min(8.0, 2.0 + degree * 0.15))
         elif node_type in ("author", "document"):
             size = max(4.0, min(25.0, 4.0 + degree * 0.04))
         else:
@@ -180,9 +195,10 @@ def export_graph(
     # Export search-index.json (lightweight for Fuse.js)
     search_data: list[dict] = []
     for p in paragraphs:
+        en_text = resolve_lang(p.text, "en")
         search_data.append({
             "id": p.id,
-            "text": p.text[:300],  # Truncate for search index
+            "text": en_text[:300],  # Truncate for search index (English only)
             "themes": " ".join(p.themes),
             "part": p.part,
             "section": p.section,
@@ -193,7 +209,7 @@ def export_graph(
     for node_id in G.nodes:
         ndata = G.nodes[node_id]
         ntype = ndata.get("node_type", "")
-        if ntype in ("bible", "bible-book", "author", "patristic-work", "document"):
+        if ntype in ("bible", "bible-book", "author", "patristic-work", "document", "document-section"):
             search_data.append({
                 "id": node_id,
                 "text": ndata.get("label", node_id),
@@ -241,8 +257,17 @@ def export_sources(
         json.dump(bible_data, f, ensure_ascii=False)
     logger.info("Exported sources-bible.json: %d books", len(bible_data))
 
-    # Export sources-documents.json
-    doc_data = {k: v.model_dump() for k, v in document_sources.items()}
+    # Export sources-documents.json (legacy: flatten MultiLangText to English strings)
+    doc_data = {}
+    for k, v in document_sources.items():
+        _normalize_doc_sections(v)
+        d = v.model_dump()
+        # Flatten sections from MultiLangText to plain English strings for legacy compat
+        d["sections"] = {
+            sec_num: resolve_lang(sec_text, "en") if isinstance(sec_text, dict) else sec_text
+            for sec_num, sec_text in d.get("sections", {}).items()
+        }
+        doc_data[k] = d
     doc_path = WEB_DATA_DIR / "sources-documents.json"
     with open(doc_path, "w", encoding="utf-8") as f:
         json.dump(doc_data, f, ensure_ascii=False)
@@ -410,3 +435,66 @@ def export_authors_full(
         total_files += 1
 
     logger.info("Exported %d per-author work files", total_files)
+
+
+def export_documents_full(
+    document_sources: dict[str, DocumentSource],
+) -> None:
+    """Export document data with per-document chunked section files.
+
+    Creates:
+    - sources-documents-meta.json: Lightweight metadata for all documents
+    - sources-documents-sections/{doc_id}.json: Per-document section data (lazy-loaded)
+    - sources-documents.json: Legacy format (English only, backward compat)
+    """
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    sections_dir = WEB_DATA_DIR / "sources-documents-sections"
+    sections_dir.mkdir(parents=True, exist_ok=True)
+
+    # Normalize sections from old checkpoints (plain str -> {"en": text})
+    for doc in document_sources.values():
+        _normalize_doc_sections(doc)
+
+    # Export metadata (lightweight)
+    meta: dict[str, dict] = {}
+    for doc_id, doc in document_sources.items():
+        # Determine which languages are available
+        available_langs: list[str] = []
+        for sec_text in doc.sections.values():
+            for lang in sec_text:
+                if lang not in available_langs:
+                    available_langs.append(lang)
+
+        meta[doc_id] = {
+            "id": doc.id,
+            "name": doc.name,
+            "abbreviation": doc.abbreviation,
+            "category": doc.category,
+            "source_url": doc.source_url,
+            "fetchable": doc.fetchable,
+            "citing_paragraphs": doc.citing_paragraphs,
+            "section_count": len(doc.sections),
+            "available_langs": available_langs,
+        }
+
+    meta_path = WEB_DATA_DIR / "sources-documents-meta.json"
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False)
+    logger.info("Exported sources-documents-meta.json: %d documents", len(meta))
+
+    # Export per-document section data (lazy-loaded)
+    total_files = 0
+    for doc_id, doc in document_sources.items():
+        if not doc.sections:
+            continue
+
+        sections_data: dict[str, dict[str, str]] = {}
+        for sec_num in sorted(doc.sections.keys(), key=lambda x: int(x) if x.isdigit() else 0):
+            sections_data[sec_num] = doc.sections[sec_num]
+
+        doc_path = sections_dir / f"{doc_id}.json"
+        with open(doc_path, "w", encoding="utf-8") as f:
+            json.dump(sections_data, f, ensure_ascii=False)
+        total_files += 1
+
+    logger.info("Exported %d per-document section files", total_files)
