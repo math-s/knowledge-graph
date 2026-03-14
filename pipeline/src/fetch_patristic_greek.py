@@ -53,9 +53,13 @@ GREEK_FATHER_IDS = {
 # Maps author_id to a list of known Greek source URLs.
 # Greek patristic texts are harder to find in structured, scrapable form
 # than Latin texts. We use a mix of sources:
-#   - Christian Encyclopedias / Greek text repositories
-#   - Digitized Patrologia Graeca texts
-#   - Individual scholarly editions hosted publicly
+#   - Sacred Texts Archive (sacred-texts.com) — ECF volumes with Greek fragments
+#   - Other digitized Patrologia Graeca sources
+#
+# WARNING: sacred-texts.com has been unreliable (DNS failures as of 2026-03).
+# These entries will fail gracefully (cached if previously downloaded).
+# A better long-term source would be First1KGreek (GitHub TEI XML files)
+# or Perseus Digital Library, but those require different parsing.
 #
 # Each catalog entry maps a work_pattern (substring match) to URLs.
 

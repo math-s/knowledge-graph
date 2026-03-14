@@ -29,173 +29,706 @@ RAW_DIR = PROJECT_ROOT / "data" / "raw" / "patristic_latin"
 # Rate-limit: delay between HTTP requests (seconds)
 REQUEST_DELAY = 2.0
 
-# ── Latin Fathers ────────────────────────────────────────────────────────────
-# Authors who wrote primarily in Latin and whose original works we can source.
+# ── Latin Authors ────────────────────────────────────────────────────────────
+# Christian Latin authors whose original works are available on The Latin Library.
+# NOTE: Cyprian and Hilary are CCC-cited Latin Fathers but their pages are
+# currently 404 on The Latin Library, so they are excluded until an alternative
+# source is found.
 
 LATIN_FATHER_IDS = {
+    # CCC-cited Church Fathers
     "augustine",
     "thomas-aquinas",
     "jerome",
     "ambrose",
     "gregory-great",
     "leo-great",
-    "hilary",
     "tertullian",
-    "cyprian",
     "bonaventure",
     "anselm",
+    # Pre-Nicene / Early Church
+    "arnobius",
+    "commodianus",
+    "lactantius",
+    "novatian",
+    # Post-Nicene / Patristic
+    "benedict",
+    "cassiodorus",
+    "eucherius",
+    "macarius-alexandria",
+    "vincent-lerins",
+    # Medieval
+    "bede",
+    "bernard-clairvaux",
+    "hugo-st-victor",
+    "innocent-iii",
+    "isidore-seville",
 }
 
 # ── URL Catalog ──────────────────────────────────────────────────────────────
-# Maps (author_id, work_slug_pattern) to Latin Library index URLs.
-# work_slug_pattern is a substring matched against the English work slug.
-# Each entry is (index_url, is_single_page).
+# Maps author_id to a list of work entries from The Latin Library.
 #
-# The Latin Library organizes texts by author name. We map our canonical
-# work IDs to their URLs. For multi-page works, the index page links to
-# individual chapters/books.
+# Each entry has:
+#   work_pattern  – substring matched against existing English work slugs/titles
+#   title         – proper Latin title (used when creating standalone works)
+#   url           – primary URL (single-page) or first page (multi-page)
+#   chapter_url_template – Python format string with {n} for chapter number
+#   chapter_count – total chapters (1 for single-page works)
+#
+# URL conventions on The Latin Library:
+#   - Subdirectory pages: thelatinlibrary.com/{author}/{work}.shtml or .html
+#   - Root-level pages:   thelatinlibrary.com/{work}.html or .shtml
+#   - Extensions vary by author (.shtml vs .html) — must match exactly
+#
+# All URLs verified 2026-03-14 unless noted otherwise.
+
+_BASE = "https://www.thelatinlibrary.com"
 
 _LATIN_CATALOG: dict[str, list[dict]] = {
+    # ── Augustine (354–430) ──────────────────────────────────────────────────
     "augustine": [
         {
             "work_pattern": "confessions",
             "title": "Confessiones",
-            "url": "https://www.thelatinlibrary.com/augustine/conf1.shtml",
-            "chapter_url_template": "https://www.thelatinlibrary.com/augustine/conf{n}.shtml",
+            "url": f"{_BASE}/augustine/conf1.shtml",
+            "chapter_url_template": f"{_BASE}/augustine/conf{{n}}.shtml",
             "chapter_count": 13,
         },
         {
             "work_pattern": "city-of-god",
             "title": "De Civitate Dei",
-            "url": "https://www.thelatinlibrary.com/augustine/civ1.shtml",
-            "chapter_url_template": "https://www.thelatinlibrary.com/augustine/civ{n}.shtml",
+            "url": f"{_BASE}/augustine/civ1.shtml",
+            "chapter_url_template": f"{_BASE}/augustine/civ{{n}}.shtml",
             "chapter_count": 22,
         },
         {
             "work_pattern": "on-the-trinity",
             "title": "De Trinitate",
-            "url": "https://www.thelatinlibrary.com/augustine/trin1.shtml",
-            "chapter_url_template": "https://www.thelatinlibrary.com/augustine/trin{n}.shtml",
+            "url": f"{_BASE}/augustine/trin1.shtml",
+            "chapter_url_template": f"{_BASE}/augustine/trin{{n}}.shtml",
             "chapter_count": 15,
         },
         {
-            "work_pattern": "enchiridion",
-            "title": "Enchiridion",
-            "url": "https://www.thelatinlibrary.com/augustine/ench.shtml",
+            "work_pattern": "contra-iulianum",
+            "title": "Contra Secundam Iuliani Responsionem",
+            "url": f"{_BASE}/augustine/iulianus1.shtml",
+            "chapter_url_template": f"{_BASE}/augustine/iulianus{{n}}.shtml",
+            "chapter_count": 2,
+        },
+        {
+            "work_pattern": "dialectica",
+            "title": "De Dialectica",
+            "url": f"{_BASE}/augustine/dia.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "fide-et-symbolo",
+            "title": "De Fide et Symbolo",
+            "url": f"{_BASE}/augustine/fide.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "catechizandis",
+            "title": "De Catechizandis Rudibus",
+            "url": f"{_BASE}/augustine/catechizandis.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "regula",
+            "title": "Regula Sancti Augustini",
+            "url": f"{_BASE}/augustine/reg.shtml",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
     ],
+    # ── Ambrose (c. 340–397) ─────────────────────────────────────────────────
+    # NOTE: De Officiis and De Spiritu Sancto are NOT on The Latin Library (404).
+    # Only De Mysteriis, Hymni, and Epistulae are available.
     "ambrose": [
         {
-            "work_pattern": "on-the-duties",
-            "title": "De Officiis",
-            "url": "https://www.thelatinlibrary.com/ambrose/off1.shtml",
-            "chapter_url_template": "https://www.thelatinlibrary.com/ambrose/off{n}.shtml",
-            "chapter_count": 3,
-        },
-        {
-            "work_pattern": "on-the-mysteries",
+            "work_pattern": "mysteriis",
             "title": "De Mysteriis",
-            "url": "https://www.thelatinlibrary.com/ambrose/myst.shtml",
+            "url": f"{_BASE}/ambrose/mysteriis.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
         {
-            "work_pattern": "on-the-holy-spirit",
-            "title": "De Spiritu Sancto",
-            "url": "https://www.thelatinlibrary.com/ambrose/spiritu1.shtml",
-            "chapter_url_template": "https://www.thelatinlibrary.com/ambrose/spiritu{n}.shtml",
-            "chapter_count": 3,
-        },
-    ],
-    "jerome": [
-        {
-            "work_pattern": "letter",
-            "title": "Epistulae",
-            "url": "https://www.thelatinlibrary.com/jerome.html",
-            "chapter_url_template": None,
-            "chapter_count": 1,
-        },
-    ],
-    "tertullian": [
-        {
-            "work_pattern": "apolog",
-            "title": "Apologeticum",
-            "url": "https://www.thelatinlibrary.com/tertullian/tertullian.apol.shtml",
+            "work_pattern": "hymn",
+            "title": "Hymni",
+            "url": f"{_BASE}/ambrose/hymns.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
         {
-            "work_pattern": "against-praxeas",
-            "title": "Adversus Praxean",
-            "url": "https://www.thelatinlibrary.com/tertullian/tertullian.adv.prax.shtml",
+            "work_pattern": "epistula-sororem",
+            "title": "Epistula ad Sororem",
+            "url": f"{_BASE}/ambrose/epist.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
         {
-            "work_pattern": "prescription",
-            "title": "De Praescriptione Haereticorum",
-            "url": "https://www.thelatinlibrary.com/tertullian/tertullian.praescriptionibus.shtml",
+            "work_pattern": "epistulae-variae",
+            "title": "Epistulae Variae",
+            "url": f"{_BASE}/ambrose/epistvaria.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
     ],
-    "cyprian": [
-        {
-            "work_pattern": "unity",
-            "title": "De Catholicae Ecclesiae Unitate",
-            "url": "https://www.thelatinlibrary.com/cyprian/cyprian.unit.shtml",
-            "chapter_url_template": None,
-            "chapter_count": 1,
-        },
-        {
-            "work_pattern": "lord",
-            "title": "De Dominica Oratione",
-            "url": "https://www.thelatinlibrary.com/cyprian/cyprian.domin.shtml",
-            "chapter_url_template": None,
-            "chapter_count": 1,
-        },
-    ],
+    # ── Anselm (c. 1033–1109) ────────────────────────────────────────────────
+    # NOTE: Root-level URLs (no subdirectory). Cur Deus Homo is NOT available.
     "anselm": [
         {
             "work_pattern": "proslog",
             "title": "Proslogion",
-            "url": "https://www.thelatinlibrary.com/anselm/anselm.proslog.shtml",
+            "url": f"{_BASE}/anselmproslogion.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
         {
-            "work_pattern": "cur-deus",
-            "title": "Cur Deus Homo",
-            "url": "https://www.thelatinlibrary.com/anselm/anselm.curdeus.shtml",
+            "work_pattern": "epistula-urbanum",
+            "title": "Epistula ad Urbanum Papam",
+            "url": f"{_BASE}/anselmepistula.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
     ],
+    # ── Arnobius (fl. c. 300) ────────────────────────────────────────────────
+    "arnobius": [
+        {
+            "work_pattern": "adversus-nationes",
+            "title": "Adversus Nationes",
+            "url": f"{_BASE}/arnobius/arnobius1.shtml",
+            "chapter_url_template": f"{_BASE}/arnobius/arnobius{{n}}.shtml",
+            "chapter_count": 7,
+        },
+    ],
+    # ── Bede (c. 672–735) ────────────────────────────────────────────────────
+    "bede": [
+        {
+            "work_pattern": "historia-ecclesiastica",
+            "title": "Historia Ecclesiastica Gentis Anglorum",
+            "url": f"{_BASE}/bede/bede1.shtml",
+            "chapter_url_template": f"{_BASE}/bede/bede{{n}}.shtml",
+            "chapter_count": 5,
+        },
+        {
+            "work_pattern": "proverbia",
+            "title": "Proverbiorum Liber",
+            "url": f"{_BASE}/bede/bedeproverbs.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Benedict (c. 480–547) ────────────────────────────────────────────────
+    "benedict": [
+        {
+            "work_pattern": "regula",
+            "title": "Regula Benedicti",
+            "url": f"{_BASE}/benedict.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Bernard of Clairvaux (1090–1153) ─────────────────────────────────────
+    "bernard-clairvaux": [
+        {
+            "work_pattern": "laude-novae-militiae",
+            "title": "Liber ad Milites Templi de Laude Novae Militiae",
+            "url": f"{_BASE}/bernardclairvaux.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Bonaventure (1221–1274) ──────────────────────────────────────────────
+    # NOTE: Root-level URL (no subdirectory), .html extension.
     "bonaventure": [
         {
             "work_pattern": "itinerary",
             "title": "Itinerarium Mentis in Deum",
-            "url": "https://www.thelatinlibrary.com/bonaventura/bonaventura.itinerarium.shtml",
+            "url": f"{_BASE}/bonaventura.itinerarium.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
     ],
+    # ── Cassiodorus (c. 485–585) ─────────────────────────────────────────────
+    "cassiodorus": [
+        {
+            "work_pattern": "variae",
+            "title": "Variae",
+            "url": f"{_BASE}/cassiodorus/varia1.shtml",
+            "chapter_url_template": f"{_BASE}/cassiodorus/varia{{n}}.shtml",
+            "chapter_count": 12,
+        },
+        {
+            "work_pattern": "epistulae-theodericianae",
+            "title": "Epistulae Theodericianae Variae",
+            "url": f"{_BASE}/cassiodorus/epist.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "orationes",
+            "title": "Orationum Reliquiae",
+            "url": f"{_BASE}/cassiodorus/orationes.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-anima",
+            "title": "De Anima",
+            "url": f"{_BASE}/cassiodorus/anima.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-musica",
+            "title": "De Musica",
+            "url": f"{_BASE}/cassiodorus/musica.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Commodianus (fl. c. 250) ─────────────────────────────────────────────
+    "commodianus": [
+        {
+            "work_pattern": "carmen-duobus-populis",
+            "title": "Carmen de Duobus Populis",
+            "url": f"{_BASE}/commodianus/commodianus1.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "instructiones",
+            "title": "Instructiones",
+            "url": f"{_BASE}/commodianus/commodianus2.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-saeculi-fine",
+            "title": "De Saeculi Istius Fine",
+            "url": f"{_BASE}/commodianus/commodianus3.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Eucherius (d. c. 449) ────────────────────────────────────────────────
+    "eucherius": [
+        {
+            "work_pattern": "laude-eremi",
+            "title": "De Laude Eremi",
+            "url": f"{_BASE}/eucherius.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Gregory the Great (c. 540–604) ───────────────────────────────────────
+    # Very limited on The Latin Library — only a single letter.
+    "gregory-great": [
+        {
+            "work_pattern": "epistula-constantina",
+            "title": "Epistula IV.30 ad Constantinam Augustam",
+            "url": f"{_BASE}/greg.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Hugo of St. Victor (c. 1096–1141) ────────────────────────────────────
+    "hugo-st-victor": [
+        {
+            "work_pattern": "didascalicon",
+            "title": "Didascalicon",
+            "url": f"{_BASE}/hugo/hugo1.html",
+            "chapter_url_template": f"{_BASE}/hugo/hugo{{n}}.html",
+            "chapter_count": 6,
+        },
+        {
+            "work_pattern": "soliloquium",
+            "title": "Soliloquium de Arrha Animae",
+            "url": f"{_BASE}/hugo/hugo.solo.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Innocent III (c. 1161–1216) ──────────────────────────────────────────
+    # Index at innocent.html lists De Miseria + Dialogus, but the individual
+    # work URLs are unknown (not verified). Skipped until URLs are confirmed.
+    # "innocent-iii": [],
+    # ── Isidore of Seville (c. 560–636) ──────────────────────────────────────
+    "isidore-seville": [
+        {
+            "work_pattern": "etymologiae",
+            "title": "Etymologiarum sive Originum Libri XX",
+            "url": f"{_BASE}/isidore/1.shtml",
+            "chapter_url_template": f"{_BASE}/isidore/{{n}}.shtml",
+            "chapter_count": 20,
+        },
+        {
+            "work_pattern": "sententiae",
+            "title": "Sententiae",
+            "url": f"{_BASE}/isidore/sententiae1.shtml",
+            "chapter_url_template": f"{_BASE}/isidore/sententiae{{n}}.shtml",
+            "chapter_count": 3,
+        },
+        {
+            "work_pattern": "historia-regibus",
+            "title": "Historia de Regibus Gothorum, Wandalorum et Suevorum",
+            "url": f"{_BASE}/isidore/historia.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Jerome (c. 347–420) ──────────────────────────────────────────────────
+    "jerome": [
+        {
+            "work_pattern": "epistulae",
+            "title": "Epistulae",
+            "url": f"{_BASE}/jerome/epistulae.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "vita-pauli",
+            "title": "Vita Pauli",
+            "url": f"{_BASE}/jerome/vitapauli.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "vita-malchi",
+            "title": "Vita Malchi",
+            "url": f"{_BASE}/jerome/vitamalchus.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "contra-ioannem",
+            "title": "Contra Ioannem",
+            "url": f"{_BASE}/jerome/contraioannem.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Lactantius (c. 250–325) ──────────────────────────────────────────────
+    # Only Book I of Divinae Institutiones is linked; Books II-VII are 404.
+    "lactantius": [
+        {
+            "work_pattern": "divinarum-institutionum",
+            "title": "Divinarum Institutionum Liber I",
+            "url": f"{_BASE}/lactantius/divinst1.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-mortibus",
+            "title": "De Mortibus Persecutorum",
+            "url": f"{_BASE}/lactantius/demort.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Leo the Great (c. 400–461) ───────────────────────────────────────────
+    # Only 2 of 12 Lenten sermons have working links.
     "leo-great": [
         {
-            "work_pattern": "sermon",
-            "title": "Sermones",
-            "url": "https://www.thelatinlibrary.com/leo.html",
+            "work_pattern": "sermones-quadragesima",
+            "title": "Sermones de Quadragesima",
+            "url": f"{_BASE}/leothegreat/quadragesima1.html",
+            "chapter_url_template": f"{_BASE}/leothegreat/quadragesima{{n}}.html",
+            "chapter_count": 2,
+        },
+    ],
+    # ── Macarius of Alexandria (d. c. 394) ───────────────────────────────────
+    "macarius-alexandria": [
+        {
+            "work_pattern": "regula-monachos",
+            "title": "Regula ad Monachos",
+            "url": f"{_BASE}/macarius.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
     ],
-    "hilary": [
+    # ── Novatian (c. 200–258) ────────────────────────────────────────────────
+    "novatian": [
         {
-            "work_pattern": "trinit",
+            "work_pattern": "de-trinitate",
             "title": "De Trinitate",
-            "url": "https://www.thelatinlibrary.com/hilary.html",
+            "url": f"{_BASE}/novatian.html",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Tertullian (c. 155–220) ──────────────────────────────────────────────
+    # The Latin Library has the most complete Tertullian corpus: 31 authentic
+    # works + 6 spuria. All follow the pattern tertullian/tertullian.{slug}.shtml.
+    "tertullian": [
+        {
+            "work_pattern": "apologeticum",
+            "title": "Apologeticum",
+            "url": f"{_BASE}/tertullian/tertullian.apol.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "adversus-praxean",
+            "title": "Adversus Praxean",
+            "url": f"{_BASE}/tertullian/tertullian.praxean.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "praescriptione",
+            "title": "De Praescriptione Haereticorum",
+            "url": f"{_BASE}/tertullian/tertullian.praescrip.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "ad-martyres",
+            "title": "Ad Martyres",
+            "url": f"{_BASE}/tertullian/tertullian.martyres.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "ad-nationes",
+            "title": "Ad Nationes",
+            "url": f"{_BASE}/tertullian/tertullian.nationes.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "ad-scapulam",
+            "title": "Ad Scapulam",
+            "url": f"{_BASE}/tertullian/tertullian.scapulam.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "ad-uxorem",
+            "title": "Ad Uxorem",
+            "url": f"{_BASE}/tertullian/tertullian.uxor.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "adversus-hermogenem",
+            "title": "Adversus Hermogenem",
+            "url": f"{_BASE}/tertullian/tertullian.herm.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "adversus-iudaeos",
+            "title": "Adversus Iudaeos",
+            "url": f"{_BASE}/tertullian/tertullian.iudaeos.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "adversus-valentinianos",
+            "title": "Adversus Valentinianos",
+            "url": f"{_BASE}/tertullian/tertullian.valentinianos.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "adversus-marcionem",
+            "title": "Adversus Marcionem",
+            "url": f"{_BASE}/tertullian/tertullian.marcionem.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-anima",
+            "title": "De Anima",
+            "url": f"{_BASE}/tertullian/tertullian.anima.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-baptismo",
+            "title": "De Baptismo",
+            "url": f"{_BASE}/tertullian/tertullian.baptismo.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-carne-christi",
+            "title": "De Carne Christi",
+            "url": f"{_BASE}/tertullian/tertullian.carne.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-corona",
+            "title": "De Corona Militis",
+            "url": f"{_BASE}/tertullian/tertullian.corona.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-cultu-feminarum",
+            "title": "De Cultu Feminarum",
+            "url": f"{_BASE}/tertullian/tertullian.cultu.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-exhortatione-castitatis",
+            "title": "De Exhortatione Castitatis",
+            "url": f"{_BASE}/tertullian/tertullian.castitatis.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-fuga",
+            "title": "De Fuga in Persecutione",
+            "url": f"{_BASE}/tertullian/tertullian.fuga.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-idololatria",
+            "title": "De Idololatria",
+            "url": f"{_BASE}/tertullian/tertullian.idololatria.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-ieiunio",
+            "title": "De Ieiunio",
+            "url": f"{_BASE}/tertullian/tertullian.ieiunio.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-monogamia",
+            "title": "De Monogamia",
+            "url": f"{_BASE}/tertullian/tertullian.monog.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-oratione",
+            "title": "De Oratione",
+            "url": f"{_BASE}/tertullian/tertullian.oratione.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-pallio",
+            "title": "De Pallio",
+            "url": f"{_BASE}/tertullian/tertullian.pallio.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-paenitentia",
+            "title": "De Paenitentia",
+            "url": f"{_BASE}/tertullian/tertullian.paen.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-patientia",
+            "title": "De Patientia",
+            "url": f"{_BASE}/tertullian/tertullian.patientia.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-pudicitia",
+            "title": "De Pudicitia",
+            "url": f"{_BASE}/tertullian/tertullian.pudicitia.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-resurrectione",
+            "title": "De Resurrectione Carnis",
+            "url": f"{_BASE}/tertullian/tertullian.resurrectione.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-spectaculis",
+            "title": "De Spectaculis",
+            "url": f"{_BASE}/tertullian/tertullian.spect.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-testimonio",
+            "title": "De Testimonio Animae",
+            "url": f"{_BASE}/tertullian/tertullian.testimonia.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-virginibus",
+            "title": "De Virginibus Velandis",
+            "url": f"{_BASE}/tertullian/tertullian.virginibus.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "scorpiace",
+            "title": "Liber Scorpiace",
+            "url": f"{_BASE}/tertullian/tertullian.scorpiace.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Thomas Aquinas (1225–1274) ────────────────────────────────────────────
+    # Summa Prima Pars has ~80 questions linked (Q1-Q74, Q80-83, Q86-87).
+    # Questions Q75-79 and Q84-85 will 404 and be silently skipped.
+    "thomas-aquinas": [
+        {
+            "work_pattern": "summa-prima-pars",
+            "title": "Summa Theologica — Prima Pars",
+            "url": f"{_BASE}/aquinas/p1.shtml",
+            "chapter_url_template": f"{_BASE}/aquinas/q1.{{n}}.shtml",
+            "chapter_count": 87,
+        },
+        {
+            "work_pattern": "de-ente-et-essentia",
+            "title": "De Ente et Essentia",
+            "url": f"{_BASE}/aquinas/ente.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "corpus-christi",
+            "title": "Corpus Christi",
+            "url": f"{_BASE}/aquinas/corpuschristi.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "de-principio-individuationis",
+            "title": "De Principio Individuationis",
+            "url": f"{_BASE}/aquinas/princ.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+        {
+            "work_pattern": "expositio-orationem",
+            "title": "Expositio in Orationem Dominicam",
+            "url": f"{_BASE}/aquinas/expositio.shtml",
+            "chapter_url_template": None,
+            "chapter_count": 1,
+        },
+    ],
+    # ── Vincent of Lérins (d. c. 445) ────────────────────────────────────────
+    "vincent-lerins": [
+        {
+            "work_pattern": "commonitorium",
+            "title": "Commonitorium",
+            "url": f"{_BASE}/vicentius.html",
             "chapter_url_template": None,
             "chapter_count": 1,
         },
