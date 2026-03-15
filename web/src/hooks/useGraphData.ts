@@ -7,7 +7,7 @@ import { fetchGraphData } from "@/lib/graph-data";
 import {
   hasApi,
   apiFetch,
-  type ApiThemeGraph,
+  type ApiSubgraph,
   type ApiTheme,
 } from "@/lib/api";
 
@@ -63,14 +63,51 @@ function buildGraphology(
   return g;
 }
 
+/** Describes which subgraph to load from the API. */
+export type GraphQuery =
+  | { mode: "theme"; theme: string }
+  | { mode: "paragraph"; paragraphId: number; depth?: number }
+  | { mode: "node"; nodeId: string }
+  | { mode: "connect"; nodeIds: string[] }
+  | null;  // null = load full graph.json (static fallback)
+
+function queryToApiPath(q: GraphQuery): string | null {
+  if (!q) return null;
+  switch (q.mode) {
+    case "theme":
+      return `/graph/theme/${encodeURIComponent(q.theme)}`;
+    case "paragraph":
+      return `/graph/paragraph/${q.paragraphId}?depth=${q.depth ?? 1}`;
+    case "node":
+      return `/graph/node/${encodeURIComponent(q.nodeId)}`;
+    case "connect":
+      return `/graph/connect?sources=${q.nodeIds.map(encodeURIComponent).join(",")}`;
+  }
+}
+
+/** Cache key for deduplication. */
+function queryKey(q: GraphQuery): string {
+  if (!q) return "__full__";
+  switch (q.mode) {
+    case "theme": return `theme:${q.theme}`;
+    case "paragraph": return `para:${q.paragraphId}:${q.depth ?? 1}`;
+    case "node": return `node:${q.nodeId}`;
+    case "connect": return `connect:${q.nodeIds.sort().join(",")}`;
+  }
+}
+
 /**
- * Load graph data for a specific theme from the API, or fall back to
- * loading the full graph.json when no API is configured.
+ * Load graph data from the API or fall back to static graph.json.
+ *
+ * Pass a GraphQuery to fetch a specific subgraph from the API.
+ * Pass null (or omit) to load the full graph.json (static mode).
  */
-export function useGraphData(theme?: string | null) {
+export function useGraphData(query: GraphQuery = null) {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const key = queryKey(query);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,11 +118,9 @@ export function useGraphData(theme?: string | null) {
       try {
         let g: Graph;
 
-        if (hasApi && theme) {
-          // Fetch per-theme subgraph from API
-          const data = await apiFetch<ApiThemeGraph>(
-            `/graph/theme/${encodeURIComponent(theme)}`,
-          );
+        const apiPath = hasApi ? queryToApiPath(query) : null;
+        if (apiPath) {
+          const data = await apiFetch<ApiSubgraph>(apiPath);
           if (cancelled) return;
           g = buildGraphology(data.nodes, data.edges);
         } else {
@@ -112,7 +147,7 @@ export function useGraphData(theme?: string | null) {
     return () => {
       cancelled = true;
     };
-  }, [theme]);
+  }, [key]);
 
   return { graph, loading, error };
 }

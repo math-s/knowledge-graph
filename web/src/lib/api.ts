@@ -26,6 +26,7 @@ export interface ApiSearchResult {
   type: string;
   snippet: string;
   rank: number;
+  translations?: Record<string, string>;
 }
 
 export interface ApiSearchResponse {
@@ -66,6 +67,15 @@ export interface ApiThemeGraph {
   edge_count: number;
   nodes: ApiGraphNode[];
   edges: ApiGraphEdge[];
+}
+
+export interface ApiSubgraph {
+  seed_count: number;
+  node_count: number;
+  edge_count: number;
+  nodes: ApiGraphNode[];
+  edges: ApiGraphEdge[];
+  [key: string]: unknown;
 }
 
 export interface ApiTheme {

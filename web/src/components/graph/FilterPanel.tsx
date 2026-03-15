@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, THEME_COLORS } from "@/lib/colors";
+import { hasApi } from "@/lib/api";
 import type { ThemeDefinition } from "@/lib/types";
 import { fetchThemes } from "@/lib/graph-data";
 
@@ -482,7 +483,9 @@ export default function FilterPanel({
             </label>
           </div>
 
-          {Object.keys(themes).length > 0 && (
+          {/* Theme checkboxes: only shown in static mode (no API).
+              With API, the theme dropdown in GraphExplorer controls loading. */}
+          {!hasApi && Object.keys(themes).length > 0 && (
             <>
               <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">
                 Themes

@@ -1,4 +1,4 @@
-"""Graph endpoints — per-theme subgraph queries."""
+"""Graph endpoints — per-theme, per-paragraph, and multi-theme subgraph queries."""
 
 from __future__ import annotations
 
@@ -13,6 +13,75 @@ router = APIRouter(prefix="/graph", tags=["graph"])
 
 # Edge types that produce very dense subgraphs; excluded by default
 DENSE_EDGE_TYPES = {"shared_topic"}
+
+
+def _format_node(r: sqlite3.Row, seed_ids: set[str] | None = None) -> dict:
+    return {
+        "id": r["id"],
+        "label": r["label"],
+        "node_type": r["node_type"],
+        "x": r["x"],
+        "y": r["y"],
+        "size": r["size"],
+        "color": r["color"],
+        "part": r["part"],
+        "degree": r["degree"],
+        "community": r["community"],
+        "themes": json.loads(r["themes_json"] or "[]"),
+        "entities": json.loads(r["entities_json"] or "[]"),
+        **({"is_seed": r["id"] in seed_ids} if seed_ids is not None else {}),
+    }
+
+
+def _expand_subgraph(
+    db: sqlite3.Connection,
+    seed_ids: set[str],
+    include_dense: bool = False,
+) -> tuple[list[dict], list[dict]]:
+    """Given seed node IDs, return their 1-hop neighborhood (nodes + edges)."""
+    if not seed_ids:
+        return [], []
+
+    placeholders = ",".join("?" for _ in seed_ids)
+    seed_list = list(seed_ids)
+
+    edge_rows = db.execute(
+        f"""
+        SELECT source, target, edge_type FROM graph_edges
+        WHERE source IN ({placeholders}) OR target IN ({placeholders})
+        """,
+        seed_list + seed_list,
+    ).fetchall()
+
+    excluded = set() if include_dense else DENSE_EDGE_TYPES
+    edges = []
+    neighbor_ids: set[str] = set()
+    for r in edge_rows:
+        if r["edge_type"] in excluded:
+            continue
+        edges.append({
+            "source": r["source"],
+            "target": r["target"],
+            "edge_type": r["edge_type"],
+        })
+        neighbor_ids.add(r["source"])
+        neighbor_ids.add(r["target"])
+
+    all_ids = seed_ids | neighbor_ids
+    id_list = list(all_ids)
+    ph = ",".join("?" for _ in id_list)
+
+    node_rows = db.execute(
+        f"""
+        SELECT id, label, node_type, x, y, size, color, part, degree, community,
+               themes_json, entities_json
+        FROM graph_nodes WHERE id IN ({ph})
+        """,
+        id_list,
+    ).fetchall()
+
+    nodes = [_format_node(r, seed_ids) for r in node_rows]
+    return nodes, edges
 
 
 @router.get("/themes")
@@ -31,8 +100,6 @@ def graph_by_theme(
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a theme: themed paragraphs + 1-hop neighbors + edges."""
-
-    # 1. Find seed paragraph node IDs
     seed_rows = db.execute(
         "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_themes WHERE theme_id = ?",
         (theme_id,),
@@ -42,67 +109,109 @@ def graph_by_theme(
     if not seed_ids:
         return {"theme": theme_id, "nodes": [], "edges": []}
 
-    placeholders = ",".join("?" for _ in seed_ids)
-    seed_list = list(seed_ids)
-
-    # 2. Find all edges touching seed nodes
-    edge_rows = db.execute(
-        f"""
-        SELECT source, target, edge_type FROM graph_edges
-        WHERE source IN ({placeholders}) OR target IN ({placeholders})
-        """,
-        seed_list + seed_list,
-    ).fetchall()
-
-    # Filter dense edge types unless requested
-    excluded = set() if include_dense else DENSE_EDGE_TYPES
-    edges = []
-    neighbor_ids: set[str] = set()
-    for r in edge_rows:
-        if r["edge_type"] in excluded:
-            continue
-        edges.append({
-            "source": r["source"],
-            "target": r["target"],
-            "edge_type": r["edge_type"],
-        })
-        neighbor_ids.add(r["source"])
-        neighbor_ids.add(r["target"])
-
-    # 3. Collect all node IDs (seeds + neighbors)
-    all_ids = seed_ids | neighbor_ids
-    id_list = list(all_ids)
-    ph = ",".join("?" for _ in id_list)
-
-    node_rows = db.execute(
-        f"""
-        SELECT id, label, node_type, x, y, size, color, part, degree, community,
-               themes_json, entities_json
-        FROM graph_nodes WHERE id IN ({ph})
-        """,
-        id_list,
-    ).fetchall()
-
-    nodes = []
-    for r in node_rows:
-        nodes.append({
-            "id": r["id"],
-            "label": r["label"],
-            "node_type": r["node_type"],
-            "x": r["x"],
-            "y": r["y"],
-            "size": r["size"],
-            "color": r["color"],
-            "part": r["part"],
-            "degree": r["degree"],
-            "community": r["community"],
-            "themes": json.loads(r["themes_json"] or "[]"),
-            "entities": json.loads(r["entities_json"] or "[]"),
-            "is_seed": r["id"] in seed_ids,
-        })
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
     return {
         "theme": theme_id,
+        "seed_count": len(seed_ids),
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/paragraph/{paragraph_id}")
+def graph_by_paragraph(
+    paragraph_id: int,
+    depth: int = Query(1, ge=1, le=2, description="Hop depth (1 or 2)"),
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph around a specific paragraph.
+
+    depth=1: the paragraph + its direct neighbors.
+    depth=2: expand one more hop from those neighbors.
+    """
+    seed_id = f"p:{paragraph_id}"
+
+    # Verify node exists
+    exists = db.execute(
+        "SELECT 1 FROM graph_nodes WHERE id = ?", (seed_id,)
+    ).fetchone()
+    if not exists:
+        return {"paragraph": paragraph_id, "nodes": [], "edges": []}
+
+    seed_ids = {seed_id}
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+
+    if depth >= 2:
+        # Second hop: expand from all nodes we found
+        hop2_seeds = {n["id"] for n in nodes}
+        nodes, edges = _expand_subgraph(db, hop2_seeds, include_dense)
+        # Re-mark seeds
+        for n in nodes:
+            n["is_seed"] = n["id"] == seed_id
+
+    return {
+        "paragraph": paragraph_id,
+        "depth": depth,
+        "seed_count": 1,
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/node/{node_id:path}")
+def graph_by_node(
+    node_id: str,
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph around any node (Bible book, author, document, etc.)."""
+    exists = db.execute(
+        "SELECT 1 FROM graph_nodes WHERE id = ?", (node_id,)
+    ).fetchone()
+    if not exists:
+        return {"node": node_id, "nodes": [], "edges": []}
+
+    seed_ids = {node_id}
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+
+    return {
+        "node": node_id,
+        "seed_count": 1,
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/connect")
+def graph_connect(
+    sources: str = Query(..., description="Comma-separated node IDs to connect"),
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph connecting multiple seed nodes.
+
+    Finds the 1-hop neighborhood of all specified nodes and returns the
+    intersection — nodes and edges that bridge between the seeds.
+    """
+    source_ids = [s.strip() for s in sources.split(",") if s.strip()]
+    if len(source_ids) < 2:
+        return {"error": "Provide at least 2 node IDs separated by commas"}
+
+    seed_ids = set(source_ids)
+
+    # Get the union of all neighborhoods
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+
+    return {
+        "seeds": source_ids,
         "seed_count": len(seed_ids),
         "node_count": len(nodes),
         "edge_count": len(edges),
@@ -155,23 +264,7 @@ def graph_by_community(
         id_list,
     ).fetchall()
 
-    nodes = [
-        {
-            "id": r["id"],
-            "label": r["label"],
-            "node_type": r["node_type"],
-            "x": r["x"],
-            "y": r["y"],
-            "size": r["size"],
-            "color": r["color"],
-            "part": r["part"],
-            "degree": r["degree"],
-            "community": r["community"],
-            "themes": json.loads(r["themes_json"] or "[]"),
-            "entities": json.loads(r["entities_json"] or "[]"),
-        }
-        for r in node_rows
-    ]
+    nodes = [_format_node(r) for r in node_rows]
 
     return {
         "community": community_id,

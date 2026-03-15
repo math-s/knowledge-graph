@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useGraphData, useGraphThemes } from "@/hooks/useGraphData";
+import { useGraphData, useGraphThemes, type GraphQuery } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
 import { hasApi } from "@/lib/api";
@@ -19,9 +19,10 @@ export default function GraphExplorer() {
   const apiThemes = useGraphThemes();
 
   // When API is available, load per-theme; otherwise full graph
-  const { graph, loading, error } = useGraphData(
-    hasApi ? selectedTheme : null,
-  );
+  const graphQuery: GraphQuery = hasApi && selectedTheme
+    ? { mode: "theme", theme: selectedTheme }
+    : null;
+  const { graph, loading, error } = useGraphData(graphQuery);
   const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
     useNodeSelection();
   const { query, results, search } = useSearch();
