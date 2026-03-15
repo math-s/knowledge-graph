@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import sqlite3
 
+from typing import Optional
+
 from fastapi import APIRouter, Depends, Query
 
 from ..db import get_db
@@ -269,6 +271,74 @@ def graph_by_community(
 
     return {
         "community": community_id,
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/filter")
+def graph_by_filter(
+    themes: Optional[str] = Query(None, description="Comma-separated theme IDs (AND logic)"),
+    entities: Optional[str] = Query(None, description="Comma-separated entity IDs (AND logic)"),
+    topics: Optional[str] = Query(None, description="Comma-separated topic IDs (AND logic)"),
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph for paragraphs matching ALL specified filters (AND logic).
+
+    Each filter type narrows the result: a paragraph must have every listed theme
+    AND every listed entity AND every listed topic to be included.
+    The 1-hop neighborhood (cited sources, cross-refs) is expanded from the seeds.
+    """
+    theme_list = [t.strip() for t in themes.split(",") if t.strip()] if themes else []
+    entity_list = [e.strip() for e in entities.split(",") if e.strip()] if entities else []
+    topic_list = [int(t.strip()) for t in topics.split(",") if t.strip()] if topics else []
+
+    if not theme_list and not entity_list and not topic_list:
+        return {"filters": {}, "nodes": [], "edges": []}
+
+    # Start with all paragraph IDs, then intersect with each filter
+    candidate_ids: set[int] | None = None
+
+    for theme_id in theme_list:
+        rows = db.execute(
+            "SELECT paragraph_id FROM paragraph_themes WHERE theme_id = ?",
+            (theme_id,),
+        ).fetchall()
+        ids = {r["paragraph_id"] for r in rows}
+        candidate_ids = ids if candidate_ids is None else candidate_ids & ids
+
+    for entity_id in entity_list:
+        rows = db.execute(
+            "SELECT paragraph_id FROM paragraph_entities WHERE entity_id = ?",
+            (entity_id,),
+        ).fetchall()
+        ids = {r["paragraph_id"] for r in rows}
+        candidate_ids = ids if candidate_ids is None else candidate_ids & ids
+
+    for topic_id in topic_list:
+        rows = db.execute(
+            "SELECT paragraph_id FROM paragraph_topics WHERE topic_id = ?",
+            (topic_id,),
+        ).fetchall()
+        ids = {r["paragraph_id"] for r in rows}
+        candidate_ids = ids if candidate_ids is None else candidate_ids & ids
+
+    if not candidate_ids:
+        return {
+            "filters": {"themes": theme_list, "entities": entity_list, "topics": topic_list},
+            "nodes": [],
+            "edges": [],
+        }
+
+    seed_ids = {f"p:{pid}" for pid in candidate_ids}
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+
+    return {
+        "filters": {"themes": theme_list, "entities": entity_list, "topics": topic_list},
+        "seed_count": len(seed_ids),
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,

@@ -70,6 +70,7 @@ export type GraphQuery =
   | { mode: "theme"; theme: string }
   | { mode: "entity"; entityId: string }
   | { mode: "topic"; topicId: number }
+  | { mode: "filter"; themes?: string[]; entities?: string[]; topics?: number[] }
   | { mode: "paragraph"; paragraphId: number; depth?: number }
   | { mode: "node"; nodeId: string }
   | { mode: "connect"; nodeIds: string[] }
@@ -84,6 +85,13 @@ function queryToApiPath(q: GraphQuery): string | null {
       return `/graph/entity/${encodeURIComponent(q.entityId)}`;
     case "topic":
       return `/graph/topic/${q.topicId}`;
+    case "filter": {
+      const params = new URLSearchParams();
+      if (q.themes?.length) params.set("themes", q.themes.join(","));
+      if (q.entities?.length) params.set("entities", q.entities.join(","));
+      if (q.topics?.length) params.set("topics", q.topics.map(String).join(","));
+      return `/graph/filter?${params.toString()}`;
+    }
     case "paragraph":
       return `/graph/paragraph/${q.paragraphId}?depth=${q.depth ?? 1}`;
     case "node":
@@ -100,6 +108,7 @@ function queryKey(q: GraphQuery): string {
     case "theme": return `theme:${q.theme}`;
     case "entity": return `entity:${q.entityId}`;
     case "topic": return `topic:${q.topicId}`;
+    case "filter": return `filter:${[...(q.themes || []), ...(q.entities || []), ...(q.topics || []).map(String)].sort().join(",")}`;
     case "paragraph": return `para:${q.paragraphId}:${q.depth ?? 1}`;
     case "node": return `node:${q.nodeId}`;
     case "connect": return `connect:${q.nodeIds.sort().join(",")}`;
