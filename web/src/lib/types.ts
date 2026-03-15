@@ -141,6 +141,8 @@ export interface SearchEntry {
   id: number | string;
   text: string;
   text_pt?: string;
+  snippet_html?: string;
+  translations?: Record<string, string>;
   themes: string;
   part: string;
   section: string;

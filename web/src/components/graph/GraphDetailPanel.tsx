@@ -3,9 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Graph from "graphology";
-import type { AuthorData, BibleBookData, DocumentData, EntityDefinition, ParagraphData, TopicDefinition } from "@/lib/types";
+import type { AuthorData, BibleBookData, BibleChapterData, DocumentData, DocumentSectionData, EntityDefinition, MultiLangText, ParagraphData, PatristicWorkData, TopicDefinition } from "@/lib/types";
 import { t, tArr, resolveLang } from "@/lib/types";
-import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchEntities, fetchParagraphs, fetchTopics } from "@/lib/graph-data";
+import {
+  fetchAuthorSources,
+  fetchAuthorWorks,
+  fetchBibleBookVerses,
+  fetchBibleSources,
+  fetchDocumentSections,
+  fetchDocumentSources,
+  fetchEntities,
+  fetchParagraphs,
+  fetchTopics,
+} from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 import LangSelector from "@/components/LangSelector";
@@ -18,6 +28,146 @@ interface GraphDetailPanelProps {
   onThemeFilter: (themeId: string) => void;
   canGoBack: boolean;
   onGoBack: () => void;
+}
+
+/** Lazy-load and display verses for a bible chapter node. */
+function BibleChapterPreview({ bookId, chapter }: { bookId: string; chapter: string }) {
+  const [verses, setVerses] = useState<Record<number, MultiLangText> | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBibleBookVerses(bookId).then((chapters) => {
+      if (chapters) {
+        const ch = chapters.find((c) => String(c.chapter) === chapter);
+        if (ch) setVerses(ch.verses);
+      }
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [bookId, chapter]);
+
+  if (loading) return <div className="text-xs text-zinc-400">Loading verses...</div>;
+  if (!verses) return null;
+
+  const entries = Object.entries(verses).slice(0, 5);
+  return (
+    <div className="space-y-1">
+      {entries.map(([vNum, text]) => (
+        <div key={vNum} className="rounded bg-green-50/50 p-2 text-xs dark:bg-green-900/10">
+          <span className="font-semibold text-green-800 dark:text-green-300">{vNum}</span>{" "}
+          <span className="text-zinc-600 dark:text-zinc-400">{resolveLang(text, "en").slice(0, 150)}{resolveLang(text, "en").length > 150 ? "..." : ""}</span>
+        </div>
+      ))}
+      {Object.keys(verses).length > 5 && (
+        <div className="text-xs text-zinc-400">+{Object.keys(verses).length - 5} more verses</div>
+      )}
+    </div>
+  );
+}
+
+/** Lazy-load and display a single bible verse. */
+function BibleVersePreview({ bookId, chapter, verse }: { bookId: string; chapter: string; verse: string }) {
+  const [text, setText] = useState<MultiLangText | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBibleBookVerses(bookId).then((chapters) => {
+      if (chapters) {
+        const ch = chapters.find((c) => String(c.chapter) === chapter);
+        if (ch && ch.verses[Number(verse)]) {
+          setText(ch.verses[Number(verse)]);
+        }
+      }
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [bookId, chapter, verse]);
+
+  if (loading) return <div className="text-xs text-zinc-400">Loading verse...</div>;
+  if (!text) return null;
+
+  const en = resolveLang(text, "en");
+  const la = resolveLang(text, "la");
+  return (
+    <div className="space-y-1">
+      <div className="rounded bg-green-50/50 p-2 text-xs dark:bg-green-900/10">
+        <span className="text-zinc-600 dark:text-zinc-400">{en}</span>
+      </div>
+      {la && la !== en && (
+        <div className="rounded bg-green-50/30 p-2 text-xs italic dark:bg-green-900/5">
+          <span className="text-zinc-500 dark:text-zinc-500">{la}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Lazy-load and display a document section's text. */
+function DocumentSectionPreview({ docId, sectionNum }: { docId: string; sectionNum: string }) {
+  const [text, setText] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDocumentSections(docId).then((sections) => {
+      if (sections && sections[sectionNum]) {
+        const val = sections[sectionNum];
+        setText(typeof val === "string" ? val : resolveLang(val, "en"));
+      }
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [docId, sectionNum]);
+
+  if (loading) return <div className="text-xs text-zinc-400">Loading section...</div>;
+  if (!text) return null;
+
+  return (
+    <div className="rounded bg-amber-50/50 p-2 text-xs dark:bg-amber-900/10">
+      <span className="text-zinc-600 dark:text-zinc-400">{text.slice(0, 300)}{text.length > 300 ? "..." : ""}</span>
+    </div>
+  );
+}
+
+/** Lazy-load and display a patristic work's chapters/sections. */
+function PatristicWorkPreview({ authorId, workId }: { authorId: string; workId: string }) {
+  const [work, setWork] = useState<PatristicWorkData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchAuthorWorks(authorId).then((works) => {
+      if (works) {
+        const found = works.find((w) => w.id === `${authorId}/${workId}` || w.id === workId);
+        if (found) setWork(found);
+      }
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [authorId, workId]);
+
+  if (loading) return <div className="text-xs text-zinc-400">Loading work...</div>;
+  if (!work) return null;
+
+  // Show first 2 sections from the first chapter
+  const firstChapter = work.chapters[0];
+  const previewSections = firstChapter?.sections?.slice(0, 2) || [];
+
+  return (
+    <div className="space-y-1">
+      <div className="text-xs text-zinc-500">
+        {work.chapter_count} chapter{work.chapter_count !== 1 ? "s" : ""}
+      </div>
+      {previewSections.map((sec) => {
+        const secText = resolveLang(sec.text, "en");
+        return (
+          <div key={sec.id} className="rounded bg-purple-50/50 p-2 text-xs dark:bg-purple-900/10">
+            {firstChapter.title && (
+              <span className="font-semibold text-purple-800 dark:text-purple-300">{firstChapter.title} {sec.number} </span>
+            )}
+            <span className="text-zinc-600 dark:text-zinc-400">{secText.slice(0, 150)}{secText.length > 150 ? "..." : ""}</span>
+          </div>
+        );
+      })}
+      {work.chapters.length > 1 && (
+        <div className="text-xs text-zinc-400">+{work.chapters.length - 1} more chapters</div>
+      )}
+    </div>
+  );
 }
 
 function SourcePreview({
@@ -74,13 +224,14 @@ function SourcePreview({
   if (nodeType === "bible-chapter") {
     // Parse chapter node ID: "bible-chapter:matthew-5" -> bookId=matthew, ch=5
     const parts = sourceId.split("-");
-    const chNum = parts.pop();
+    const chNum = parts.pop()!;
     const bookId = parts.join("-");
     return (
       <div className="space-y-2 text-sm">
         <div className="text-zinc-500">{label}</div>
+        <BibleChapterPreview bookId={bookId} chapter={chNum} />
         <Link href={`/bible/${bookId}/${chNum}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
-          Read chapter &rarr;
+          Read full chapter &rarr;
         </Link>
       </div>
     );
@@ -88,11 +239,18 @@ function SourcePreview({
 
   if (nodeType === "bible-verse") {
     // Parse verse node ID: "bible-verse:matthew-5:3" -> bookId=matthew, ch=5, v=3
+    const colonIdx = sourceId.lastIndexOf(":");
+    const verseNum = colonIdx >= 0 ? sourceId.slice(colonIdx + 1) : "";
+    const chapterPart = colonIdx >= 0 ? sourceId.slice(0, colonIdx) : sourceId;
+    const dashIdx = chapterPart.lastIndexOf("-");
+    const chNum = dashIdx >= 0 ? chapterPart.slice(dashIdx + 1) : "";
+    const bookId = dashIdx >= 0 ? chapterPart.slice(0, dashIdx) : chapterPart;
     return (
       <div className="space-y-2 text-sm">
         <div className="text-zinc-500">{label}</div>
-        <Link href={`/verse/${sourceId}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
-          View verse &rarr;
+        <BibleVersePreview bookId={bookId} chapter={chNum} verse={verseNum} />
+        <Link href={`/bible/${bookId}/${chNum}`} className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400">
+          View chapter &rarr;
         </Link>
       </div>
     );
@@ -165,11 +323,12 @@ function SourcePreview({
         <div className="text-zinc-500">
           Work by {authorId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
         </div>
+        <PatristicWorkPreview authorId={authorId} workId={workId} />
         <Link
           href={`/author/${authorId}/work/${workId}`}
           className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400"
         >
-          Read work &rarr;
+          Read full work &rarr;
         </Link>
       </div>
     );
@@ -183,11 +342,12 @@ function SourcePreview({
     return (
       <div className="space-y-2 text-sm">
         <div className="text-zinc-500">{label}</div>
+        {secNum && <DocumentSectionPreview docId={docId} sectionNum={secNum} />}
         <Link
           href={`/document/${docId}`}
           className="inline-block text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400"
         >
-          View document &rarr;
+          View full document &rarr;
         </Link>
       </div>
     );
@@ -235,11 +395,11 @@ export default function GraphDetailPanel({
   useEffect(() => {
     if (!graph.hasNode(nodeId)) return;
     const nType = graph.getNodeAttributes(nodeId).node_type;
-    if (nType === "bible" && Object.keys(bibleSources).length === 0) {
+    if ((nType === "bible" || nType === "bible-book") && Object.keys(bibleSources).length === 0) {
       fetchBibleSources().then(setBibleSources);
-    } else if (nType === "document" && Object.keys(documentSources).length === 0) {
+    } else if ((nType === "document") && Object.keys(documentSources).length === 0) {
       fetchDocumentSources().then(setDocumentSources);
-    } else if ((nType === "author" || nType === "patristic-work") && Object.keys(authorSources).length === 0) {
+    } else if ((nType === "author") && Object.keys(authorSources).length === 0) {
       fetchAuthorSources().then(setAuthorSources);
     }
   }, [nodeId, graph, bibleSources, documentSources, authorSources]);
@@ -249,7 +409,7 @@ export default function GraphDetailPanel({
   const attrs = graph.getNodeAttributes(nodeId);
   const nodeType = attrs.node_type;
   const isParagraph = nodeType === "paragraph";
-  const isSource = nodeType === "bible" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document" || nodeType === "document-section";
+  const isSource = nodeType === "bible" || nodeType === "bible-book" || nodeType === "bible-testament" || nodeType === "bible-chapter" || nodeType === "bible-verse" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document" || nodeType === "document-section";
   const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
   const paraData = paraId ? paragraphs.get(paraId) : null;
 

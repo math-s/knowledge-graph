@@ -90,14 +90,27 @@ export default function SearchBar({
               className="block w-full px-4 py-2 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800"
             >
               <div className="text-sm font-medium">{getDisplayLabel(entry)}</div>
-              {"snippet_html" in entry && entry.snippet_html ? (
+              {entry.snippet_html ? (
                 <div
                   className="line-clamp-2 text-xs text-zinc-500 [&>mark]:bg-yellow-200 [&>mark]:dark:bg-yellow-800"
-                  dangerouslySetInnerHTML={{ __html: entry.snippet_html as string }}
+                  dangerouslySetInnerHTML={{ __html: entry.snippet_html }}
                 />
               ) : (
                 <div className="line-clamp-2 text-xs text-zinc-500">
                   {entry.text}
+                </div>
+              )}
+              {entry.translations && Object.keys(entry.translations).length > 1 && (
+                <div className="mt-0.5 flex gap-2">
+                  {Object.entries(entry.translations).filter(([k]) => k !== "en").slice(0, 2).map(([langCode, snippet]) => (
+                    <div
+                      key={langCode}
+                      className="line-clamp-1 text-[10px] text-zinc-400 [&>mark]:bg-yellow-100 [&>mark]:dark:bg-yellow-900"
+                    >
+                      <span className="font-semibold uppercase">{langCode}</span>{" "}
+                      <span dangerouslySetInnerHTML={{ __html: snippet }} />
+                    </div>
+                  ))}
                 </div>
               )}
             </button>

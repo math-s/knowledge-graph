@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Fuse from "fuse.js";
-import type { SearchEntry } from "@/lib/types";
+import type { Lang, SearchEntry } from "@/lib/types";
 import { fetchSearchIndex } from "@/lib/graph-data";
 import {
   hasApi,
@@ -16,7 +16,7 @@ import {
  * When NEXT_PUBLIC_API_URL is set: calls /search?q=... (server-side FTS5).
  * When not set: downloads search-index.json and uses Fuse.js client-side.
  */
-export function useSearch() {
+export function useSearch(lang: Lang = "en") {
   // Fuse.js fallback state
   const fuseRef = useRef<Fuse<SearchEntry> | null>(null);
 
@@ -67,7 +67,7 @@ export function useSearch() {
         abortRef.current = controller;
 
         apiFetch<ApiSearchResponse>(
-          `/search?q=${encodeURIComponent(q)}&limit=20`,
+          `/search?q=${encodeURIComponent(q)}&limit=20&lang=${lang}&bilingual=true`,
         )
           .then((data) => {
             if (controller.signal.aborted) return;
@@ -77,6 +77,7 @@ export function useSearch() {
                 id: r.type === "paragraph" ? Number(r.id) : r.id,
                 text: r.snippet.replace(/<\/?mark>/g, ""),
                 snippet_html: r.snippet,
+                translations: r.translations,
                 themes: "",
                 part: "",
                 section: "",

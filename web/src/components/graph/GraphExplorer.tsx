@@ -6,6 +6,7 @@ import { useGraphData, useGraphThemes, useGraphEntities, useGraphTopics, type Gr
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
 import { hasApi } from "@/lib/api";
+import { useLang } from "@/lib/LangContext";
 import type { SearchEntry } from "@/lib/types";
 import GraphCanvas from "./GraphCanvas";
 import GraphDetailPanel from "./GraphDetailPanel";
@@ -43,7 +44,8 @@ export default function GraphExplorer() {
   const { graph, loading, error } = useGraphData(graphQuery);
   const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
     useNodeSelection();
-  const { query, results, search } = useSearch();
+  const { lang } = useLang();
+  const { query, results, search } = useSearch(lang);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [filters, setFilters] = useState<GraphFilters>(DEFAULT_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
