@@ -3,44 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 import { useSigma } from "@react-sigma/core";
 import Graph from "graphology";
-import type { ParagraphData } from "@/lib/types";
+import { apiFetch } from "@/lib/api";
 import { resolveLang } from "@/lib/types";
-import { fetchParagraphs } from "@/lib/graph-data";
+import type { MultiLangText } from "@/lib/types";
 
 interface GraphTooltipProps {
   hoveredNode: string | null;
   graph: Graph;
 }
 
-/** Singleton paragraph text cache — loaded once on first hover of a paragraph node. */
-const paraCache: { map: Map<number, string> | null; loading: boolean } = {
-  map: null,
-  loading: false,
-};
+/** Per-paragraph snippet cache — one ~1KB API call per cache miss. */
+const snippetCache = new Map<number, string>();
 
-function loadParaCache(): Promise<Map<number, string>> {
-  if (paraCache.map) return Promise.resolve(paraCache.map);
-  if (paraCache.loading) {
-    return new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (paraCache.map) {
-          clearInterval(interval);
-          resolve(paraCache.map);
-        }
-      }, 50);
-    });
+async function loadSnippet(paraId: number): Promise<string | null> {
+  if (snippetCache.has(paraId)) return snippetCache.get(paraId)!;
+  try {
+    const data = await apiFetch<{ text: MultiLangText }>(`/paragraphs/${paraId}`);
+    const text = resolveLang(data.text, "en").slice(0, 200);
+    snippetCache.set(paraId, text);
+    return text;
+  } catch {
+    return null;
   }
-  paraCache.loading = true;
-  return fetchParagraphs().then((data: ParagraphData[]) => {
-    const map = new Map<number, string>();
-    for (const p of data) {
-      const text = resolveLang(p.text, "en");
-      map.set(p.id, text.slice(0, 200));
-    }
-    paraCache.map = map;
-    paraCache.loading = false;
-    return map;
-  });
 }
 
 export default function GraphTooltip({ hoveredNode, graph }: GraphTooltipProps) {
@@ -69,9 +53,9 @@ export default function GraphTooltip({ hoveredNode, graph }: GraphTooltipProps) 
     if (attrs.node_type === "paragraph" && hoveredNode.startsWith("p:")) {
       const paraId = parseInt(hoveredNode.slice(2), 10);
       lastNodeRef.current = hoveredNode;
-      loadParaCache().then((map) => {
+      loadSnippet(paraId).then((text) => {
         if (lastNodeRef.current !== hoveredNode) return; // stale
-        setSnippet(map.get(paraId) || null);
+        setSnippet(text);
       });
     } else {
       setSnippet(null);

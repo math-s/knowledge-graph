@@ -5,15 +5,14 @@ import Link from "next/link";
 import Graph from "graphology";
 import type { AuthorData, BibleBookData, BibleChapterData, DocumentData, DocumentSectionData, EntityDefinition, MultiLangText, ParagraphData, PatristicWorkData, TopicDefinition } from "@/lib/types";
 import { t, tArr, resolveLang } from "@/lib/types";
+import { apiFetch } from "@/lib/api";
 import {
   fetchAuthorSources,
   fetchAuthorWorks,
-  fetchBibleBookVerses,
   fetchBibleSources,
   fetchDocumentSections,
   fetchDocumentSources,
   fetchEntities,
-  fetchParagraphs,
   fetchTopics,
 } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
@@ -36,11 +35,14 @@ function BibleChapterPreview({ bookId, chapter }: { bookId: string; chapter: str
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBibleBookVerses(bookId).then((chapters) => {
-      if (chapters) {
-        const ch = chapters.find((c) => String(c.chapter) === chapter);
-        if (ch) setVerses(ch.verses);
+    apiFetch<{ verses: { verse: number; text: MultiLangText }[] }>(
+      `/bible/books/${encodeURIComponent(bookId)}/chapters/${chapter}`,
+    ).then((data) => {
+      const versesRecord: Record<number, MultiLangText> = {};
+      for (const v of data.verses) {
+        versesRecord[v.verse] = v.text;
       }
+      setVerses(versesRecord);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, [bookId, chapter]);
@@ -70,13 +72,11 @@ function BibleVersePreview({ bookId, chapter, verse }: { bookId: string; chapter
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBibleBookVerses(bookId).then((chapters) => {
-      if (chapters) {
-        const ch = chapters.find((c) => String(c.chapter) === chapter);
-        if (ch && ch.verses[Number(verse)]) {
-          setText(ch.verses[Number(verse)]);
-        }
-      }
+    apiFetch<{ verses: { verse: number; text: MultiLangText }[] }>(
+      `/bible/books/${encodeURIComponent(bookId)}/chapters/${chapter}`,
+    ).then((data) => {
+      const found = data.verses.find((v) => v.verse === Number(verse));
+      if (found) setText(found.text);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, [bookId, chapter, verse]);
@@ -366,9 +366,7 @@ export default function GraphDetailPanel({
   onGoBack,
 }: GraphDetailPanelProps) {
   const { lang, setLang } = useLang();
-  const [paragraphs, setParagraphs] = useState<Map<number, ParagraphData>>(
-    new Map(),
-  );
+  const [paraData, setParaData] = useState<ParagraphData | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [bibleSources, setBibleSources] = useState<Record<string, BibleBookData>>({});
   const [documentSources, setDocumentSources] = useState<Record<string, DocumentData>>({});
@@ -376,13 +374,29 @@ export default function GraphDetailPanel({
   const [entityDefs, setEntityDefs] = useState<Map<string, EntityDefinition>>(new Map());
   const [topicDefs, setTopicDefs] = useState<Map<number, TopicDefinition>>(new Map());
 
+  // Load paragraph data for the selected node
   useEffect(() => {
-    fetchParagraphs().then((data) => {
-      const map = new Map<number, ParagraphData>();
-      for (const p of data) map.set(p.id, p);
-      setParagraphs(map);
+    setParaData(null);
+    setLoaded(false);
+
+    if (!graph.hasNode(nodeId)) return;
+    const nType = graph.getNodeAttributes(nodeId).node_type;
+    if (nType !== "paragraph") {
       setLoaded(true);
-    });
+      return;
+    }
+
+    const paraId = parseInt(nodeId.replace("p:", ""), 10);
+    apiFetch<ParagraphData>(`/paragraphs/${paraId}`)
+      .then((data) => {
+        setParaData(data);
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
+  }, [nodeId, graph]);
+
+  // Load entity/topic defs once
+  useEffect(() => {
     fetchEntities().then((data) => {
       setEntityDefs(new Map(data.map((e) => [e.id, e])));
     }).catch(() => {});
@@ -410,8 +424,6 @@ export default function GraphDetailPanel({
   const nodeType = attrs.node_type;
   const isParagraph = nodeType === "paragraph";
   const isSource = nodeType === "bible" || nodeType === "bible-book" || nodeType === "bible-testament" || nodeType === "bible-chapter" || nodeType === "bible-verse" || nodeType === "author" || nodeType === "patristic-work" || nodeType === "document" || nodeType === "document-section";
-  const paraId = isParagraph ? parseInt(nodeId.replace("p:", "")) : null;
-  const paraData = paraId ? paragraphs.get(paraId) : null;
 
   // All connections grouped by edge type
   const connectionsByType: Record<string, string[]> = {};

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import type { DocumentMeta, DocumentSectionData, Lang, MultiLangText } from "@/lib/types";
 import { resolveLang, resolvedLangCode, LANG_SHORT, LANG_NAMES } from "@/lib/types";
-import { fetchDocumentMeta, fetchDocumentSections, fetchParagraphs } from "@/lib/graph-data";
+import { apiFetch } from "@/lib/api";
+import { fetchDocumentSections, fetchParagraphParts } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_COLORS, SOURCE_COLORS, DOCUMENT_HIERARCHY_COLORS } from "@/lib/colors";
 
@@ -29,10 +30,15 @@ export default function DocumentPageClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchDocumentMeta().then((meta) => {
-      setDoc(meta[id] || null);
-      setLoading(false);
-    });
+    apiFetch<DocumentMeta>(`/documents/${encodeURIComponent(id)}`)
+      .then((data) => {
+        setDoc(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDoc(null);
+        setLoading(false);
+      });
   }, [id]);
 
   useEffect(() => {
@@ -43,12 +49,12 @@ export default function DocumentPageClient() {
 
   useEffect(() => {
     if (doc && doc.citing_paragraphs.length > 0) {
-      fetchParagraphs().then((paras) => {
+      fetchParagraphParts().then((parts) => {
         const colors = new Map<number, string>();
-        for (const p of paras) {
-          if (doc.citing_paragraphs.includes(p.id)) {
-            const partStr = typeof p.part === "string" ? p.part : resolveLang(p.part, "en");
-            colors.set(p.id, PART_COLORS[partStr] || "#999");
+        const citingSet = new Set(doc.citing_paragraphs);
+        for (const p of parts) {
+          if (citingSet.has(p.id)) {
+            colors.set(p.id, PART_COLORS[p.part] || "#999");
           }
         }
         setParagraphColors(colors);

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { hasApi, apiFetch, type ApiSearchResponse, type ApiSearchResult } from "@/lib/api";
+import { apiFetch, type ApiSearchResponse, type ApiSearchResult } from "@/lib/api";
 
 type SearchScope = "all" | "bible" | "patristic";
 
@@ -76,7 +76,7 @@ export default function SearchPage() {
 
   const doSearch = useCallback(
     (q: string, s: SearchScope, l: string, bi: boolean) => {
-      if (!hasApi || !q.trim() || q.length < 2) {
+      if (!q.trim() || q.length < 2) {
         setResults([]);
         setTotalCount(0);
         return;
@@ -119,21 +119,6 @@ export default function SearchPage() {
     setBilingual(bi);
     if (query.length >= 2) doSearch(query, scope, lang, bi);
   };
-
-  if (!hasApi) {
-    return (
-      <div className="mx-auto max-w-3xl px-6 py-12">
-        <h1 className="mb-4 text-2xl font-bold">Search</h1>
-        <p className="text-zinc-500">
-          Search requires the API backend. Use the{" "}
-          <Link href="/graph" className="text-blue-600 hover:underline">
-            graph explorer
-          </Link>{" "}
-          search bar for client-side search.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">

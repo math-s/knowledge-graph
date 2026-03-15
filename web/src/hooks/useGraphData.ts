@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Graph from "graphology";
-import type { GraphData } from "@/lib/types";
-import { fetchGraphData } from "@/lib/graph-data";
 import {
-  hasApi,
   apiFetch,
   type ApiSubgraph,
   type ApiTheme,
@@ -73,11 +70,9 @@ export type GraphQuery =
   | { mode: "filter"; themes?: string[]; entities?: string[]; topics?: number[] }
   | { mode: "paragraph"; paragraphId: number; depth?: number }
   | { mode: "node"; nodeId: string }
-  | { mode: "connect"; nodeIds: string[] }
-  | null;  // null = load full graph.json (static fallback)
+  | { mode: "connect"; nodeIds: string[] };
 
-function queryToApiPath(q: GraphQuery): string | null {
-  if (!q) return null;
+function queryToApiPath(q: GraphQuery): string {
   switch (q.mode) {
     case "theme":
       return `/graph/theme/${encodeURIComponent(q.theme)}`;
@@ -103,7 +98,6 @@ function queryToApiPath(q: GraphQuery): string | null {
 
 /** Cache key for deduplication. */
 function queryKey(q: GraphQuery): string {
-  if (!q) return "__full__";
   switch (q.mode) {
     case "theme": return `theme:${q.theme}`;
     case "entity": return `entity:${q.entityId}`;
@@ -116,12 +110,9 @@ function queryKey(q: GraphQuery): string {
 }
 
 /**
- * Load graph data from the API or fall back to static graph.json.
- *
- * Pass a GraphQuery to fetch a specific subgraph from the API.
- * Pass null (or omit) to load the full graph.json (static mode).
+ * Load a subgraph from the API.
  */
-export function useGraphData(query: GraphQuery = null) {
+export function useGraphData(query: GraphQuery) {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -135,23 +126,10 @@ export function useGraphData(query: GraphQuery = null) {
 
     async function load() {
       try {
-        let g: Graph;
-
-        const apiPath = hasApi ? queryToApiPath(query) : null;
-        if (apiPath) {
-          const data = await apiFetch<ApiSubgraph>(apiPath);
-          if (cancelled) return;
-          g = buildGraphology(data.nodes, data.edges);
-        } else {
-          // Fallback: load full graph.json
-          const data: GraphData = await fetchGraphData();
-          if (cancelled) return;
-          g = buildGraphology(
-            data.nodes.map((n) => ({ ...n, is_seed: false })),
-            data.edges,
-          );
-        }
-
+        const apiPath = queryToApiPath(query);
+        const data = await apiFetch<ApiSubgraph>(apiPath);
+        if (cancelled) return;
+        const g = buildGraphology(data.nodes, data.edges);
         setGraph(g);
       } catch (err) {
         if (!cancelled) {
@@ -173,13 +151,11 @@ export function useGraphData(query: GraphQuery = null) {
 
 /**
  * Fetch the list of available themes from the API.
- * Returns empty array when API is not configured.
  */
 export function useGraphThemes() {
   const [themes, setThemes] = useState<ApiTheme[]>([]);
 
   useEffect(() => {
-    if (!hasApi) return;
     apiFetch<ApiTheme[]>("/graph/themes")
       .then(setThemes)
       .catch((err) => console.error("Failed to fetch themes:", err));
@@ -192,7 +168,6 @@ export function useGraphEntities() {
   const [entities, setEntities] = useState<ApiEntity[]>([]);
 
   useEffect(() => {
-    if (!hasApi) return;
     apiFetch<ApiEntity[]>("/graph/entities")
       .then(setEntities)
       .catch((err) => console.error("Failed to fetch entities:", err));
@@ -205,7 +180,6 @@ export function useGraphTopics() {
   const [topics, setTopics] = useState<ApiTopic[]>([]);
 
   useEffect(() => {
-    if (!hasApi) return;
     apiFetch<ApiTopic[]>("/graph/topics")
       .then(setTopics)
       .catch((err) => console.error("Failed to fetch topics:", err));

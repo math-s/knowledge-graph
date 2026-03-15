@@ -4,10 +4,9 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLang } from "@/lib/LangContext";
-import { fetchBibleMeta, fetchBibleBookVerses } from "@/lib/graph-data";
+import { apiFetch } from "@/lib/api";
 import {
   type BibleBookMeta,
-  type BibleChapterData,
   type Lang,
   type MultiLangText,
   LANG_NAMES,
@@ -47,16 +46,18 @@ export default function VersePageClient() {
 
     async function load() {
       setLoading(true);
-      const [metaData, versesData] = await Promise.all([
-        fetchBibleMeta(),
-        fetchBibleBookVerses(parsed!.bookId),
-      ]);
-      setMeta(metaData[parsed!.bookId] || null);
-      if (versesData) {
-        const ch = versesData.find((c: BibleChapterData) => c.chapter === parsed!.chapter);
-        if (ch && ch.verses[parsed!.verse]) {
-          setVerseText(ch.verses[parsed!.verse]);
-        }
+      try {
+        const [bookData, chapterData] = await Promise.all([
+          apiFetch<BibleBookMeta>(`/bible/books/${encodeURIComponent(parsed!.bookId)}`),
+          apiFetch<{ verses: { verse: number; text: MultiLangText }[] }>(
+            `/bible/books/${encodeURIComponent(parsed!.bookId)}/chapters/${parsed!.chapter}`,
+          ),
+        ]);
+        setMeta(bookData);
+        const found = chapterData.verses.find((v) => v.verse === parsed!.verse);
+        if (found) setVerseText(found.text);
+      } catch {
+        // API error — leave state as null
       }
       setLoading(false);
     }

@@ -68,6 +68,13 @@ def list_paragraphs(
     }
 
 
+@router.get("/parts")
+def list_paragraph_parts(db: sqlite3.Connection = Depends(get_db)):
+    """Return lightweight [{id, part}] for all paragraphs (~10KB)."""
+    rows = db.execute("SELECT id, part FROM paragraphs ORDER BY id").fetchall()
+    return [{"id": r["id"], "part": r["part"]} for r in rows]
+
+
 @router.get("/{paragraph_id}")
 def get_paragraph(
     paragraph_id: int,

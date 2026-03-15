@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { hasApi, apiFetch, type ApiTheme } from "@/lib/api";
+import { apiFetch, type ApiTheme } from "@/lib/api";
 import { resolveLang, type Lang, type MultiLangText, LANG_NAMES } from "@/lib/types";
 
 interface ParagraphSummary {
@@ -35,14 +35,12 @@ export default function ParagraphsPage() {
 
   // Fetch themes list
   useEffect(() => {
-    if (!hasApi) return;
     apiFetch<ApiTheme[]>("/graph/themes").then(setThemes).catch(() => {});
   }, []);
 
   // Fetch paragraphs
   const fetchPage = useCallback(
     (p: number, t: string) => {
-      if (!hasApi) return;
       setLoading(true);
       const themeParam = t ? `&theme=${encodeURIComponent(t)}` : "";
       apiFetch<ParagraphsResponse>(
@@ -68,21 +66,6 @@ export default function ParagraphsPage() {
     setTheme(t);
     setPage(1);
   };
-
-  if (!hasApi) {
-    return (
-      <div className="mx-auto max-w-3xl px-6 py-12">
-        <h1 className="mb-4 text-2xl font-bold">Browse Paragraphs</h1>
-        <p className="text-zinc-500">
-          Paginated browsing requires the API backend. Use the{" "}
-          <Link href="/structure" className="text-blue-600 hover:underline">
-            structure page
-          </Link>{" "}
-          to browse paragraphs.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">

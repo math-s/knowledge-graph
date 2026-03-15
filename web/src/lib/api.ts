@@ -1,14 +1,16 @@
 /**
  * API client for the Knowledge Graph backend.
  *
- * When NEXT_PUBLIC_API_URL is set, hooks use the API for search and graph.
- * When not set, the app falls back to static JSON files (Fuse.js search, full graph).
+ * All runtime data goes through the API at NEXT_PUBLIC_API_URL.
  */
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-/** True when the API backend is configured. */
-export const hasApi = !!API_URL;
+if (!API_URL && typeof window !== "undefined") {
+  console.warn(
+    "[knowledge-graph] NEXT_PUBLIC_API_URL is not set. API calls will fail.",
+  );
+}
 
 /** Fetch JSON from the API, throwing on non-OK responses. */
 export async function apiFetch<T>(path: string): Promise<T> {

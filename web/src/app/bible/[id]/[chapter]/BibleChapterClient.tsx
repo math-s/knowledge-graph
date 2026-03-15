@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLang } from "@/lib/LangContext";
-import { fetchBibleMeta, fetchBibleBookVerses } from "@/lib/graph-data";
+import { apiFetch } from "@/lib/api";
 import {
   type BibleBookMeta,
   type BibleChapterData,
@@ -32,14 +32,26 @@ export default function BibleChapterClient() {
   useEffect(() => {
     async function load() {
       setLoading(true);
-      const [metaData, versesData] = await Promise.all([
-        fetchBibleMeta(),
-        fetchBibleBookVerses(bookId),
-      ]);
-      setMeta(metaData[bookId] || null);
-      if (versesData) {
-        const ch = versesData.find((c) => c.chapter === chapterNum);
-        setChapter(ch || null);
+      try {
+        const [bookData, chapterData] = await Promise.all([
+          apiFetch<BibleBookMeta>(`/bible/books/${encodeURIComponent(bookId)}`),
+          apiFetch<{ book_id: string; chapter: number; verses: { verse: number; text: MultiLangText }[] }>(
+            `/bible/books/${encodeURIComponent(bookId)}/chapters/${chapterNum}`,
+          ),
+        ]);
+        setMeta(bookData);
+        // Transform API response to BibleChapterData shape
+        const versesRecord: Record<number, MultiLangText> = {};
+        for (const v of chapterData.verses) {
+          versesRecord[v.verse] = v.text;
+        }
+        setChapter({
+          book_id: chapterData.book_id,
+          chapter: chapterData.chapter,
+          verses: versesRecord,
+        });
+      } catch {
+        // API error
       }
       setLoading(false);
     }

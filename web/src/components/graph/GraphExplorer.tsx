@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { useGraphData, useGraphThemes, useGraphEntities, useGraphTopics, type GraphQuery } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
-import { hasApi } from "@/lib/api";
 import { useLang } from "@/lib/LangContext";
 import type { ApiEntity, ApiTopic } from "@/lib/api";
 import type { SearchEntry } from "@/lib/types";
@@ -94,17 +93,13 @@ export default function GraphExplorer() {
   }, [paramFilter, apiThemes, apiEntities, apiTopics]);
 
   // Determine graph query priority: active filter > entity > topic > theme
-  const graphQuery: GraphQuery = hasApi
-    ? activeFilter
-      ? { mode: "filter", ...activeFilter }
-      : selectedEntity
-        ? { mode: "entity", entityId: selectedEntity }
-        : selectedTopic !== null
-          ? { mode: "topic", topicId: selectedTopic }
-          : selectedTheme
-            ? { mode: "theme", theme: selectedTheme }
-            : null
-    : null;
+  const graphQuery: GraphQuery = activeFilter
+    ? { mode: "filter", ...activeFilter }
+    : selectedEntity
+      ? { mode: "entity", entityId: selectedEntity }
+      : selectedTopic !== null
+        ? { mode: "topic", topicId: selectedTopic }
+        : { mode: "theme", theme: selectedTheme };
   const { graph, loading, error } = useGraphData(graphQuery);
   const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
     useNodeSelection();
@@ -169,23 +164,10 @@ export default function GraphExplorer() {
 
   const handleThemeFilter = useCallback(
     (themeId: string) => {
-      if (hasApi) {
-        // With API: switch the loaded theme entirely
-        setSelectedTheme(themeId);
-        clearSelection();
-      } else {
-        // Without API: client-side filter (original behavior)
-        if (selectedNode) {
-          pushState(selectedNode, filters);
-        }
-        setFilters({
-          ...filters,
-          visibleParts: new Set(filters.visibleParts),
-          selectedThemes: new Set([themeId]),
-        });
-      }
+      setSelectedTheme(themeId);
+      clearSelection();
     },
-    [selectedNode, filters, pushState, clearSelection],
+    [clearSelection],
   );
 
   const handleGoBack = useCallback(() => {
@@ -226,15 +208,13 @@ export default function GraphExplorer() {
         <div className="text-center">
           <div className="mb-2 text-lg font-medium">Loading graph...</div>
           <div className="text-sm text-zinc-500">
-            {hasApi && activeFilter
+            {activeFilter
               ? `Filter: ${[...activeFilter.themes, ...activeFilter.entities, ...activeFilter.topics.map(String)].join(" + ")}`
-              : hasApi && selectedEntity
+              : selectedEntity
                 ? `Entity: ${selectedEntity}`
-                : hasApi && selectedTopic !== null
+                : selectedTopic !== null
                   ? `Topic: ${selectedTopic}`
-                  : hasApi && selectedTheme
-                    ? `Theme: ${selectedTheme}`
-                    : "Full graph"}
+                  : `Theme: ${selectedTheme}`}
           </div>
         </div>
       </div>
@@ -269,122 +249,120 @@ export default function GraphExplorer() {
         onSelect={handleSearchSelect}
       />
 
-      {/* Subgraph selectors — only shown when API is available */}
-      {hasApi && (
-        <div className="absolute right-4 top-4 z-20 flex flex-col gap-2 w-64">
-          {/* Multi-filter input */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!filterExpr.trim()) {
+      {/* Subgraph selectors */}
+      <div className="absolute right-4 top-4 z-20 flex flex-col gap-2 w-64">
+        {/* Multi-filter input */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!filterExpr.trim()) {
+              setActiveFilter(null);
+              return;
+            }
+            const parsed = parseFilterExpr(filterExpr, apiThemes, apiEntities, apiTopics);
+            setActiveFilter(parsed);
+            if (parsed) {
+              setSelectedEntity(null);
+              setSelectedTopic(null);
+            }
+            clearSelection();
+            filterInputRef.current?.blur();
+          }}
+          className="relative"
+        >
+          <input
+            ref={filterInputRef}
+            type="text"
+            value={filterExpr}
+            onChange={(e) => setFilterExpr(e.target.value)}
+            placeholder="Filter: mary + salvation"
+            className="w-full rounded-lg border bg-white px-3 py-2 pr-8 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+          />
+          {activeFilter && (
+            <button
+              type="button"
+              onClick={() => {
+                setFilterExpr("");
                 setActiveFilter(null);
-                return;
-              }
-              const parsed = parseFilterExpr(filterExpr, apiThemes, apiEntities, apiTopics);
-              setActiveFilter(parsed);
-              if (parsed) {
-                setSelectedEntity(null);
-                setSelectedTopic(null);
-              }
-              clearSelection();
-              filterInputRef.current?.blur();
-            }}
-            className="relative"
-          >
-            <input
-              ref={filterInputRef}
-              type="text"
-              value={filterExpr}
-              onChange={(e) => setFilterExpr(e.target.value)}
-              placeholder="Filter: mary + salvation"
-              className="w-full rounded-lg border bg-white px-3 py-2 pr-8 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
-            />
-            {activeFilter && (
-              <button
-                type="button"
-                onClick={() => {
-                  setFilterExpr("");
-                  setActiveFilter(null);
+                clearSelection();
+              }}
+              className="absolute right-2 top-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+              title="Clear filter"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+              </svg>
+            </button>
+          )}
+        </form>
+        {activeFilter && (
+          <div className="rounded bg-blue-50 px-2 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+            {activeFilter.themes.length > 0 && <span>Themes: {activeFilter.themes.join(", ")}</span>}
+            {activeFilter.entities.length > 0 && <span>{activeFilter.themes.length > 0 ? " + " : ""}Entities: {activeFilter.entities.join(", ")}</span>}
+            {activeFilter.topics.length > 0 && <span>{(activeFilter.themes.length > 0 || activeFilter.entities.length > 0) ? " + " : ""}Topics: {activeFilter.topics.join(", ")}</span>}
+          </div>
+        )}
+        {!activeFilter && (
+          <>
+            {apiThemes.length > 0 && (
+              <select
+                value={selectedEntity || selectedTopic !== null ? "" : selectedTheme}
+                onChange={(e) => {
+                  setSelectedEntity(null);
+                  setSelectedTopic(null);
+                  setSelectedTheme(e.target.value);
                   clearSelection();
                 }}
-                className="absolute right-2 top-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
-                title="Clear filter"
+                className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
               >
-                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                </svg>
-              </button>
+                {apiThemes.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    Theme: {t.label} ({t.count})
+                  </option>
+                ))}
+              </select>
             )}
-          </form>
-          {activeFilter && (
-            <div className="rounded bg-blue-50 px-2 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-              {activeFilter.themes.length > 0 && <span>Themes: {activeFilter.themes.join(", ")}</span>}
-              {activeFilter.entities.length > 0 && <span>{activeFilter.themes.length > 0 ? " + " : ""}Entities: {activeFilter.entities.join(", ")}</span>}
-              {activeFilter.topics.length > 0 && <span>{(activeFilter.themes.length > 0 || activeFilter.entities.length > 0) ? " + " : ""}Topics: {activeFilter.topics.join(", ")}</span>}
-            </div>
-          )}
-          {!activeFilter && (
-            <>
-              {apiThemes.length > 0 && (
-                <select
-                  value={selectedEntity || selectedTopic !== null ? "" : selectedTheme}
-                  onChange={(e) => {
-                    setSelectedEntity(null);
-                    setSelectedTopic(null);
-                    setSelectedTheme(e.target.value);
-                    clearSelection();
-                  }}
-                  className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
-                >
-                  {apiThemes.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      Theme: {t.label} ({t.count})
-                    </option>
-                  ))}
-                </select>
-              )}
-              {apiEntities.length > 0 && (
-                <select
-                  value={selectedEntity || ""}
-                  onChange={(e) => {
-                    const val = e.target.value || null;
-                    setSelectedEntity(val);
-                    if (val) setSelectedTopic(null);
-                    clearSelection();
-                  }}
-                  className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
-                >
-                  <option value="">Entity: none</option>
-                  {apiEntities.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.label} ({e.count})
-                    </option>
-                  ))}
-                </select>
-              )}
-              {apiTopics.length > 0 && (
-                <select
-                  value={selectedTopic !== null ? String(selectedTopic) : ""}
-                  onChange={(e) => {
-                    const val = e.target.value ? Number(e.target.value) : null;
-                    setSelectedTopic(val);
-                    if (val !== null) setSelectedEntity(null);
-                    clearSelection();
-                  }}
-                  className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
-                >
-                  <option value="">Topic: none</option>
-                  {apiTopics.map((t) => (
-                    <option key={t.id} value={String(t.id)}>
-                      {t.terms.slice(0, 4).join(", ")}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </>
-          )}
-        </div>
-      )}
+            {apiEntities.length > 0 && (
+              <select
+                value={selectedEntity || ""}
+                onChange={(e) => {
+                  const val = e.target.value || null;
+                  setSelectedEntity(val);
+                  if (val) setSelectedTopic(null);
+                  clearSelection();
+                }}
+                className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+              >
+                <option value="">Entity: none</option>
+                {apiEntities.map((e) => (
+                  <option key={e.id} value={e.id}>
+                    {e.label} ({e.count})
+                  </option>
+                ))}
+              </select>
+            )}
+            {apiTopics.length > 0 && (
+              <select
+                value={selectedTopic !== null ? String(selectedTopic) : ""}
+                onChange={(e) => {
+                  const val = e.target.value ? Number(e.target.value) : null;
+                  setSelectedTopic(val);
+                  if (val !== null) setSelectedEntity(null);
+                  clearSelection();
+                }}
+                className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+              >
+                <option value="">Topic: none</option>
+                {apiTopics.map((t) => (
+                  <option key={t.id} value={String(t.id)}>
+                    {t.terms.slice(0, 4).join(", ")}
+                  </option>
+                ))}
+              </select>
+            )}
+          </>
+        )}
+      </div>
 
       <FilterPanel
         filters={filters}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { fetchAuthorWorks, fetchAuthorMeta } from "@/lib/graph-data";
+import { apiFetch } from "@/lib/api";
 import type { AuthorMeta, PatristicWorkData, Lang, MultiLangText } from "@/lib/types";
 import { resolveLang, LANG_SHORT, LANG_NAMES } from "@/lib/types";
 import { useLang } from "@/lib/LangContext";
@@ -26,17 +26,15 @@ export default function WorkPageClient() {
     async function load() {
       setLoading(true);
       try {
-        const [metaData, worksData] = await Promise.all([
-          fetchAuthorMeta(),
-          fetchAuthorWorks(authorId),
+        const [authorData, worksData] = await Promise.all([
+          apiFetch<AuthorMeta>(`/authors/${encodeURIComponent(authorId)}`),
+          apiFetch<{ works: PatristicWorkData[] }>(`/authors/${encodeURIComponent(authorId)}/works`),
         ]);
 
-        if (metaData[authorId]) {
-          setAuthor(metaData[authorId]);
-        }
+        setAuthor(authorData);
 
-        if (worksData) {
-          const found = worksData.find(
+        if (worksData.works) {
+          const found = worksData.works.find(
             (w) => w.id === `${authorId}/${workId}` || w.id.endsWith(`/${workId}`),
           );
           if (found) setWork(found);

@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, THEME_COLORS, ENTITY_CATEGORY_COLORS } from "@/lib/colors";
-import { hasApi } from "@/lib/api";
-import type { ThemeDefinition, EntityDefinition, TopicDefinition } from "@/lib/types";
-import { fetchThemes, fetchEntities, fetchTopics } from "@/lib/graph-data";
+import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, ENTITY_CATEGORY_COLORS } from "@/lib/colors";
+import type { EntityDefinition, TopicDefinition } from "@/lib/types";
+import { fetchEntities, fetchTopics } from "@/lib/graph-data";
 
 export interface GraphFilters {
   visibleParts: Set<string>;
@@ -131,14 +130,12 @@ export default function FilterPanel({
   onReset,
   highlightedCount,
 }: FilterPanelProps) {
-  const [themes, setThemes] = useState<Record<string, ThemeDefinition>>({});
   const [entities, setEntities] = useState<EntityDefinition[]>([]);
   const [topics, setTopics] = useState<TopicDefinition[]>([]);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const isDefault = filtersMatchDefaults(filters);
 
   useEffect(() => {
-    fetchThemes().then(setThemes).catch(() => {});
     fetchEntities().then(setEntities).catch(() => {});
     fetchTopics().then(setTopics).catch(() => {});
   }, []);
@@ -148,13 +145,6 @@ export default function FilterPanel({
     if (next.has(part)) next.delete(part);
     else next.add(part);
     onFiltersChange({ ...filters, visibleParts: next });
-  };
-
-  const toggleTheme = (themeId: string) => {
-    const next = new Set(filters.selectedThemes);
-    if (next.has(themeId)) next.delete(themeId);
-    else next.add(themeId);
-    onFiltersChange({ ...filters, selectedThemes: next });
   };
 
   const toggleEntity = (id: string) => {
@@ -598,37 +588,7 @@ export default function FilterPanel({
             </p>
           )}
 
-          {/* Theme checkboxes: only shown in static mode (no API).
-              With API, the theme dropdown in GraphExplorer controls loading. */}
-          {!hasApi && Object.keys(themes).length > 0 && (
-            <>
-              <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">
-                Themes
-              </h3>
-              <div className="space-y-1.5">
-                {Object.entries(themes).map(([themeId, def]) => (
-                  <label key={themeId} className="flex items-center gap-2 text-xs">
-                    <input
-                      type="checkbox"
-                      checked={filters.selectedThemes.has(themeId)}
-                      onChange={() => toggleTheme(themeId)}
-                      className="rounded"
-                    />
-                    <span
-                      className="inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: THEME_COLORS[themeId] || "#999" }}
-                    />
-                    <span className="text-zinc-700 dark:text-zinc-300">
-                      {def.label}
-                    </span>
-                    <span className="text-zinc-400">({def.count})</span>
-                  </label>
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* Entity checkboxes: always shown (client-side dimming) */}
+          {/* Entity checkboxes (client-side dimming) */}
           {Object.keys(entitiesByCategory).length > 0 && (
             <>
               <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">
