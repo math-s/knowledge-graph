@@ -1,0 +1,12 @@
+web/
+pipeline/
+data/raw/
+data/checkpoints/
+data/processed/
+.git/
+__pycache__/
+*.pyc
+node_modules/
+.next/
+out/
+*.pkl

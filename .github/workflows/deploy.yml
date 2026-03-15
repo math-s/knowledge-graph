@@ -35,6 +35,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          NEXT_PUBLIC_API_URL: https://knowledge-graph-api.fly.dev
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

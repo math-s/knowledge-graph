@@ -1,0 +1,19 @@
+app = "knowledge-graph-api"
+primary_region = "gru"
+
+[build]
+
+[env]
+  KG_DB_PATH = "/app/data/knowledge-graph.db"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1

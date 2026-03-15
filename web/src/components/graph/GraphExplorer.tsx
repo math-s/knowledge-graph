@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useGraphData } from "@/hooks/useGraphData";
+import { useGraphData, useGraphThemes } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
+import { hasApi } from "@/lib/api";
 import type { SearchEntry } from "@/lib/types";
 import GraphCanvas from "./GraphCanvas";
 import GraphDetailPanel from "./GraphDetailPanel";
@@ -11,8 +12,16 @@ import GraphLegend from "./GraphLegend";
 import FilterPanel, { type GraphFilters, DEFAULT_FILTERS } from "./FilterPanel";
 import SearchBar from "../search/SearchBar";
 
+const DEFAULT_THEME = "church";
+
 export default function GraphExplorer() {
-  const { graph, loading, error } = useGraphData();
+  const [selectedTheme, setSelectedTheme] = useState<string>(DEFAULT_THEME);
+  const apiThemes = useGraphThemes();
+
+  // When API is available, load per-theme; otherwise full graph
+  const { graph, loading, error } = useGraphData(
+    hasApi ? selectedTheme : null,
+  );
   const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
     useNodeSelection();
   const { query, results, search } = useSearch();
@@ -64,19 +73,23 @@ export default function GraphExplorer() {
 
   const handleThemeFilter = useCallback(
     (themeId: string) => {
-      // Push current state so we can go back
-      if (selectedNode) {
-        pushState(selectedNode, filters);
+      if (hasApi) {
+        // With API: switch the loaded theme entirely
+        setSelectedTheme(themeId);
+        clearSelection();
+      } else {
+        // Without API: client-side filter (original behavior)
+        if (selectedNode) {
+          pushState(selectedNode, filters);
+        }
+        setFilters({
+          ...filters,
+          visibleParts: new Set(filters.visibleParts),
+          selectedThemes: new Set([themeId]),
+        });
       }
-
-      // Set selectedThemes to just this one theme (exclusive focus)
-      setFilters({
-        ...filters,
-        visibleParts: new Set(filters.visibleParts),
-        selectedThemes: new Set([themeId]),
-      });
     },
-    [selectedNode, filters, pushState],
+    [selectedNode, filters, pushState, clearSelection],
   );
 
   const handleGoBack = useCallback(() => {
@@ -116,7 +129,11 @@ export default function GraphExplorer() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <div className="mb-2 text-lg font-medium">Loading graph...</div>
-          <div className="text-sm text-zinc-500">3,260 nodes, 3,928 edges</div>
+          <div className="text-sm text-zinc-500">
+            {hasApi && selectedTheme
+              ? `Theme: ${selectedTheme}`
+              : "Full graph"}
+          </div>
         </div>
       </div>
     );
@@ -149,6 +166,26 @@ export default function GraphExplorer() {
         onSearch={search}
         onSelect={handleSearchSelect}
       />
+
+      {/* Theme selector — only shown when API is available */}
+      {hasApi && apiThemes.length > 0 && (
+        <div className="absolute right-4 top-4 z-20">
+          <select
+            value={selectedTheme}
+            onChange={(e) => {
+              setSelectedTheme(e.target.value);
+              clearSelection();
+            }}
+            className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+          >
+            {apiThemes.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label} ({t.count})
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <FilterPanel
         filters={filters}
