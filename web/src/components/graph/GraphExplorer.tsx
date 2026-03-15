@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useGraphData, useGraphThemes, type GraphQuery } from "@/hooks/useGraphData";
+import { useState, useCallback, useMemo } from "react";
+import { useGraphData, useGraphThemes, useGraphEntities, useGraphTopics, type GraphQuery } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
 import { hasApi } from "@/lib/api";
@@ -9,18 +9,28 @@ import type { SearchEntry } from "@/lib/types";
 import GraphCanvas from "./GraphCanvas";
 import GraphDetailPanel from "./GraphDetailPanel";
 import GraphLegend from "./GraphLegend";
-import FilterPanel, { type GraphFilters, DEFAULT_FILTERS } from "./FilterPanel";
+import FilterPanel, { type GraphFilters, DEFAULT_FILTERS, hasHighlightFilters, matchesHighlightFilters } from "./FilterPanel";
 import SearchBar from "../search/SearchBar";
 
 const DEFAULT_THEME = "church";
 
 export default function GraphExplorer() {
   const [selectedTheme, setSelectedTheme] = useState<string>(DEFAULT_THEME);
+  const [selectedEntity, setSelectedEntity] = useState<string | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
   const apiThemes = useGraphThemes();
+  const apiEntities = useGraphEntities();
+  const apiTopics = useGraphTopics();
 
-  // When API is available, load per-theme; otherwise full graph
-  const graphQuery: GraphQuery = hasApi && selectedTheme
-    ? { mode: "theme", theme: selectedTheme }
+  // Determine graph query priority: entity > topic > theme
+  const graphQuery: GraphQuery = hasApi
+    ? selectedEntity
+      ? { mode: "entity", entityId: selectedEntity }
+      : selectedTopic !== null
+        ? { mode: "topic", topicId: selectedTopic }
+        : selectedTheme
+          ? { mode: "theme", theme: selectedTheme }
+          : null
     : null;
   const { graph, loading, error } = useGraphData(graphQuery);
   const { selectedNode, selectNode, pushState, goBack, canGoBack, clearSelection } =
@@ -29,6 +39,17 @@ export default function GraphExplorer() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [filters, setFilters] = useState<GraphFilters>(DEFAULT_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const highlightedCount = useMemo(() => {
+    if (!graph || !hasHighlightFilters(filters)) return undefined;
+    let count = 0;
+    graph.forEachNode((node, attrs) => {
+      if (attrs.node_type === "paragraph" && matchesHighlightFilters(filters, attrs)) {
+        count++;
+      }
+    });
+    return count;
+  }, [graph, filters]);
 
   const handleSelectNode = useCallback(
     (nodeId: string | null) => {
@@ -131,9 +152,13 @@ export default function GraphExplorer() {
         <div className="text-center">
           <div className="mb-2 text-lg font-medium">Loading graph...</div>
           <div className="text-sm text-zinc-500">
-            {hasApi && selectedTheme
-              ? `Theme: ${selectedTheme}`
-              : "Full graph"}
+            {hasApi && selectedEntity
+              ? `Entity: ${selectedEntity}`
+              : hasApi && selectedTopic !== null
+                ? `Topic: ${selectedTopic}`
+                : hasApi && selectedTheme
+                  ? `Theme: ${selectedTheme}`
+                  : "Full graph"}
           </div>
         </div>
       </div>
@@ -168,23 +193,65 @@ export default function GraphExplorer() {
         onSelect={handleSearchSelect}
       />
 
-      {/* Theme selector — only shown when API is available */}
-      {hasApi && apiThemes.length > 0 && (
-        <div className="absolute right-4 top-4 z-20">
-          <select
-            value={selectedTheme}
-            onChange={(e) => {
-              setSelectedTheme(e.target.value);
-              clearSelection();
-            }}
-            className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
-          >
-            {apiThemes.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.label} ({t.count})
-              </option>
-            ))}
-          </select>
+      {/* Subgraph selectors — only shown when API is available */}
+      {hasApi && (
+        <div className="absolute right-4 top-4 z-20 flex flex-col gap-2">
+          {apiThemes.length > 0 && (
+            <select
+              value={selectedEntity || selectedTopic !== null ? "" : selectedTheme}
+              onChange={(e) => {
+                setSelectedEntity(null);
+                setSelectedTopic(null);
+                setSelectedTheme(e.target.value);
+                clearSelection();
+              }}
+              className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+            >
+              {apiThemes.map((t) => (
+                <option key={t.id} value={t.id}>
+                  Theme: {t.label} ({t.count})
+                </option>
+              ))}
+            </select>
+          )}
+          {apiEntities.length > 0 && (
+            <select
+              value={selectedEntity || ""}
+              onChange={(e) => {
+                const val = e.target.value || null;
+                setSelectedEntity(val);
+                if (val) setSelectedTopic(null);
+                clearSelection();
+              }}
+              className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+            >
+              <option value="">Entity: none</option>
+              {apiEntities.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.label} ({e.count})
+                </option>
+              ))}
+            </select>
+          )}
+          {apiTopics.length > 0 && (
+            <select
+              value={selectedTopic !== null ? String(selectedTopic) : ""}
+              onChange={(e) => {
+                const val = e.target.value ? Number(e.target.value) : null;
+                setSelectedTopic(val);
+                if (val !== null) setSelectedEntity(null);
+                clearSelection();
+              }}
+              className="rounded-lg border bg-white px-3 py-2 text-sm shadow-md focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+            >
+              <option value="">Topic: none</option>
+              {apiTopics.map((t) => (
+                <option key={t.id} value={String(t.id)}>
+                  {t.terms.slice(0, 4).join(", ")}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       )}
 
@@ -194,6 +261,7 @@ export default function GraphExplorer() {
         isOpen={filterOpen}
         onToggle={() => setFilterOpen(!filterOpen)}
         onReset={handleResetFilters}
+        highlightedCount={highlightedCount}
       />
 
       <GraphLegend />

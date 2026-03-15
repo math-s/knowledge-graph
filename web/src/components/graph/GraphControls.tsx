@@ -1,10 +1,61 @@
 "use client";
 
-import { useCamera, useFullScreen } from "@react-sigma/core";
+import { useCallback } from "react";
+import { useCamera, useFullScreen, useSigma } from "@react-sigma/core";
+import type { GraphFilters } from "./FilterPanel";
+import { matchesHighlightFilters, hasHighlightFilters } from "./FilterPanel";
 
-export default function GraphControls() {
+interface GraphControlsProps {
+  filters: GraphFilters;
+}
+
+export default function GraphControls({ filters }: GraphControlsProps) {
   const { zoomIn, zoomOut, reset } = useCamera();
   const { toggle: toggleFullscreen, isFullScreen } = useFullScreen();
+  const sigma = useSigma();
+
+  const showZoomToHighlighted = hasHighlightFilters(filters);
+
+  const zoomToHighlighted = useCallback(() => {
+    const graph = sigma.getGraph();
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    let count = 0;
+
+    graph.forEachNode((node, attrs) => {
+      if (attrs.node_type !== "paragraph") return;
+      if (!matchesHighlightFilters(filters, attrs)) return;
+      const display = sigma.getNodeDisplayData(node);
+      if (!display) return;
+      if (display.x < minX) minX = display.x;
+      if (display.y < minY) minY = display.y;
+      if (display.x > maxX) maxX = display.x;
+      if (display.y > maxY) maxY = display.y;
+      count++;
+    });
+
+    if (count === 0) return;
+
+    // Compute center in graph coordinates
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+
+    // Convert center to camera coordinates
+    const viewportPos = sigma.graphToViewport({ x: centerX, y: centerY });
+    const framedPos = sigma.viewportToFramedGraph(viewportPos);
+
+    // Compute ratio from bounding box extent relative to graph extent
+    const graphExtent = sigma.getGraphDimensions();
+    const bboxWidth = maxX - minX || 1;
+    const bboxHeight = maxY - minY || 1;
+    const ratioX = graphExtent.width > 0 ? (bboxWidth / graphExtent.width) : 0.5;
+    const ratioY = graphExtent.height > 0 ? (bboxHeight / graphExtent.height) : 0.5;
+    const ratio = Math.max(ratioX, ratioY) * 1.3; // 1.3x padding
+
+    sigma.getCamera().animate(
+      { x: framedPos.x, y: framedPos.y, ratio: Math.max(0.02, Math.min(ratio, 10)) },
+      { duration: 300 },
+    );
+  }, [sigma, filters]);
 
   const btnClass =
     "flex h-8 w-8 items-center justify-center rounded bg-white shadow hover:bg-zinc-50 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200";
@@ -30,6 +81,21 @@ export default function GraphControls() {
           />
         </svg>
       </button>
+      {showZoomToHighlighted && (
+        <button
+          onClick={zoomToHighlighted}
+          className={btnClass}
+          title="Zoom to highlighted"
+        >
+          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fillRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      )}
       <button
         onClick={toggleFullscreen}
         className={btnClass}

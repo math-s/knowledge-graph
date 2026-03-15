@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, THEME_COLORS } from "@/lib/colors";
+import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, BIBLE_HIERARCHY_COLORS, PATRISTIC_HIERARCHY_COLORS, DOCUMENT_HIERARCHY_COLORS, THEME_COLORS, ENTITY_CATEGORY_COLORS } from "@/lib/colors";
 import { hasApi } from "@/lib/api";
-import type { ThemeDefinition } from "@/lib/types";
-import { fetchThemes } from "@/lib/graph-data";
+import type { ThemeDefinition, EntityDefinition, TopicDefinition } from "@/lib/types";
+import { fetchThemes, fetchEntities, fetchTopics } from "@/lib/graph-data";
 
 export interface GraphFilters {
   visibleParts: Set<string>;
@@ -26,6 +26,9 @@ export interface GraphFilters {
   showSharedTopic: boolean;
   showSharedCitation: boolean;
   selectedThemes: Set<string>;
+  selectedEntities: Set<string>;
+  selectedTopics: Set<number>;
+  nodeSizeScale: number;
 }
 
 export const DEFAULT_FILTERS: GraphFilters = {
@@ -48,6 +51,9 @@ export const DEFAULT_FILTERS: GraphFilters = {
   showSharedTopic: false,
   showSharedCitation: false,
   selectedThemes: new Set(),
+  selectedEntities: new Set(),
+  selectedTopics: new Set(),
+  nodeSizeScale: 1.0,
 };
 
 function filtersMatchDefaults(filters: GraphFilters): boolean {
@@ -73,7 +79,39 @@ function filtersMatchDefaults(filters: GraphFilters): boolean {
     if (!filters.visibleParts.has(p)) return false;
   }
   if (filters.selectedThemes.size !== DEFAULT_FILTERS.selectedThemes.size) return false;
+  if (filters.selectedEntities.size !== 0) return false;
+  if (filters.selectedTopics.size !== 0) return false;
+  if (filters.nodeSizeScale !== 1.0) return false;
   return true;
+}
+
+/** Check if a paragraph node's attributes match all active highlight filters. */
+export function matchesHighlightFilters(
+  filters: GraphFilters,
+  attrs: { themes?: string[]; entities?: string[]; topics?: number[] },
+): boolean {
+  if (filters.selectedThemes.size > 0) {
+    const nodeThemes: string[] = attrs.themes || [];
+    if (!nodeThemes.some((t) => filters.selectedThemes.has(t))) return false;
+  }
+  if (filters.selectedEntities.size > 0) {
+    const nodeEntities: string[] = attrs.entities || [];
+    if (!nodeEntities.some((e) => filters.selectedEntities.has(e))) return false;
+  }
+  if (filters.selectedTopics.size > 0) {
+    const nodeTopics: number[] = attrs.topics || [];
+    if (!nodeTopics.some((t) => filters.selectedTopics.has(t))) return false;
+  }
+  return true;
+}
+
+/** Whether any highlight filter is active. */
+export function hasHighlightFilters(filters: GraphFilters): boolean {
+  return (
+    filters.selectedThemes.size > 0 ||
+    filters.selectedEntities.size > 0 ||
+    filters.selectedTopics.size > 0
+  );
 }
 
 interface FilterPanelProps {
@@ -82,6 +120,7 @@ interface FilterPanelProps {
   isOpen: boolean;
   onToggle: () => void;
   onReset: () => void;
+  highlightedCount?: number;
 }
 
 export default function FilterPanel({
@@ -90,12 +129,18 @@ export default function FilterPanel({
   isOpen,
   onToggle,
   onReset,
+  highlightedCount,
 }: FilterPanelProps) {
   const [themes, setThemes] = useState<Record<string, ThemeDefinition>>({});
+  const [entities, setEntities] = useState<EntityDefinition[]>([]);
+  const [topics, setTopics] = useState<TopicDefinition[]>([]);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const isDefault = filtersMatchDefaults(filters);
 
   useEffect(() => {
     fetchThemes().then(setThemes).catch(() => {});
+    fetchEntities().then(setEntities).catch(() => {});
+    fetchTopics().then(setTopics).catch(() => {});
   }, []);
 
   const togglePart = (part: string) => {
@@ -111,6 +156,38 @@ export default function FilterPanel({
     else next.add(themeId);
     onFiltersChange({ ...filters, selectedThemes: next });
   };
+
+  const toggleEntity = (id: string) => {
+    const next = new Set(filters.selectedEntities);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    onFiltersChange({ ...filters, selectedEntities: next });
+  };
+
+  const toggleTopic = (id: number) => {
+    const next = new Set(filters.selectedTopics);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    onFiltersChange({ ...filters, selectedTopics: next });
+  };
+
+  const toggleCategory = (category: string) => {
+    const next = new Set(expandedCategories);
+    if (next.has(category)) next.delete(category);
+    else next.add(category);
+    setExpandedCategories(next);
+  };
+
+  // Group entities by category
+  const entitiesByCategory = entities.reduce<Record<string, EntityDefinition[]>>(
+    (acc, entity) => {
+      const cat = entity.category;
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(entity);
+      return acc;
+    },
+    {},
+  );
 
   return (
     <>
@@ -136,6 +213,32 @@ export default function FilterPanel({
               Reset to defaults
             </button>
           )}
+
+          {/* Node size slider */}
+          <div className="mb-3">
+            <label className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
+              <span>Node size</span>
+              <span>{filters.nodeSizeScale.toFixed(2)}x</span>
+            </label>
+            <input
+              type="range"
+              min="0.25"
+              max="2.0"
+              step="0.05"
+              value={filters.nodeSizeScale}
+              onChange={(e) =>
+                onFiltersChange({ ...filters, nodeSizeScale: parseFloat(e.target.value) })
+              }
+              className="mt-1 w-full accent-blue-500"
+            />
+          </div>
+
+          <div className="mb-2 border-t border-zinc-200 pt-2 dark:border-zinc-700">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+              Visibility
+            </span>
+          </div>
+
           <h3 className="mb-3 text-xs font-semibold uppercase text-zinc-500">
             Parts
           </h3>
@@ -483,6 +586,18 @@ export default function FilterPanel({
             </label>
           </div>
 
+          <div className="mb-2 mt-4 border-t border-zinc-200 pt-2 dark:border-zinc-700">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+              Highlighting
+            </span>
+            <span className="ml-1 text-[10px] text-zinc-400">(dims non-matching)</span>
+          </div>
+          {highlightedCount !== undefined && hasHighlightFilters(filters) && (
+            <p className="mb-2 text-xs text-blue-600 dark:text-blue-400">
+              {highlightedCount} paragraphs highlighted
+            </p>
+          )}
+
           {/* Theme checkboxes: only shown in static mode (no API).
               With API, the theme dropdown in GraphExplorer controls loading. */}
           {!hasApi && Object.keys(themes).length > 0 && (
@@ -507,6 +622,83 @@ export default function FilterPanel({
                       {def.label}
                     </span>
                     <span className="text-zinc-400">({def.count})</span>
+                  </label>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Entity checkboxes: always shown (client-side dimming) */}
+          {Object.keys(entitiesByCategory).length > 0 && (
+            <>
+              <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">
+                Entities
+              </h3>
+              <div className="space-y-1">
+                {Object.entries(entitiesByCategory).map(([category, catEntities]) => (
+                  <div key={category}>
+                    <button
+                      onClick={() => toggleCategory(category)}
+                      className="flex w-full items-center gap-1.5 text-xs text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+                    >
+                      <span className="w-3 text-[10px]">
+                        {expandedCategories.has(category) ? "▼" : "▶"}
+                      </span>
+                      <span
+                        className="inline-block h-2 w-2 rounded-full"
+                        style={{ backgroundColor: ENTITY_CATEGORY_COLORS[category] || "#999" }}
+                      />
+                      <span>
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      </span>
+                      <span className="text-zinc-400">({catEntities.length})</span>
+                    </button>
+                    {expandedCategories.has(category) && (
+                      <div className="ml-4 mt-1 space-y-1">
+                        {catEntities.map((entity) => (
+                          <label key={entity.id} className="flex items-center gap-2 text-xs">
+                            <input
+                              type="checkbox"
+                              checked={filters.selectedEntities.has(entity.id)}
+                              onChange={() => toggleEntity(entity.id)}
+                              className="rounded"
+                            />
+                            <span
+                              className="inline-block h-2 w-2 rounded-full"
+                              style={{ backgroundColor: ENTITY_CATEGORY_COLORS[category] || "#999" }}
+                            />
+                            <span className="text-zinc-700 dark:text-zinc-300">
+                              {entity.label}
+                            </span>
+                            <span className="text-zinc-400">({entity.count})</span>
+                          </label>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Topic checkboxes: always shown (client-side dimming) */}
+          {topics.length > 0 && (
+            <>
+              <h3 className="mb-2 mt-4 text-xs font-semibold uppercase text-zinc-500">
+                Topics
+              </h3>
+              <div className="space-y-1.5">
+                {topics.map((topic) => (
+                  <label key={topic.id} className="flex items-center gap-2 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={filters.selectedTopics.has(topic.id)}
+                      onChange={() => toggleTopic(topic.id)}
+                      className="rounded"
+                    />
+                    <span className="text-zinc-700 dark:text-zinc-300">
+                      {topic.terms.slice(0, 4).join(", ")}
+                    </span>
                   </label>
                 ))}
               </div>

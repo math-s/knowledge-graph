@@ -62,6 +62,20 @@ CREATE TABLE paragraph_themes (
 );
 CREATE INDEX idx_paragraph_themes_theme ON paragraph_themes(theme_id);
 
+CREATE TABLE paragraph_entities (
+    paragraph_id INTEGER NOT NULL,
+    entity_id    TEXT    NOT NULL,
+    PRIMARY KEY (paragraph_id, entity_id)
+);
+CREATE INDEX idx_paragraph_entities_entity ON paragraph_entities(entity_id);
+
+CREATE TABLE paragraph_topics (
+    paragraph_id INTEGER NOT NULL,
+    topic_id     INTEGER NOT NULL,
+    PRIMARY KEY (paragraph_id, topic_id)
+);
+CREATE INDEX idx_paragraph_topics_topic ON paragraph_topics(topic_id);
+
 CREATE TABLE paragraph_bible_citations (
     paragraph_id INTEGER NOT NULL,
     book         TEXT    NOT NULL,
@@ -274,6 +288,8 @@ def _populate_paragraphs(cur: sqlite3.Cursor, paragraphs: list[Paragraph]) -> No
     para_rows = []
     cross_ref_rows = []
     theme_rows = []
+    entity_rows = []
+    topic_rows = []
     bible_cite_rows = []
     doc_cite_rows = []
     author_cite_rows = []
@@ -297,6 +313,12 @@ def _populate_paragraphs(cur: sqlite3.Cursor, paragraphs: list[Paragraph]) -> No
 
         for theme in p.themes:
             theme_rows.append((p.id, theme))
+
+        for eid in p.entities:
+            entity_rows.append((p.id, eid))
+
+        for tid_pair in p.topics:
+            topic_rows.append((p.id, tid_pair[0]))
 
         seen_bible: set[tuple[str, str]] = set()
         seen_doc: set[tuple[str, str]] = set()
@@ -330,6 +352,14 @@ def _populate_paragraphs(cur: sqlite3.Cursor, paragraphs: list[Paragraph]) -> No
         theme_rows,
     )
     cur.executemany(
+        "INSERT OR IGNORE INTO paragraph_entities VALUES (?,?)",
+        entity_rows,
+    )
+    cur.executemany(
+        "INSERT OR IGNORE INTO paragraph_topics VALUES (?,?)",
+        topic_rows,
+    )
+    cur.executemany(
         "INSERT INTO paragraph_bible_citations VALUES (?,?,?)",
         bible_cite_rows,
     )
@@ -343,8 +373,9 @@ def _populate_paragraphs(cur: sqlite3.Cursor, paragraphs: list[Paragraph]) -> No
     )
 
     logger.info(
-        "  %d paragraphs, %d cross-refs, %d themes, %d bible cites, %d doc cites, %d author cites",
+        "  %d paragraphs, %d cross-refs, %d themes, %d entities, %d topics, %d bible cites, %d doc cites, %d author cites",
         len(para_rows), len(cross_ref_rows), len(theme_rows),
+        len(entity_rows), len(topic_rows),
         len(bible_cite_rows), len(doc_cite_rows), len(author_cite_rows),
     )
 

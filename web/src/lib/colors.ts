@@ -59,6 +59,22 @@ export const THEME_COLORS: Record<string, string> = {
   scripture: "#B2DF8A",
 };
 
+export const ENTITY_CATEGORY_COLORS: Record<string, string> = {
+  trinitarian: "#8B5CF6",
+  christology: "#DC2626",
+  sacraments: "#D97706",
+  ecclesiology: "#2563EB",
+  soteriology: "#059669",
+  eschatology: "#7C3AED",
+  mariology: "#0EA5E9",
+  moral: "#CA8A04",
+  virtues: "#16A34A",
+  prayer: "#EA580C",
+  liturgy: "#9333EA",
+  anthropology: "#0D9488",
+  revelation: "#E11D48",
+};
+
 export function getPartColor(part: string): string {
   return PART_COLORS[part] || "#999999";
 }

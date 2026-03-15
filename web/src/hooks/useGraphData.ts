@@ -9,6 +9,8 @@ import {
   apiFetch,
   type ApiSubgraph,
   type ApiTheme,
+  type ApiEntity,
+  type ApiTopic,
 } from "@/lib/api";
 
 const EDGE_STYLES: Record<string, { color: string; size: number }> = {
@@ -66,6 +68,8 @@ function buildGraphology(
 /** Describes which subgraph to load from the API. */
 export type GraphQuery =
   | { mode: "theme"; theme: string }
+  | { mode: "entity"; entityId: string }
+  | { mode: "topic"; topicId: number }
   | { mode: "paragraph"; paragraphId: number; depth?: number }
   | { mode: "node"; nodeId: string }
   | { mode: "connect"; nodeIds: string[] }
@@ -76,6 +80,10 @@ function queryToApiPath(q: GraphQuery): string | null {
   switch (q.mode) {
     case "theme":
       return `/graph/theme/${encodeURIComponent(q.theme)}`;
+    case "entity":
+      return `/graph/entity/${encodeURIComponent(q.entityId)}`;
+    case "topic":
+      return `/graph/topic/${q.topicId}`;
     case "paragraph":
       return `/graph/paragraph/${q.paragraphId}?depth=${q.depth ?? 1}`;
     case "node":
@@ -90,6 +98,8 @@ function queryKey(q: GraphQuery): string {
   if (!q) return "__full__";
   switch (q.mode) {
     case "theme": return `theme:${q.theme}`;
+    case "entity": return `entity:${q.entityId}`;
+    case "topic": return `topic:${q.topicId}`;
     case "paragraph": return `para:${q.paragraphId}:${q.depth ?? 1}`;
     case "node": return `node:${q.nodeId}`;
     case "connect": return `connect:${q.nodeIds.sort().join(",")}`;
@@ -167,4 +177,30 @@ export function useGraphThemes() {
   }, []);
 
   return themes;
+}
+
+export function useGraphEntities() {
+  const [entities, setEntities] = useState<ApiEntity[]>([]);
+
+  useEffect(() => {
+    if (!hasApi) return;
+    apiFetch<ApiEntity[]>("/graph/entities")
+      .then(setEntities)
+      .catch((err) => console.error("Failed to fetch entities:", err));
+  }, []);
+
+  return entities;
+}
+
+export function useGraphTopics() {
+  const [topics, setTopics] = useState<ApiTopic[]>([]);
+
+  useEffect(() => {
+    if (!hasApi) return;
+    apiFetch<ApiTopic[]>("/graph/topics")
+      .then(setTopics)
+      .catch((err) => console.error("Failed to fetch topics:", err));
+  }, []);
+
+  return topics;
 }

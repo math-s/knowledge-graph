@@ -13,6 +13,7 @@ import Graph from "graphology";
 import GraphControls from "./GraphControls";
 import GraphTooltip from "./GraphTooltip";
 import type { GraphFilters } from "./FilterPanel";
+import { matchesHighlightFilters, hasHighlightFilters } from "./FilterPanel";
 
 interface GraphCanvasProps {
   graph: Graph;
@@ -40,6 +41,14 @@ function GraphEvents({
       leaveNode: () => onHoverNode(null),
     });
   }, [registerEvents, onSelectNode, onHoverNode]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onSelectNode(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onSelectNode]);
 
   return null;
 }
@@ -76,7 +85,7 @@ function GraphReducers({
       neighbors.add(activeNode);
     }
 
-    const hasThemeFilter = filters.selectedThemes.size > 0;
+    const hasHighlight = hasHighlightFilters(filters);
 
     setSettings({
       nodeReducer: (node, data) => {
@@ -84,46 +93,47 @@ function GraphReducers({
         const nodeType = attrs.node_type;
         const part = attrs.part || "";
 
+        // Apply node size scale
+        const scaled = filters.nodeSizeScale !== 1
+          ? { ...data, size: data.size * filters.nodeSizeScale }
+          : data;
+
         // Apply node type filters
         if (nodeType === "structure" && !filters.showStructural) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if ((nodeType === "bible" || nodeType === "bible-testament" || nodeType === "bible-book") && !filters.showBibleNodes) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "bible-chapter" && !filters.showBibleChapters) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "bible-verse" && !filters.showBibleVerses) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "author" && !filters.showAuthorNodes) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "patristic-work" && !filters.showPatristicWorks) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "document" && !filters.showDocumentNodes) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "document-section" && !filters.showDocumentSections) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
         if (nodeType === "paragraph" && part && !filters.visibleParts.has(part)) {
-          return { ...data, hidden: true };
+          return { ...scaled, hidden: true };
         }
 
-        // Apply theme filter: dim paragraphs without selected themes
-        if (hasThemeFilter && nodeType === "paragraph") {
-          const nodeThemes: string[] = attrs.themes || [];
-          const matchesTheme = nodeThemes.some((t: string) =>
-            filters.selectedThemes.has(t),
-          );
-          if (!matchesTheme) {
+        // Apply highlight filters (theme + entity + topic AND-logic)
+        if (hasHighlight && nodeType === "paragraph") {
+          if (!matchesHighlightFilters(filters, attrs)) {
             return {
-              ...data,
+              ...scaled,
               color: "#ddd",
-              size: Math.max(data.size * 0.4, 1),
+              size: Math.max(scaled.size * 0.4, 1),
               zIndex: 0,
             };
           }
@@ -132,17 +142,17 @@ function GraphReducers({
         // Apply neighbor highlighting — dim non-neighbors but keep them visible
         if (neighbors) {
           if (neighbors.has(node)) {
-            return { ...data, highlighted: true, zIndex: 1 };
+            return { ...scaled, highlighted: true, zIndex: 1 };
           }
           return {
-            ...data,
+            ...scaled,
             color: "#ddd",
-            size: Math.max(data.size * 0.5, 1),
+            size: Math.max(scaled.size * 0.5, 1),
             zIndex: 0,
           };
         }
 
-        return data;
+        return scaled;
       },
       edgeReducer: (edge, data) => {
         const edgeAttrs = graph.getEdgeAttributes(edge);
@@ -249,7 +259,7 @@ export default function GraphCanvas({
         filters={filters}
       />
       <CameraAnimator targetNode={selectedNode} />
-      <GraphControls />
+      <GraphControls filters={filters} />
       <GraphTooltip hoveredNode={hoveredNode} graph={graph} />
     </SigmaContainer>
   );

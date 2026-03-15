@@ -29,6 +29,7 @@ def _format_node(r: sqlite3.Row, seed_ids: set[str] | None = None) -> dict:
         "community": r["community"],
         "themes": json.loads(r["themes_json"] or "[]"),
         "entities": json.loads(r["entities_json"] or "[]"),
+        "topics": json.loads(r["topics_json"] or "[]"),
         **({"is_seed": r["id"] in seed_ids} if seed_ids is not None else {}),
     }
 
@@ -74,7 +75,7 @@ def _expand_subgraph(
     node_rows = db.execute(
         f"""
         SELECT id, label, node_type, x, y, size, color, part, degree, community,
-               themes_json, entities_json
+               themes_json, entities_json, topics_json
         FROM graph_nodes WHERE id IN ({ph})
         """,
         id_list,
@@ -258,7 +259,7 @@ def graph_by_community(
     node_rows = db.execute(
         f"""
         SELECT id, label, node_type, x, y, size, color, part, degree, community,
-               themes_json, entities_json
+               themes_json, entities_json, topics_json
         FROM graph_nodes WHERE id IN ({ph})
         """,
         id_list,
@@ -268,6 +269,72 @@ def graph_by_community(
 
     return {
         "community": community_id,
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/entities")
+def list_entities(db: sqlite3.Connection = Depends(get_db)):
+    """List all entities with counts."""
+    rows = db.execute(
+        "SELECT id, label, category, count FROM entities ORDER BY category, count DESC"
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+@router.get("/topics")
+def list_topics(db: sqlite3.Connection = Depends(get_db)):
+    """List all topics with terms."""
+    rows = db.execute("SELECT id, terms_json FROM topics ORDER BY id").fetchall()
+    return [{"id": r["id"], "terms": json.loads(r["terms_json"] or "[]")} for r in rows]
+
+
+@router.get("/entity/{entity_id}")
+def graph_by_entity(
+    entity_id: str,
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph for an entity: paragraphs with this entity + 1-hop neighbors."""
+    seed_rows = db.execute(
+        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_entities WHERE entity_id = ?",
+        (entity_id,),
+    ).fetchall()
+    seed_ids = {r["node_id"] for r in seed_rows}
+    if not seed_ids:
+        return {"entity": entity_id, "nodes": [], "edges": []}
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+    return {
+        "entity": entity_id,
+        "seed_count": len(seed_ids),
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+@router.get("/topic/{topic_id}")
+def graph_by_topic(
+    topic_id: int,
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Return the subgraph for a topic: paragraphs with this topic + 1-hop neighbors."""
+    seed_rows = db.execute(
+        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_topics WHERE topic_id = ?",
+        (topic_id,),
+    ).fetchall()
+    seed_ids = {r["node_id"] for r in seed_rows}
+    if not seed_ids:
+        return {"topic": topic_id, "nodes": [], "edges": []}
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+    return {
+        "topic": topic_id,
+        "seed_count": len(seed_ids),
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,

@@ -51,6 +51,7 @@ export interface ApiGraphNode {
   community: number;
   themes: string[];
   entities: string[];
+  topics?: number[];
   is_seed?: boolean;
 }
 
@@ -82,4 +83,16 @@ export interface ApiTheme {
   id: string;
   label: string;
   count: number;
+}
+
+export interface ApiEntity {
+  id: string;
+  label: string;
+  category: string;
+  count: number;
+}
+
+export interface ApiTopic {
+  id: number;
+  terms: string[];
 }
