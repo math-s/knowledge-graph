@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { useGraphData, useGraphThemes, useGraphEntities, useGraphTopics, type GraphQuery } from "@/hooks/useGraphData";
 import { useNodeSelection } from "@/hooks/useNodeSelection";
 import { useSearch } from "@/hooks/useSearch";
@@ -15,9 +16,16 @@ import SearchBar from "../search/SearchBar";
 const DEFAULT_THEME = "church";
 
 export default function GraphExplorer() {
-  const [selectedTheme, setSelectedTheme] = useState<string>(DEFAULT_THEME);
-  const [selectedEntity, setSelectedEntity] = useState<string | null>(null);
-  const [selectedTopic, setSelectedTopic] = useState<number | null>(null);
+  const searchParams = useSearchParams();
+  const paramTheme = searchParams.get("theme");
+  const paramEntity = searchParams.get("entity");
+  const paramTopic = searchParams.get("topic");
+
+  const [selectedTheme, setSelectedTheme] = useState<string>(paramTheme || DEFAULT_THEME);
+  const [selectedEntity, setSelectedEntity] = useState<string | null>(paramEntity);
+  const [selectedTopic, setSelectedTopic] = useState<number | null>(
+    paramTopic !== null ? Number(paramTopic) : null,
+  );
   const apiThemes = useGraphThemes();
   const apiEntities = useGraphEntities();
   const apiTopics = useGraphTopics();

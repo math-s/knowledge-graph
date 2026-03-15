@@ -126,13 +126,14 @@ export default async function ParagraphPage({
       {themes.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-1.5">
           {themes.map((theme) => (
-            <span
+            <Link
               key={theme}
-              className="rounded-full px-2.5 py-0.5 text-xs font-medium text-white"
+              href={`/graph?theme=${encodeURIComponent(theme)}`}
+              className="rounded-full px-2.5 py-0.5 text-xs font-medium text-white hover:opacity-80"
               style={{ backgroundColor: THEME_COLORS[theme] || "#999" }}
             >
               {theme}
-            </span>
+            </Link>
           ))}
         </div>
       )}
@@ -143,12 +144,13 @@ export default async function ParagraphPage({
           <div className="mb-1 text-xs text-zinc-400">Entities</div>
           <div className="flex flex-wrap gap-1.5">
             {entities.map((eid) => (
-              <span
+              <Link
                 key={eid}
-                className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                href={`/graph?entity=${encodeURIComponent(eid)}`}
+                className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-800 hover:bg-orange-100 dark:bg-orange-900/30 dark:text-orange-300 dark:hover:bg-orange-900/50"
               >
                 {entityLabelMap.get(eid) || eid}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -163,12 +165,13 @@ export default async function ParagraphPage({
               const terms = topicTermsMap.get(tid);
               const label = terms ? terms.slice(0, 4).join(", ") : `Topic ${tid}`;
               return (
-                <span
+                <Link
                   key={tid}
-                  className="rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-900/30 dark:text-teal-300"
+                  href={`/graph?topic=${tid}`}
+                  className="rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-800 hover:bg-teal-100 dark:bg-teal-900/30 dark:text-teal-300 dark:hover:bg-teal-900/50"
                 >
                   {label}
-                </span>
+                </Link>
               );
             })}
           </div>

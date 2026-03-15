@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const GraphExplorer = dynamic(() => import("@/components/graph/GraphExplorer"), {
@@ -15,5 +16,9 @@ const GraphExplorer = dynamic(() => import("@/components/graph/GraphExplorer"), 
 });
 
 export default function GraphPage() {
-  return <GraphExplorer />;
+  return (
+    <Suspense>
+      <GraphExplorer />
+    </Suspense>
+  );
 }
