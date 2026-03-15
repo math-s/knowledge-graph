@@ -167,6 +167,15 @@ function GraphReducers({
         if (edgeType === "bible_cross_reference" && !filters.showBibleCrossRefs) {
           return { ...data, hidden: true };
         }
+        if (edgeType === "shared_entity" && !filters.showSharedEntity) {
+          return { ...data, hidden: true };
+        }
+        if (edgeType === "shared_topic" && !filters.showSharedTopic) {
+          return { ...data, hidden: true };
+        }
+        if (edgeType === "shared_citation" && !filters.showSharedCitation) {
+          return { ...data, hidden: true };
+        }
 
         // Apply neighbor highlighting
         if (neighbors) {

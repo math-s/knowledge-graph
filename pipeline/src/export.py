@@ -97,13 +97,17 @@ def export_graph(
         else:
             size = max(2.0, min(15.0, 2.0 + degree * 0.5))
 
-        # Get themes for paragraph nodes
+        # Get themes/entities/topics for paragraph nodes
         themes: list[str] = []
+        entities: list[str] = []
+        topics: list[int] = []
         if node_type == "paragraph" and node_id.startswith("p:"):
             pid = int(node_id[2:])
             para = para_lookup.get(pid)
             if para:
                 themes = para.themes
+                entities = para.entities
+                topics = [t[0] for t in para.topics]
 
         nodes.append(GraphNode(
             id=node_id,
@@ -117,6 +121,8 @@ def export_graph(
             degree=degree,
             community=communities.get(node_id, 0),
             themes=themes,
+            entities=entities,
+            topics=topics,
         ))
 
     # Build edge list
@@ -498,3 +504,57 @@ def export_documents_full(
         total_files += 1
 
     logger.info("Exported %d per-document section files", total_files)
+
+
+def export_topics(topic_terms: list[list[str]]) -> None:
+    """Export topic metadata to topics.json.
+
+    Each topic is an object with its ID and top-10 terms.
+    """
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    topics_data: list[dict] = []
+    for topic_id, terms in enumerate(topic_terms):
+        topics_data.append({
+            "id": topic_id,
+            "terms": terms,
+        })
+
+    topics_path = WEB_DATA_DIR / "topics.json"
+    with open(topics_path, "w", encoding="utf-8") as f:
+        json.dump(topics_data, f, ensure_ascii=False)
+    logger.info("Exported topics.json: %d topics", len(topics_data))
+
+
+def export_entities(paragraphs: list[Paragraph]) -> None:
+    """Export entity metadata to entities.json.
+
+    Counts how many paragraphs contain each entity and includes the definition.
+    """
+    from .entity_extraction import ENTITY_DEFINITIONS
+
+    WEB_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Count entity occurrences
+    entity_counts: dict[str, int] = {}
+    for p in paragraphs:
+        for eid in p.entities:
+            entity_counts[eid] = entity_counts.get(eid, 0) + 1
+
+    entities_data: list[dict] = []
+    for edef in ENTITY_DEFINITIONS:
+        if edef.id in entity_counts:
+            entities_data.append({
+                "id": edef.id,
+                "label": edef.label,
+                "category": edef.category,
+                "count": entity_counts[edef.id],
+            })
+
+    # Sort by count descending
+    entities_data.sort(key=lambda x: -x["count"])
+
+    entities_path = WEB_DATA_DIR / "entities.json"
+    with open(entities_path, "w", encoding="utf-8") as f:
+        json.dump(entities_data, f, ensure_ascii=False)
+    logger.info("Exported entities.json: %d entities", len(entities_data))

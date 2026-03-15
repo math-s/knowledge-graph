@@ -14,8 +14,10 @@ SUPPORTED_LANGS = ("la", "en", "pt", "el")
 FALLBACK_ORDER = ("la", "en", "pt", "el")  # when preferred lang unavailable
 
 
-def resolve_lang(text: MultiLangText, preferred: str = "en") -> str:
+def resolve_lang(text: MultiLangText | str, preferred: str = "en") -> str:
     """Resolve a MultiLangText to a single string using fallback chain."""
+    if isinstance(text, str):
+        return text
     if preferred in text and text[preferred]:
         return text[preferred]
     for lang in FALLBACK_ORDER:
@@ -76,6 +78,8 @@ class Paragraph(BaseModel):
     footnotes: list[str] = []
     parsed_footnotes: list[ParsedFootnote] = []
     themes: list[str] = []
+    entities: list[str] = []
+    topics: list[tuple[int, float]] = []
     part: str = ""
     section: str = ""
     chapter: str = ""
@@ -242,6 +246,8 @@ class GraphNode(BaseModel):
     degree: int = 0
     community: int = 0
     themes: list[str] = []
+    entities: list[str] = []
+    topics: list[int] = []
 
 
 class GraphEdge(BaseModel):

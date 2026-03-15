@@ -121,6 +121,91 @@ def add_shared_theme_edges(G: nx.Graph, paragraphs: list[Paragraph], min_shared:
     return G
 
 
+def add_shared_entity_edges(
+    G: nx.Graph,
+    paragraphs: list[Paragraph],
+    min_shared: int = 3,
+    max_group_size: int = 500,
+) -> nx.Graph:
+    """Add edges between paragraphs that share at least `min_shared` entities."""
+    # Build entity -> paragraph list index
+    entity_to_paras: dict[str, list[int]] = defaultdict(list)
+    for p in paragraphs:
+        for e in p.entities:
+            entity_to_paras[e].append(p.id)
+
+    # Count shared entities per paragraph pair
+    pair_counts: dict[tuple[int, int], int] = defaultdict(int)
+    skipped = 0
+    for entity_id, para_ids in entity_to_paras.items():
+        if len(para_ids) > max_group_size:
+            skipped += 1
+            continue
+        for a, b in combinations(para_ids, 2):
+            key = (min(a, b), max(a, b))
+            pair_counts[key] += 1
+
+    if skipped:
+        logger.info("Skipped %d entity groups exceeding cap of %d", skipped, max_group_size)
+
+    # Add edges for pairs meeting the threshold
+    edge_count = 0
+    for (a, b), count in pair_counts.items():
+        if count >= min_shared:
+            src, tgt = f"p:{a}", f"p:{b}"
+            if G.has_node(src) and G.has_node(tgt) and not G.has_edge(src, tgt):
+                G.add_edge(src, tgt, edge_type="shared_entity", shared_count=count)
+                edge_count += 1
+
+    logger.info(
+        "Added %d shared-entity edges (threshold: %d+ shared entities)",
+        edge_count,
+        min_shared,
+    )
+    return G
+
+
+def add_shared_topic_edges(
+    G: nx.Graph,
+    paragraphs: list[Paragraph],
+    min_weight: float = 0.15,
+    max_group_size: int = 300,
+) -> nx.Graph:
+    """Add edges between paragraphs that share a dominant topic.
+
+    Only considers topics with weight >= min_weight for each paragraph.
+    """
+    # Build topic -> list of (para_id, weight) where weight >= min_weight
+    topic_to_paras: dict[int, list[int]] = defaultdict(list)
+    for p in paragraphs:
+        for topic_id, weight in p.topics:
+            if weight >= min_weight:
+                topic_to_paras[topic_id].append(p.id)
+
+    # Add edges for paragraphs sharing a dominant topic
+    edge_count = 0
+    skipped = 0
+    for topic_id, para_ids in topic_to_paras.items():
+        if len(para_ids) > max_group_size:
+            skipped += 1
+            continue
+        for a, b in combinations(para_ids, 2):
+            src, tgt = f"p:{min(a, b)}", f"p:{max(a, b)}"
+            if G.has_node(src) and G.has_node(tgt) and not G.has_edge(src, tgt):
+                G.add_edge(src, tgt, edge_type="shared_topic", topic_id=topic_id)
+                edge_count += 1
+
+    if skipped:
+        logger.info("Skipped %d topic groups exceeding cap of %d", skipped, max_group_size)
+
+    logger.info(
+        "Added %d shared-topic edges (weight threshold: %.2f)",
+        edge_count,
+        min_weight,
+    )
+    return G
+
+
 # Source node colors
 SOURCE_COLORS = {
     "bible": "#59A14F",   # Green

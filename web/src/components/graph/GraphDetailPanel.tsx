@@ -8,6 +8,7 @@ import { t, tArr, resolveLang } from "@/lib/types";
 import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchParagraphs } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
+import LangSelector from "@/components/LangSelector";
 
 interface GraphDetailPanelProps {
   nodeId: string;
@@ -274,6 +275,9 @@ export default function GraphDetailPanel({
     child_of: "Children",
     shared_theme: "Shared Theme",
     bible_cross_reference: "Bible Cross-References",
+    shared_entity: "Shared Entities",
+    shared_topic: "Shared Topic",
+    shared_citation: "Shared Citations",
   };
   const totalConnections = Object.values(connectionsByType).reduce((s, arr) => s + arr.length, 0);
 
@@ -286,8 +290,9 @@ export default function GraphDetailPanel({
     paraData?.article && t(paraData.article, lang),
   ].filter(Boolean);
 
-  const hasPt = paraData
-    ? typeof paraData.text === "object" && !!paraData.text.pt
+  const hasMultipleLangs = paraData
+    ? typeof paraData.text === "object" &&
+      Object.keys(paraData.text).filter((k) => (paraData.text as Record<string, string>)[k]).length > 1
     : false;
 
   return (
@@ -367,22 +372,9 @@ export default function GraphDetailPanel({
           </div>
         )}
 
-        {/* Language toggle */}
-        {loaded && hasPt && (
-          <div className="flex gap-1 text-xs">
-            <button
-              onClick={() => setLang("en")}
-              className={`rounded px-2 py-0.5 ${lang === "en" ? "bg-zinc-200 font-semibold dark:bg-zinc-700" : "text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLang("pt")}
-              className={`rounded px-2 py-0.5 ${lang === "pt" ? "bg-zinc-200 font-semibold dark:bg-zinc-700" : "text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
-            >
-              PT
-            </button>
-          </div>
+        {/* Language selector */}
+        {loaded && hasMultipleLangs && (
+          <LangSelector />
         )}
 
         {/* Paragraph text */}

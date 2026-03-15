@@ -32,6 +32,8 @@ export function useGraphData() {
             degree: node.degree,
             community: node.community,
             themes: node.themes || [],
+            entities: node.entities || [],
+            topics: node.topics || [],
           });
         }
 
@@ -52,6 +54,15 @@ export function useGraphData() {
                 size = 0.15;
               } else if (edge.edge_type === "shared_theme") {
                 color = "#6A3D9A33";
+                size = 0.25;
+              } else if (edge.edge_type === "shared_entity") {
+                color = "#E6832A33";
+                size = 0.25;
+              } else if (edge.edge_type === "shared_topic") {
+                color = "#1B9E7733";
+                size = 0.25;
+              } else if (edge.edge_type === "shared_citation") {
+                color = "#D62F2F33";
                 size = 0.25;
               } else {
                 color = "#cccccc44";

@@ -29,12 +29,17 @@ from pipeline.src.themes import assign_themes
 from pipeline.src.graph_builder import (
     build_graph,
     add_shared_theme_edges,
+    add_shared_entity_edges,
+    add_shared_topic_edges,
     add_source_nodes,
     add_bible_hierarchy,
     add_bible_crossref_edges,
     add_patristic_work_hierarchy,
     add_document_section_hierarchy,
 )
+from pipeline.src.entity_extraction import extract_all_entities
+from pipeline.src.topic_model import build_topic_model
+from pipeline.src.citation_network import add_shared_citation_edges
 from pipeline.src.layout import compute_layout
 from pipeline.src.export import (
     export_graph,
@@ -42,6 +47,8 @@ from pipeline.src.export import (
     export_bible_full,
     export_authors_full,
     export_documents_full,
+    export_topics,
+    export_entities,
 )
 from pipeline.src.fetch_bible import fetch_bible_texts
 from pipeline.src.fetch_documents import fetch_document_texts
@@ -55,7 +62,7 @@ logger = logging.getLogger(__name__)
 
 CHECKPOINT_DIR = Path(__file__).resolve().parent.parent / "data" / "checkpoints"
 
-TOTAL_STEPS = 14
+TOTAL_STEPS = 19
 
 # ── Step definitions ────────────────────────────────────────────────────────
 
@@ -70,10 +77,15 @@ STEPS = {
     8:  "Fetch multilingual CCC (La/Pt)",
     9:  "Build base graph",
     10: "Add shared-theme edges",
-    11: "Add source nodes + hierarchies",
-    12: "Compute layout",
-    13: "Export graph for web",
-    14: "Export source data",
+    11: "Extract entities",
+    12: "Add shared-entity edges",
+    13: "Run topic modeling",
+    14: "Add shared-topic edges",
+    15: "Add source nodes + hierarchies",
+    16: "Add shared-citation edges",
+    17: "Compute layout",
+    18: "Export graph for web",
+    19: "Export source data + metadata",
 }
 
 
@@ -163,6 +175,7 @@ DEFAULT_STATE = {
     "bible_full": {},
     "crossrefs": {},
     "patristic_works": {},
+    "topic_terms": [],
     "G": None,
     "positions": {},
 }
@@ -226,10 +239,12 @@ examples:
   %(prog)s --skip-fetch     Skip all network fetches (steps 4-8)
 
 steps:
-   1  Ingest CCC             5  Fetch full Bible      9  Build graph          13  Export graph
-   2  Parse footnotes         6  Fetch patristic      10  Theme edges         14  Export sources
-   3  Assign themes           7  Fetch docs multilang 11  Add source nodes
-   4  Fetch legacy sources    8  Fetch CCC multilang  12  Compute layout
+   1  Ingest CCC             5  Fetch full Bible      9   Build graph          13  Topic modeling
+   2  Parse footnotes         6  Fetch patristic      10  Theme edges          14  Topic edges
+   3  Assign themes           7  Fetch docs multilang 11  Extract entities     15  Source nodes
+   4  Fetch legacy sources    8  Fetch CCC multilang  12  Entity edges         16  Citation edges
+                                                      17  Compute layout       18  Export graph
+                                                                               19  Export sources
         """,
     )
     parser.add_argument(
@@ -341,6 +356,7 @@ steps:
     bible_full = state["bible_full"]
     crossrefs = state["crossrefs"]
     patristic_works = state["patristic_works"]
+    topic_terms = state.get("topic_terms", [])
     G = state["G"]
     positions = state["positions"]
 
@@ -361,6 +377,7 @@ steps:
             "bible_full": bible_full,
             "crossrefs": crossrefs,
             "patristic_works": patristic_works,
+            "topic_terms": topic_terms,
             "G": G,
             "positions": positions,
         }
@@ -523,11 +540,47 @@ steps:
         logger.info("  Step 10 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
         _save_checkpoint(10, _current_state())
 
-    # ── Step 11: Add source nodes + hierarchies ──────────────────────────────
+    # ── Step 11: Extract entities ────────────────────────────────────────────
 
     if should_run(11):
         t0 = time.time()
-        logger.info("=== Step 11/%d: Add source nodes + hierarchies ===", TOTAL_STEPS)
+        logger.info("=== Step 11/%d: Extract entities ===", TOTAL_STEPS)
+        paragraphs = extract_all_entities(paragraphs)
+        logger.info("  Step 11 done in %.1fs", time.time() - t0)
+        _save_checkpoint(11, _current_state())
+
+    # ── Step 12: Add shared-entity edges ─────────────────────────────────────
+
+    if should_run(12):
+        t0 = time.time()
+        logger.info("=== Step 12/%d: Add shared-entity edges ===", TOTAL_STEPS)
+        G = add_shared_entity_edges(G, paragraphs)
+        logger.info("  Step 12 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
+        _save_checkpoint(12, _current_state())
+
+    # ── Step 13: Run topic modeling ──────────────────────────────────────────
+
+    if should_run(13):
+        t0 = time.time()
+        logger.info("=== Step 13/%d: Run topic modeling ===", TOTAL_STEPS)
+        paragraphs, topic_terms = build_topic_model(paragraphs)
+        logger.info("  Step 13 done in %.1fs", time.time() - t0)
+        _save_checkpoint(13, _current_state())
+
+    # ── Step 14: Add shared-topic edges ──────────────────────────────────────
+
+    if should_run(14):
+        t0 = time.time()
+        logger.info("=== Step 14/%d: Add shared-topic edges ===", TOTAL_STEPS)
+        G = add_shared_topic_edges(G, paragraphs, min_weight=0.30)
+        logger.info("  Step 14 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
+        _save_checkpoint(14, _current_state())
+
+    # ── Step 15: Add source nodes + hierarchies ──────────────────────────────
+
+    if should_run(15):
+        t0 = time.time()
+        logger.info("=== Step 15/%d: Add source nodes + hierarchies ===", TOTAL_STEPS)
         G = add_source_nodes(G, paragraphs)
 
         if bible_full:
@@ -544,32 +597,41 @@ steps:
             logger.info("--- Adding document section hierarchy ---")
             G = add_document_section_hierarchy(G, document_sources, paragraphs)
 
-        logger.info("  Step 11 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
-        _save_checkpoint(11, _current_state())
+        logger.info("  Step 15 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
+        _save_checkpoint(15, _current_state())
 
-    # ── Step 12: Compute layout ─────────────────────────────────────────────
+    # ── Step 16: Add shared-citation edges ───────────────────────────────────
 
-    if should_run(12):
+    if should_run(16):
         t0 = time.time()
-        logger.info("=== Step 12/%d: Compute layout ===", TOTAL_STEPS)
+        logger.info("=== Step 16/%d: Add shared-citation edges ===", TOTAL_STEPS)
+        G = add_shared_citation_edges(G, paragraphs, min_shared=1)
+        logger.info("  Step 16 done in %.1fs (%d edges total)", time.time() - t0, G.number_of_edges())
+        _save_checkpoint(16, _current_state())
+
+    # ── Step 17: Compute layout ─────────────────────────────────────────────
+
+    if should_run(17):
+        t0 = time.time()
+        logger.info("=== Step 17/%d: Compute layout ===", TOTAL_STEPS)
         positions = compute_layout(G)
-        logger.info("  Step 12 done in %.1fs", time.time() - t0)
-        _save_checkpoint(12, _current_state())
+        logger.info("  Step 17 done in %.1fs", time.time() - t0)
+        _save_checkpoint(17, _current_state())
 
-    # ── Step 13: Export graph for web ───────────────────────────────────────
+    # ── Step 18: Export graph for web ───────────────────────────────────────
 
-    if should_run(13):
+    if should_run(18):
         t0 = time.time()
-        logger.info("=== Step 13/%d: Export graph for web ===", TOTAL_STEPS)
+        logger.info("=== Step 18/%d: Export graph for web ===", TOTAL_STEPS)
         export_graph(G, positions, paragraphs)
-        logger.info("  Step 13 done in %.1fs", time.time() - t0)
-        _save_checkpoint(13, _current_state())
+        logger.info("  Step 18 done in %.1fs", time.time() - t0)
+        _save_checkpoint(18, _current_state())
 
-    # ── Step 14: Export source data ─────────────────────────────────────────
+    # ── Step 19: Export source data + metadata ──────────────────────────────
 
-    if should_run(14):
+    if should_run(19):
         t0 = time.time()
-        logger.info("=== Step 14/%d: Export source data ===", TOTAL_STEPS)
+        logger.info("=== Step 19/%d: Export source data + metadata ===", TOTAL_STEPS)
         export_sources(bible_sources, document_sources, author_sources)
 
         if bible_full:
@@ -584,7 +646,14 @@ steps:
             logger.info("--- Exporting documents (chunked per-document) ---")
             export_documents_full(document_sources)
 
-        logger.info("  Step 14 done in %.1fs", time.time() - t0)
+        logger.info("--- Exporting entity metadata ---")
+        export_entities(paragraphs)
+
+        if topic_terms:
+            logger.info("--- Exporting topic metadata ---")
+            export_topics(topic_terms)
+
+        logger.info("  Step 19 done in %.1fs", time.time() - t0)
 
     # ── Summary ─────────────────────────────────────────────────────────────
 

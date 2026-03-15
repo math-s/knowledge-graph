@@ -21,6 +21,8 @@ export interface GraphNode {
   degree: number;
   community: number;
   themes: string[];
+  entities: string[];
+  topics: number[];
 }
 
 export interface GraphEdge {
@@ -32,7 +34,10 @@ export interface GraphEdge {
     | "child_of"
     | "cites"
     | "shared_theme"
-    | "bible_cross_reference";
+    | "bible_cross_reference"
+    | "shared_entity"
+    | "shared_topic"
+    | "shared_citation";
 }
 
 export interface GraphData {

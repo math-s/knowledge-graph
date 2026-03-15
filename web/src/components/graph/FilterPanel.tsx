@@ -21,6 +21,9 @@ export interface GraphFilters {
   showChildOf: boolean;
   showSharedTheme: boolean;
   showBibleCrossRefs: boolean;
+  showSharedEntity: boolean;
+  showSharedTopic: boolean;
+  showSharedCitation: boolean;
   selectedThemes: Set<string>;
 }
 
@@ -40,6 +43,9 @@ export const DEFAULT_FILTERS: GraphFilters = {
   showChildOf: true,
   showSharedTheme: false,
   showBibleCrossRefs: false,
+  showSharedEntity: false,
+  showSharedTopic: false,
+  showSharedCitation: false,
   selectedThemes: new Set(),
 };
 
@@ -58,6 +64,9 @@ function filtersMatchDefaults(filters: GraphFilters): boolean {
   if (filters.showChildOf !== DEFAULT_FILTERS.showChildOf) return false;
   if (filters.showSharedTheme !== DEFAULT_FILTERS.showSharedTheme) return false;
   if (filters.showBibleCrossRefs !== DEFAULT_FILTERS.showBibleCrossRefs) return false;
+  if (filters.showSharedEntity !== DEFAULT_FILTERS.showSharedEntity) return false;
+  if (filters.showSharedTopic !== DEFAULT_FILTERS.showSharedTopic) return false;
+  if (filters.showSharedCitation !== DEFAULT_FILTERS.showSharedCitation) return false;
   if (filters.visibleParts.size !== DEFAULT_FILTERS.visibleParts.size) return false;
   for (const p of DEFAULT_FILTERS.visibleParts) {
     if (!filters.visibleParts.has(p)) return false;
@@ -421,6 +430,54 @@ export default function FilterPanel({
               />
               <span className="text-zinc-700 dark:text-zinc-300">
                 Bible cross-refs
+              </span>
+            </label>
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={filters.showSharedEntity}
+                onChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    showSharedEntity: !filters.showSharedEntity,
+                  })
+                }
+                className="rounded"
+              />
+              <span className="text-zinc-700 dark:text-zinc-300">
+                Shared entities
+              </span>
+            </label>
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={filters.showSharedTopic}
+                onChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    showSharedTopic: !filters.showSharedTopic,
+                  })
+                }
+                className="rounded"
+              />
+              <span className="text-zinc-700 dark:text-zinc-300">
+                Shared topics
+              </span>
+            </label>
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={filters.showSharedCitation}
+                onChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    showSharedCitation: !filters.showSharedCitation,
+                  })
+                }
+                className="rounded"
+              />
+              <span className="text-zinc-700 dark:text-zinc-300">
+                Shared citations
               </span>
             </label>
           </div>
