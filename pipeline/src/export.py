@@ -188,6 +188,8 @@ def export_graph(
             "bible_citation_details": bible_citation_details,
             "document_citation_details": document_citation_details,
             "themes": p.themes,
+            "entities": getattr(p, "entities", []),
+            "topics": [t[0] for t in getattr(p, "topics", [])],
             "part": p.part,
             "section": p.section,
             "chapter": p.chapter,

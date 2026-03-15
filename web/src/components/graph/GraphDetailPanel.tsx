@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Graph from "graphology";
-import type { AuthorData, BibleBookData, DocumentData, ParagraphData } from "@/lib/types";
+import type { AuthorData, BibleBookData, DocumentData, EntityDefinition, ParagraphData, TopicDefinition } from "@/lib/types";
 import { t, tArr, resolveLang } from "@/lib/types";
-import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchParagraphs } from "@/lib/graph-data";
+import { fetchAuthorSources, fetchBibleSources, fetchDocumentSources, fetchEntities, fetchParagraphs, fetchTopics } from "@/lib/graph-data";
 import { useLang } from "@/lib/LangContext";
 import { PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 import LangSelector from "@/components/LangSelector";
@@ -213,6 +213,8 @@ export default function GraphDetailPanel({
   const [bibleSources, setBibleSources] = useState<Record<string, BibleBookData>>({});
   const [documentSources, setDocumentSources] = useState<Record<string, DocumentData>>({});
   const [authorSources, setAuthorSources] = useState<Record<string, AuthorData>>({});
+  const [entityDefs, setEntityDefs] = useState<Map<string, EntityDefinition>>(new Map());
+  const [topicDefs, setTopicDefs] = useState<Map<number, TopicDefinition>>(new Map());
 
   useEffect(() => {
     fetchParagraphs().then((data) => {
@@ -221,6 +223,12 @@ export default function GraphDetailPanel({
       setParagraphs(map);
       setLoaded(true);
     });
+    fetchEntities().then((data) => {
+      setEntityDefs(new Map(data.map((e) => [e.id, e])));
+    }).catch(() => {});
+    fetchTopics().then((data) => {
+      setTopicDefs(new Map(data.map((t) => [t.id, t])));
+    }).catch(() => {});
   }, []);
 
   // Lazy-load source data when a source node is selected
@@ -369,6 +377,47 @@ export default function GraphDetailPanel({
                 {theme}
               </button>
             ))}
+          </div>
+        )}
+
+        {/* Entity badges */}
+        {paraData && paraData.entities && paraData.entities.length > 0 && (
+          <div>
+            <div className="mb-1 text-xs text-zinc-400">Entities</div>
+            <div className="flex flex-wrap gap-1">
+              {paraData.entities.map((eid) => {
+                const def = entityDefs.get(eid);
+                return (
+                  <span
+                    key={eid}
+                    className="rounded-full bg-orange-50 px-2 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                  >
+                    {def?.label || eid}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Topic badges */}
+        {paraData && paraData.topics && paraData.topics.length > 0 && (
+          <div>
+            <div className="mb-1 text-xs text-zinc-400">Topics</div>
+            <div className="flex flex-wrap gap-1">
+              {paraData.topics.map((tid) => {
+                const def = topicDefs.get(tid);
+                const label = def ? def.terms.slice(0, 4).join(", ") : `Topic ${tid}`;
+                return (
+                  <span
+                    key={tid}
+                    className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-900/30 dark:text-teal-300"
+                  >
+                    {label}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         )}
 

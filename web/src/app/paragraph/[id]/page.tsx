@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import paragraphsData from "../../../../public/data/paragraphs.json";
+import entitiesData from "../../../../public/data/entities.json";
+import topicsData from "../../../../public/data/topics.json";
 import { PART_COLORS, PART_SHORT_NAMES, SOURCE_COLORS, THEME_COLORS } from "@/lib/colors";
 import ParagraphContent from "./ParagraphContent";
 
@@ -8,6 +10,13 @@ type ParagraphEntry = (typeof paragraphsData)[number];
 
 const paragraphMap = new Map<number, ParagraphEntry>(
   paragraphsData.map((p) => [p.id, p]),
+);
+
+const entityLabelMap = new Map(
+  (entitiesData as { id: string; label: string }[]).map((e) => [e.id, e.label]),
+);
+const topicTermsMap = new Map(
+  (topicsData as { id: number; terms: string[] }[]).map((t) => [t.id, t.terms]),
 );
 
 export function generateStaticParams() {
@@ -45,6 +54,8 @@ export default async function ParagraphPage({
   const documentCitationDetails: { document: string; section: string }[] =
     paraAny.document_citation_details as { document: string; section: string }[] || [];
   const themes: string[] = paraAny.themes as string[] || [];
+  const entities: string[] = paraAny.entities as string[] || [];
+  const topics: number[] = paraAny.topics as number[] || [];
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
@@ -123,6 +134,44 @@ export default async function ParagraphPage({
               {theme}
             </span>
           ))}
+        </div>
+      )}
+
+      {/* Entity badges */}
+      {entities.length > 0 && (
+        <div className="mb-4">
+          <div className="mb-1 text-xs text-zinc-400">Entities</div>
+          <div className="flex flex-wrap gap-1.5">
+            {entities.map((eid) => (
+              <span
+                key={eid}
+                className="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+              >
+                {entityLabelMap.get(eid) || eid}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Topic badges */}
+      {topics.length > 0 && (
+        <div className="mb-4">
+          <div className="mb-1 text-xs text-zinc-400">Topics</div>
+          <div className="flex flex-wrap gap-1.5">
+            {topics.map((tid) => {
+              const terms = topicTermsMap.get(tid);
+              const label = terms ? terms.slice(0, 4).join(", ") : `Topic ${tid}`;
+              return (
+                <span
+                  key={tid}
+                  className="rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-900/30 dark:text-teal-300"
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </div>
         </div>
       )}
 

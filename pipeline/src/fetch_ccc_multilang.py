@@ -3,8 +3,10 @@
 Scrapes the Vatican.va CCC archive for Latin and Portuguese editions.
 CCC paragraph numbering (1-2865) is consistent across all language editions.
 
-Vatican.va CCC archive structure:
-- Index page links to section pages
+Vatican.va CCC archive structure (verified 2026-03):
+- CCC index at /archive/ccc/index.htm links to per-language editions
+- Latin: /archive/catechism_lt/index_lt.htm -> ~100 section pages (*_lt.htm)
+- Portuguese: /archive/cathechism_po/index_new/prima-pagina-cic_po.html -> ~30 section pages
 - Section pages contain paragraphs with bold numbers: <b>123</b> Text...
 """
 
@@ -14,6 +16,7 @@ import logging
 import re
 import time
 from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -28,22 +31,20 @@ RAW_DIR = PROJECT_ROOT / "data" / "raw" / "ccc"
 # Rate limiting
 _REQUEST_DELAY = 1.0  # seconds between requests
 
-# Known CCC archive base URLs on Vatican.va
-# These may need adjustment if Vatican.va restructures
-_CCC_ARCHIVES: dict[str, str] = {
-    "la": "https://www.vatican.va/archive/catechismus_lt/",
-    "pt": "https://www.vatican.va/archive/compendium_ccc/documents/",
-}
-
-# Alternative patterns to try if primary fails
-_CCC_ARCHIVE_ALTERNATIVES: dict[str, list[str]] = {
+# CCC index URLs per language on Vatican.va (verified 2026-03).
+# Each entry is (index_url, base_url_for_relative_links).
+_CCC_INDEX_URLS: dict[str, list[tuple[str, str]]] = {
     "la": [
-        "https://www.vatican.va/archive/catechismus_lt/",
+        (
+            "https://www.vatican.va/archive/catechism_lt/index_lt.htm",
+            "https://www.vatican.va/archive/catechism_lt/",
+        ),
     ],
     "pt": [
-        "https://www.vatican.va/archive/compendium_ccc/documents/",
-        "https://www.vatican.va/archive/cathchism_po/",
-        "https://www.vatican.va/archive/catechismus_po/",
+        (
+            "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
+            "https://www.vatican.va/archive/cathechism_po/index_new/",
+        ),
     ],
 }
 
@@ -129,22 +130,35 @@ def _extract_paragraphs_from_html(html: str) -> dict[int, str]:
 
 
 def _discover_section_pages(index_html: str, base_url: str) -> list[str]:
-    """Discover section page URLs from a CCC index page."""
+    """Discover section page URLs from a CCC index page.
+
+    Vatican.va index pages often have fragment anchors in hrefs like
+    ``page.htm#Section Title``. We strip fragments, resolve relative
+    paths with ``urljoin``, and deduplicate.
+    """
     soup = BeautifulSoup(index_html, "html.parser")
+    seen: set[str] = set()
     urls: list[str] = []
 
     for link in soup.find_all("a", href=True):
         href = link["href"]
-        # Look for relative links to section/part pages
-        if href.endswith(".htm") or href.endswith(".html"):
-            if href.startswith("http"):
-                urls.append(href)
-            else:
-                # Resolve relative URL
-                if base_url.endswith("/"):
-                    urls.append(base_url + href)
-                else:
-                    urls.append(base_url.rsplit("/", 1)[0] + "/" + href)
+
+        # Strip URL fragment (e.g. "page.htm#section" -> "page.htm")
+        href_no_frag = href.split("#")[0].strip()
+        if not href_no_frag:
+            continue
+
+        # Only keep .htm / .html page links
+        if not (href_no_frag.endswith(".htm") or href_no_frag.endswith(".html")):
+            continue
+
+        # Resolve to absolute URL using urljoin (handles ../, /, etc.)
+        full_url = urljoin(base_url, href_no_frag)
+
+        # Deduplicate
+        if full_url not in seen:
+            seen.add(full_url)
+            urls.append(full_url)
 
     return urls
 
@@ -152,7 +166,7 @@ def _discover_section_pages(index_html: str, base_url: str) -> list[str]:
 def _fetch_ccc_lang(lang: str) -> dict[int, str]:
     """Fetch all CCC paragraphs for a given language.
 
-    Tries the known archive URLs, discovers section pages from the index,
+    Tries the known index URLs, discovers section pages from each index,
     then downloads and parses each section page.
 
     Returns dict mapping paragraph number -> text.
@@ -162,23 +176,17 @@ def _fetch_ccc_lang(lang: str) -> dict[int, str]:
 
     all_paragraphs: dict[int, str] = {}
 
-    # Try each known base URL
-    base_urls = _CCC_ARCHIVE_ALTERNATIVES.get(lang, [])
-    if not base_urls:
+    index_entries = _CCC_INDEX_URLS.get(lang, [])
+    if not index_entries:
         logger.warning("No known CCC archive URLs for language: %s", lang)
         return {}
 
-    for base_url in base_urls:
+    for index_url, base_url in index_entries:
         index_cache = cache_dir / "index.html"
-        index_html = _download_page(base_url, index_cache)
-        if not index_html:
-            # Try with index.htm suffix
-            alt_url = base_url.rstrip("/") + "/index.htm"
-            index_cache_alt = cache_dir / "index_alt.html"
-            index_html = _download_page(alt_url, index_cache_alt)
+        index_html = _download_page(index_url, index_cache)
 
         if not index_html:
-            logger.info("  Could not access CCC index for %s at %s", lang, base_url)
+            logger.info("  Could not access CCC index for %s at %s", lang, index_url)
             continue
 
         # Discover section pages

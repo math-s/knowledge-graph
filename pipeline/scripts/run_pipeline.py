@@ -50,6 +50,7 @@ from pipeline.src.export import (
     export_topics,
     export_entities,
 )
+from pipeline.src.export_sqlite import export_sqlite
 from pipeline.src.fetch_bible import fetch_bible_texts
 from pipeline.src.fetch_documents import fetch_document_texts
 from pipeline.src.fetch_patristic import fetch_patristic_texts
@@ -62,7 +63,7 @@ logger = logging.getLogger(__name__)
 
 CHECKPOINT_DIR = Path(__file__).resolve().parent.parent / "data" / "checkpoints"
 
-TOTAL_STEPS = 19
+TOTAL_STEPS = 20
 
 # ── Step definitions ────────────────────────────────────────────────────────
 
@@ -86,6 +87,7 @@ STEPS = {
     17: "Compute layout",
     18: "Export graph for web",
     19: "Export source data + metadata",
+    20: "Export SQLite database",
 }
 
 
@@ -245,6 +247,7 @@ steps:
    4  Fetch legacy sources    8  Fetch CCC multilang  12  Entity edges         16  Citation edges
                                                       17  Compute layout       18  Export graph
                                                                                19  Export sources
+                                                                               20  Export SQLite
         """,
     )
     parser.add_argument(
@@ -654,6 +657,24 @@ steps:
             export_topics(topic_terms)
 
         logger.info("  Step 19 done in %.1fs", time.time() - t0)
+
+    # ── Step 20: Export SQLite database ────────────────────────────────────
+
+    if should_run(20):
+        t0 = time.time()
+        logger.info("=== Step 20/%d: Export SQLite database ===", TOTAL_STEPS)
+        db_path = export_sqlite(
+            G=G,
+            positions=positions,
+            paragraphs=paragraphs,
+            bible_sources=bible_sources,
+            document_sources=document_sources,
+            author_sources=author_sources,
+            bible_full=bible_full if bible_full else None,
+            patristic_works=patristic_works if patristic_works else None,
+            topic_terms=topic_terms if topic_terms else None,
+        )
+        logger.info("  Step 20 done in %.1fs → %s", time.time() - t0, db_path)
 
     # ── Summary ─────────────────────────────────────────────────────────────
 

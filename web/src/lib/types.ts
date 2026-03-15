@@ -129,6 +129,8 @@ export interface ParagraphData {
   bible_citation_details?: { book: string; reference: string }[];
   document_citation_details?: { document: string; section: string }[];
   themes: string[];
+  entities: string[];
+  topics: number[];
   part: string | MultiLangText;
   section: string | MultiLangText;
   chapter: string | MultiLangText;
@@ -252,6 +254,20 @@ export interface PatristicSectionData {
   id: string;
   number: number;
   text: MultiLangText;
+}
+
+// ── Entity / Topic metadata ──────────────────────────────────────────────────
+
+export interface EntityDefinition {
+  id: string;
+  label: string;
+  category: string;
+  count: number;
+}
+
+export interface TopicDefinition {
+  id: number;
+  terms: string[];
 }
 
 // ── Language display names ────────────────────────────────────────────────────

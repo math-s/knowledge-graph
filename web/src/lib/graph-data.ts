@@ -7,11 +7,13 @@ import type {
   DocumentData,
   DocumentMeta,
   DocumentSectionData,
+  EntityDefinition,
   GraphData,
   ParagraphData,
   PatristicWorkData,
   SearchEntry,
   ThemeDefinition,
+  TopicDefinition,
 } from "./types";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -33,6 +35,18 @@ export async function fetchSearchIndex(): Promise<SearchEntry[]> {
 
 export async function fetchThemes(): Promise<Record<string, ThemeDefinition>> {
   const res = await fetch(`${BASE_PATH}/data/themes.json`);
+  return res.json();
+}
+
+export async function fetchEntities(): Promise<EntityDefinition[]> {
+  const res = await fetch(`${BASE_PATH}/data/entities.json`);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchTopics(): Promise<TopicDefinition[]> {
+  const res = await fetch(`${BASE_PATH}/data/topics.json`);
+  if (!res.ok) return [];
   return res.json();
 }
 
