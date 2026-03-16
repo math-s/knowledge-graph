@@ -123,11 +123,9 @@ export interface ParagraphData {
   text: string | MultiLangText;
   footnotes: string[] | BilingualArr;
   cross_references: number[];
-  bible_citations: string[];
+  bible_citations: { book: string; reference: string }[];
   author_citations: string[];
-  document_citations: string[];
-  bible_citation_details?: { book: string; reference: string }[];
-  document_citation_details?: { document: string; section: string }[];
+  document_citations: { document: string; section: string }[];
   themes: string[];
   entities: string[];
   topics: number[];

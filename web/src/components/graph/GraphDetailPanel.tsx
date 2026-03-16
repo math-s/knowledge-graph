@@ -627,19 +627,20 @@ export default function GraphDetailPanel({
               Bible Citations ({paraData.bible_citations.length})
             </h3>
             <div className="flex flex-wrap gap-1">
-              {paraData.bible_citations.map((bookId) => {
+              {paraData.bible_citations.map((cite, i) => {
+                const bookId = cite.book;
                 const sourceNodeId = `bible:${bookId}`;
                 const hasNode = graph.hasNode(sourceNodeId);
                 const label = bookId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
                 return (
                   <button
-                    key={bookId}
+                    key={`${bookId}-${cite.reference}-${i}`}
                     onClick={() => hasNode && onNavigate(sourceNodeId)}
                     disabled={!hasNode}
                     className="rounded bg-green-50 px-2 py-0.5 text-xs font-medium text-green-800 hover:bg-green-100 disabled:opacity-50 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
                     style={{ borderLeft: "3px solid #59A14F" }}
                   >
-                    {label}
+                    {label} {cite.reference}
                   </button>
                 );
               })}
@@ -681,19 +682,20 @@ export default function GraphDetailPanel({
               Ecclesiastical Documents ({paraData.document_citations.length})
             </h3>
             <div className="flex flex-wrap gap-1">
-              {paraData.document_citations.map((docId) => {
+              {paraData.document_citations.map((cite, i) => {
+                const docId = cite.document;
                 const sourceNodeId = `document:${docId}`;
                 const hasNode = graph.hasNode(sourceNodeId);
                 const label = docId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
                 return (
                   <button
-                    key={docId}
+                    key={`${docId}-${cite.section}-${i}`}
                     onClick={() => hasNode && onNavigate(sourceNodeId)}
                     disabled={!hasNode}
                     className="rounded bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800 hover:bg-amber-100 disabled:opacity-50 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/50"
                     style={{ borderLeft: `3px solid ${SOURCE_COLORS.document}` }}
                   >
-                    {label}
+                    {label} {cite.section}
                   </button>
                 );
               })}
