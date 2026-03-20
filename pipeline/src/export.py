@@ -144,27 +144,18 @@ def export_graph(
 
         entry: dict = {
             "id": p.id,
+            "text": {"en": p.text, "pt": pt.text if pt else ""},
+            "footnotes": {"en": p.footnotes, "pt": pt.footnotes if pt else []},
             "cross_references": p.cross_references,
             "bible_citations": bible_citations,
             "author_citations": author_citations,
             "document_citations": document_citations,
             "themes": p.themes,
+            "part": {"en": p.part, "pt": pt.part if pt else ""},
+            "section": {"en": p.section, "pt": pt.section if pt else ""},
+            "chapter": {"en": p.chapter, "pt": pt.chapter if pt else ""},
+            "article": {"en": p.article, "pt": pt.article if pt else ""},
         }
-
-        if paragraphs_pt is not None:
-            entry["text"] = {"en": p.text, "pt": pt.text if pt else ""}
-            entry["footnotes"] = {"en": p.footnotes, "pt": pt.footnotes if pt else []}
-            entry["part"] = {"en": p.part, "pt": pt.part if pt else ""}
-            entry["section"] = {"en": p.section, "pt": pt.section if pt else ""}
-            entry["chapter"] = {"en": p.chapter, "pt": pt.chapter if pt else ""}
-            entry["article"] = {"en": p.article, "pt": pt.article if pt else ""}
-        else:
-            entry["text"] = p.text
-            entry["footnotes"] = p.footnotes
-            entry["part"] = p.part
-            entry["section"] = p.section
-            entry["chapter"] = p.chapter
-            entry["article"] = p.article
 
         paragraphs_data.append(entry)
 
@@ -177,18 +168,16 @@ def export_graph(
     search_data: list[dict] = []
     for p in paragraphs_en:
         pt = pt_map.get(p.id)
-        entry = {
+        search_data.append({
             "id": p.id,
             "text": p.text[:300],
+            "text_pt": pt.text[:300] if pt else "",
             "themes": " ".join(p.themes),
             "part": p.part,
             "section": p.section,
             "chapter": p.chapter,
             "article": p.article,
-        }
-        if paragraphs_pt is not None:
-            entry["text_pt"] = pt.text[:300] if pt else ""
-        search_data.append(entry)
+        })
 
     # Also add source nodes to search index
     for node_id in G.nodes:

@@ -43,8 +43,6 @@ export function useNodeSelection() {
     return entry;
   }, []);
 
-  // Derived from ref, not state — only re-evaluated when the component
-  // re-renders via setSelectedNode (called by selectNode/goBack/clearSelection).
   const canGoBack = historyRef.current.length > 0;
 
   const clearSelection = useCallback(() => {

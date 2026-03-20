@@ -41,17 +41,17 @@ export function tArr(value: BilingualArr | string[], lang: Lang = "en"): string[
 
 export interface ParagraphData {
   id: number;
-  text: string | BilingualStr;
-  footnotes: string[] | BilingualArr;
+  text: BilingualStr;
+  footnotes: BilingualArr;
   cross_references: number[];
   bible_citations: string[];
   author_citations: string[];
   document_citations: string[];
   themes: string[];
-  part: string | BilingualStr;
-  section: string | BilingualStr;
-  chapter: string | BilingualStr;
-  article: string | BilingualStr;
+  part: BilingualStr;
+  section: BilingualStr;
+  chapter: BilingualStr;
+  article: BilingualStr;
 }
 
 export interface SearchEntry {

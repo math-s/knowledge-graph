@@ -5,8 +5,8 @@ import type { BilingualStr, BilingualArr } from "@/lib/types";
 import { t, tArr } from "@/lib/types";
 
 interface ParagraphContentProps {
-  text: string | BilingualStr;
-  footnotes: string[] | BilingualArr;
+  text: BilingualStr;
+  footnotes: BilingualArr;
 }
 
 export default function ParagraphContent({
@@ -15,7 +15,7 @@ export default function ParagraphContent({
 }: ParagraphContentProps) {
   const { lang, setLang } = useLang();
 
-  const hasPt = typeof text === "object" && !!text.pt;
+  const hasPt = !!text.pt;
   const resolvedFootnotes = tArr(footnotes, lang);
 
   return (

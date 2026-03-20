@@ -32,38 +32,40 @@ _HTTP_HEADERS = {
 BASE_URL = "https://www.vatican.va/archive/cathechism_po/index_new/"
 TOC_URL = BASE_URL + "prima-pagina-cic_po.html"
 
-# Content pages in order (from the TOC).  Each tuple:
-#   (filename, toc_id, indent_level, label)
-# toc_id and label are filled during TOC parsing.
-CONTENT_PAGES = [
-    "prologo%201-25_po.html",
-    "p1s1c1_26-49_po.html",
-    "p1s1c2_50-141_po.html",
-    "p1s1c3_142-184_po.html",
-    "p1s2_185-197_po.html",
-    "p1s2c1_198-421_po.html",
-    "p1s2cap2_422-682_po.html",
-    "p1s2cap3_683-1065_po.html",
-    "p2s1cap1_1066-1075_po.html",
-    "p2s1cap1_1076-1134_po.html",
-    "p2s1cap2_1135-1209_po.html",
-    "p2s2cap1_1210-1419_po.html",
-    "p2s2cap1_1420-1532_po.html",
-    "p2s2cap3_1533-1666_po.html",
-    "p2s2cap4_1667-1690_po.html",
-    "p3-intr_1691-1698_po.html",
-    "p3s1cap1_1699-1876_po.html",
-    "p3s1cap2_1877-1948_po.html",
-    "p3s1cap3_1949-2051_po.html",
-    "p3s2-intr_2052-2082_po.html",
-    "p3s2cap1_2083-2195_po.html",
-    "p3s2cap2_2196-2557_po.html",
-    "p4-intr_2558-2565_po.html",
-    "p4s1cap1_2566-2649_po.html",
-    "p4s1cap2_2650-2696_po.html",
-    "p4s1cap3_2697-2758_po.html",
-    "p4s2_2759-2865_po.html",
-]
+# Expected content page count — used to validate dynamic TOC parsing.
+_EXPECTED_PAGE_COUNT = 27
+
+# Regex to match content page filenames (e.g. "p1s1c1_26-49_po.html")
+_CONTENT_PAGE_RE = re.compile(r"^(?:prologo|p\d).+_po\.html$")
+
+
+def parse_toc_for_content_pages(toc_html: str) -> list[str]:
+    """Extract content page filenames from the TOC HTML.
+
+    Walks all <a href="..."> links in the TOC, keeps those that match
+    the Vatican CCC Portuguese content page naming convention, and
+    returns them in document order (deduped).
+    """
+    soup = BeautifulSoup(toc_html, "lxml")
+    seen: set[str] = set()
+    pages: list[str] = []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        # Strip any leading path component (e.g. "./") or full URL prefix
+        filename = href.rsplit("/", 1)[-1] if "/" in href else href
+        if _CONTENT_PAGE_RE.match(unquote(filename)) and filename not in seen:
+            seen.add(filename)
+            pages.append(filename)
+
+    if len(pages) < _EXPECTED_PAGE_COUNT:
+        logger.warning(
+            "TOC parsing found %d pages (expected %d). "
+            "Vatican.va TOC structure may have changed.",
+            len(pages), _EXPECTED_PAGE_COUNT,
+        )
+
+    return pages
 
 
 # ---------------------------------------------------------------------------
@@ -89,17 +91,27 @@ def _fetch(url: str, cache_name: str) -> str:
     return text
 
 
-def fetch_pages() -> dict[str, str]:
-    """Download TOC and all content pages. Returns {filename: html}."""
+def fetch_pages() -> tuple[dict[str, str], list[str]]:
+    """Download TOC and all content pages.
+
+    Returns:
+        (pages, content_filenames) where pages is {filename: html}
+        and content_filenames is the ordered list of content page names.
+    """
     pages: dict[str, str] = {}
     # TOC
-    pages["toc"] = _fetch(TOC_URL, "toc.html")
+    toc_html = _fetch(TOC_URL, "toc.html")
+    pages["toc"] = toc_html
+
+    content_filenames = parse_toc_for_content_pages(toc_html)
+    logger.info("Discovered %d content pages from TOC", len(content_filenames))
+
     # Content pages
-    for filename in CONTENT_PAGES:
+    for filename in content_filenames:
         url = BASE_URL + filename
         cache_name = unquote(filename)
         pages[filename] = _fetch(url, cache_name)
-    return pages
+    return pages, content_filenames
 
 
 # ---------------------------------------------------------------------------
@@ -115,44 +127,42 @@ def fetch_pages() -> dict[str, str]:
 #   indent 3: Chapters within sections
 #   indent 4+: Articles, sub-articles
 
-_TOC_STRUCTURE: list[dict] = [
-    # (filename, indent, label)
-    {"file": "prologo%201-25_po.html", "indent": 1, "label": "PRÓLOGO"},
-
+# Structural metadata for known content pages: filename -> (indent, label).
+# Used by build_toc() to assign hierarchy levels and labels.
+# If a dynamically discovered page is not in this map, it gets a default.
+_PAGE_METADATA: dict[str, tuple[int, str]] = {
+    "prologo%201-25_po.html": (1, "PRÓLOGO"),
     # Part I
-    {"file": "p1s1c1_26-49_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: O homem é «capaz» de Deus"},
-    {"file": "p1s1c2_50-141_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: Deus vem ao encontro do homem"},
-    {"file": "p1s1c3_142-184_po.html", "indent": 3, "label": "CAPÍTULO TERCEIRO: A resposta do homem a Deus"},
-    {"file": "p1s2_185-197_po.html", "indent": 2, "label": "SEGUNDA SECÇÃO: A profissão da fé cristã"},
-    {"file": "p1s2c1_198-421_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: Creio em Deus Pai"},
-    {"file": "p1s2cap2_422-682_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: Creio em Jesus Cristo, Filho Único de Deus"},
-    {"file": "p1s2cap3_683-1065_po.html", "indent": 3, "label": "CAPÍTULO TERCEIRO: Creio no Espírito Santo"},
-
+    "p1s1c1_26-49_po.html": (3, "CAPÍTULO PRIMEIRO: O homem é «capaz» de Deus"),
+    "p1s1c2_50-141_po.html": (3, "CAPÍTULO SEGUNDO: Deus vem ao encontro do homem"),
+    "p1s1c3_142-184_po.html": (3, "CAPÍTULO TERCEIRO: A resposta do homem a Deus"),
+    "p1s2_185-197_po.html": (2, "SEGUNDA SECÇÃO: A profissão da fé cristã"),
+    "p1s2c1_198-421_po.html": (3, "CAPÍTULO PRIMEIRO: Creio em Deus Pai"),
+    "p1s2cap2_422-682_po.html": (3, "CAPÍTULO SEGUNDO: Creio em Jesus Cristo, Filho Único de Deus"),
+    "p1s2cap3_683-1065_po.html": (3, "CAPÍTULO TERCEIRO: Creio no Espírito Santo"),
     # Part II
-    {"file": "p2s1cap1_1066-1075_po.html", "indent": 2, "label": "PRIMEIRA SECÇÃO: A Economia sacramental"},
-    {"file": "p2s1cap1_1076-1134_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: O Mistério Pascal no tempo da Igreja"},
-    {"file": "p2s1cap2_1135-1209_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: A celebração sacramental do Mistério Pascal"},
-    {"file": "p2s2cap1_1210-1419_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: Os sacramentos da Iniciação cristã"},
-    {"file": "p2s2cap1_1420-1532_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: Os sacramentos de Cura"},
-    {"file": "p2s2cap3_1533-1666_po.html", "indent": 3, "label": "CAPÍTULO TERCEIRO: Os sacramentos ao serviço da Comunhão"},
-    {"file": "p2s2cap4_1667-1690_po.html", "indent": 3, "label": "CAPÍTULO QUARTO: Outras celebrações litúrgicas"},
-
+    "p2s1cap1_1066-1075_po.html": (2, "PRIMEIRA SECÇÃO: A Economia sacramental"),
+    "p2s1cap1_1076-1134_po.html": (3, "CAPÍTULO PRIMEIRO: O Mistério Pascal no tempo da Igreja"),
+    "p2s1cap2_1135-1209_po.html": (3, "CAPÍTULO SEGUNDO: A celebração sacramental do Mistério Pascal"),
+    "p2s2cap1_1210-1419_po.html": (3, "CAPÍTULO PRIMEIRO: Os sacramentos da Iniciação cristã"),
+    "p2s2cap1_1420-1532_po.html": (3, "CAPÍTULO SEGUNDO: Os sacramentos de Cura"),
+    "p2s2cap3_1533-1666_po.html": (3, "CAPÍTULO TERCEIRO: Os sacramentos ao serviço da Comunhão"),
+    "p2s2cap4_1667-1690_po.html": (3, "CAPÍTULO QUARTO: Outras celebrações litúrgicas"),
     # Part III
-    {"file": "p3-intr_1691-1698_po.html", "indent": 2, "label": "A vida em Cristo"},
-    {"file": "p3s1cap1_1699-1876_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: A dignidade da pessoa humana"},
-    {"file": "p3s1cap2_1877-1948_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: A comunidade humana"},
-    {"file": "p3s1cap3_1949-2051_po.html", "indent": 3, "label": "CAPÍTULO TERCEIRO: A salvação de Deus: a Lei e a Graça"},
-    {"file": "p3s2-intr_2052-2082_po.html", "indent": 2, "label": "SEGUNDA SECÇÃO: Os Dez Mandamentos"},
-    {"file": "p3s2cap1_2083-2195_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: «Amarás o Senhor teu Deus...»"},
-    {"file": "p3s2cap2_2196-2557_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: «Amarás o próximo como a ti mesmo»"},
-
+    "p3-intr_1691-1698_po.html": (2, "A vida em Cristo"),
+    "p3s1cap1_1699-1876_po.html": (3, "CAPÍTULO PRIMEIRO: A dignidade da pessoa humana"),
+    "p3s1cap2_1877-1948_po.html": (3, "CAPÍTULO SEGUNDO: A comunidade humana"),
+    "p3s1cap3_1949-2051_po.html": (3, "CAPÍTULO TERCEIRO: A salvação de Deus: a Lei e a Graça"),
+    "p3s2-intr_2052-2082_po.html": (2, "SEGUNDA SECÇÃO: Os Dez Mandamentos"),
+    "p3s2cap1_2083-2195_po.html": (3, "CAPÍTULO PRIMEIRO: «Amarás o Senhor teu Deus...»"),
+    "p3s2cap2_2196-2557_po.html": (3, "CAPÍTULO SEGUNDO: «Amarás o próximo como a ti mesmo»"),
     # Part IV
-    {"file": "p4-intr_2558-2565_po.html", "indent": 2, "label": "A oração cristã"},
-    {"file": "p4s1cap1_2566-2649_po.html", "indent": 3, "label": "CAPÍTULO PRIMEIRO: A revelação da Oração"},
-    {"file": "p4s1cap2_2650-2696_po.html", "indent": 3, "label": "CAPÍTULO SEGUNDO: A tradição da Oração"},
-    {"file": "p4s1cap3_2697-2758_po.html", "indent": 3, "label": "CAPÍTULO TERCEIRO: A vida de Oração"},
-    {"file": "p4s2_2759-2865_po.html", "indent": 2, "label": "SEGUNDA SECÇÃO: A Oração do Senhor: «Pai Nosso»"},
-]
+    "p4-intr_2558-2565_po.html": (2, "A oração cristã"),
+    "p4s1cap1_2566-2649_po.html": (3, "CAPÍTULO PRIMEIRO: A revelação da Oração"),
+    "p4s1cap2_2650-2696_po.html": (3, "CAPÍTULO SEGUNDO: A tradição da Oração"),
+    "p4s1cap3_2697-2758_po.html": (3, "CAPÍTULO TERCEIRO: A vida de Oração"),
+    "p4s2_2759-2865_po.html": (2, "SEGUNDA SECÇÃO: A Oração do Senhor: «Pai Nosso»"),
+}
 
 # Part-level labels for assigning to paragraphs
 _PART_RANGES = [
@@ -171,12 +181,22 @@ def _part_for_para(para_num: int) -> str:
     return ""
 
 
-def build_toc() -> tuple[list[dict], dict[str, dict]]:
+def _classify_part(filename: str) -> int:
+    """Return the part index (0=prologue, 1-4=parts) for a content filename."""
+    decoded = unquote(filename).lower()
+    if "prologo" in decoded:
+        return 0
+    for prefix, idx in [("p1", 1), ("p2", 2), ("p3", 3), ("p4", 4)]:
+        if decoded.startswith(prefix):
+            return idx
+    return -1
+
+
+def build_toc(content_filenames: list[str]) -> tuple[list[dict], dict[str, dict]]:
     """Build toc_link_tree and toc_nodes matching nossbigg schema."""
     toc_link_tree: list[dict] = []
     toc_nodes: dict[str, dict] = {}
 
-    # Build 5 top-level groups: Prologue + 4 Parts
     part_labels = [
         "PRÓLOGO",
         "PRIMEIRA PARTE: A PROFISSÃO DA FÉ",
@@ -198,27 +218,18 @@ def build_toc() -> tuple[list[dict], dict[str, dict]]:
             "link": "",
         }
 
-        # Find pages belonging to this part
-        if part_idx == 0:
-            pages_for_part = [s for s in _TOC_STRUCTURE if s["file"] == "prologo%201-25_po.html"]
-        elif part_idx == 1:
-            pages_for_part = [s for s in _TOC_STRUCTURE if s["file"].startswith("p1")]
-        elif part_idx == 2:
-            pages_for_part = [s for s in _TOC_STRUCTURE if s["file"].startswith("p2")]
-        elif part_idx == 3:
-            pages_for_part = [s for s in _TOC_STRUCTURE if s["file"].startswith("p3")]
-        else:
-            pages_for_part = [s for s in _TOC_STRUCTURE if s["file"].startswith("p4")]
+        pages_for_part = [f for f in content_filenames if _classify_part(f) == part_idx]
 
-        for page_info in pages_for_part:
+        for filename in pages_for_part:
+            indent, label = _PAGE_METADATA.get(filename, (3, unquote(filename)))
             toc_counter += 1
             child_toc_id = f"toc-{toc_counter}"
             child_node: dict = {"id": child_toc_id, "children": []}
             toc_nodes[child_toc_id] = {
                 "id": child_toc_id,
-                "indent_level": page_info["indent"],
-                "text": page_info["label"],
-                "link": BASE_URL + page_info["file"],
+                "indent_level": indent,
+                "text": label,
+                "link": BASE_URL + filename,
             }
             part_node["children"].append(child_node)
 
@@ -624,15 +635,15 @@ def _split_footnote_refs(
 def run() -> Path:
     """Scrape Portuguese CCC and write data/raw/ccc-pt.json."""
     logger.info("Fetching Portuguese CCC pages...")
-    pages = fetch_pages()
+    pages, content_filenames = fetch_pages()
 
     logger.info("Building TOC...")
-    toc_link_tree, toc_nodes = build_toc()
+    toc_link_tree, toc_nodes = build_toc(content_filenames)
 
-    logger.info("Parsing %d content pages...", len(CONTENT_PAGES))
+    logger.info("Parsing %d content pages...", len(content_filenames))
     page_nodes: dict[str, dict] = {}
 
-    for filename in CONTENT_PAGES:
+    for filename in content_filenames:
         html = pages[filename]
         toc_id = _toc_id_for_file(filename, toc_nodes)
         paragraphs, footnotes = parse_page(html, filename)
