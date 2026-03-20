@@ -232,16 +232,38 @@ class Retriever:
     # -- Citations -----------------------------------------------------------
 
     def get_bible_citations(self, pid: int) -> list[BibleCitation]:
-        """Get Bible citations for a paragraph."""
+        """Get Bible citations for a paragraph, resolving verse text."""
         rows = self.conn.execute("""
             SELECT book, reference
             FROM paragraph_bible_citations
             WHERE paragraph_id = ?
         """, (pid,)).fetchall()
-        return [BibleCitation(
-            book=r["book"] or "",
-            reference=r["reference"] or "",
-        ) for r in rows]
+        citations = []
+        for r in rows:
+            book = r["book"] or ""
+            ref = r["reference"] or ""
+            text = self._resolve_bible_ref(book, ref)
+            citations.append(BibleCitation(book=book, reference=ref, text=text))
+        return citations
+
+    def _resolve_bible_ref(self, book: str, reference: str) -> str:
+        """Resolve a citation reference like '28:19-20' to verse text."""
+        if not book or not reference:
+            return ""
+        # Parse "chapter:verse" or "chapter:verse-verse" or "chapter verse"
+        m = re.match(r"(\d+)[:\s](\d+)(?:-(\d+))?", reference)
+        if not m:
+            return ""
+        ch = int(m.group(1))
+        v_start = int(m.group(2))
+        v_end = int(m.group(3)) if m.group(3) else v_start
+        rows = self.conn.execute("""
+            SELECT verse, text_en FROM bible_verses
+            WHERE book_id = ? AND chapter = ? AND verse BETWEEN ? AND ?
+            ORDER BY verse
+        """, (book, ch, v_start, v_end)).fetchall()
+        parts = [r["text_en"] for r in rows if r["text_en"]]
+        return " ".join(parts)
 
     def get_document_citations(self, pid: int) -> list[DocumentCitation]:
         """Get ecclesiastical document citations for a paragraph."""
