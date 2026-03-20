@@ -1,6 +1,9 @@
 # Data directories
 data/raw/
 data/processed/
+data/*.db-shm
+data/*.db-wal
+pipeline/data/
 
 # Python
 __pycache__/
