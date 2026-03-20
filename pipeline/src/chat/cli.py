@@ -426,6 +426,45 @@ def list_documents(ctx: click.Context, **kwargs) -> None:
 
 
 # ---------------------------------------------------------------------------
+# lexicon
+# ---------------------------------------------------------------------------
+
+@cli.command()
+@click.argument("query")
+@_common_options
+@click.pass_context
+def lexicon(ctx: click.Context, query: str, **kwargs) -> None:
+    """Look up a theological term in the lexicon."""
+    r = _get_retriever(ctx)
+    rows = r.conn.execute("""
+        SELECT l.id, l.term_en, l.term_la, l.term_el, l.etymology, l.definition, l.category,
+               (SELECT COUNT(*) FROM lexicon_paragraphs lp WHERE lp.term_id = l.id) as para_count
+        FROM lexicon_fts f
+        JOIN lexicon l ON l.id = f.id
+        WHERE lexicon_fts MATCH ?
+        ORDER BY f.rank
+        LIMIT 5
+    """, (query,)).fetchall()
+
+    if _is_json(ctx, kwargs):
+        _json_out([{
+            "id": r["id"], "en": r["term_en"], "la": r["term_la"], "el": r["term_el"],
+            "etymology": r["etymology"], "definition": r["definition"],
+            "category": r["category"], "paragraphs": r["para_count"],
+        } for r in rows])
+    else:
+        if not rows:
+            click.echo(f"No lexicon entries found for '{query}'.")
+            return
+        for r in rows:
+            click.echo(f"\n  {r['term_en']}  ({r['term_la']} / {r['term_el']})")
+            click.echo(f"  Category: {r['category']}")
+            click.echo(f"  Etymology: {r['etymology']}")
+            click.echo(f"  Definition: {r['definition']}")
+            click.echo(f"  CCC references: {r['para_count']} paragraphs")
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
