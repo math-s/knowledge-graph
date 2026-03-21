@@ -56,6 +56,12 @@ export default function Home() {
           >
             Browse by Structure
           </Link>
+          <Link
+            href="/chat"
+            className="rounded-lg border border-zinc-300 px-6 py-3 font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+          >
+            Ask the AI
+          </Link>
         </div>
 
         <p className="mt-12 text-xs text-zinc-400">
