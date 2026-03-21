@@ -1,4 +1,4 @@
-"""Knowledge Graph API — read-only FastAPI server backed by SQLite."""
+"""Knowledge Graph API — data + LLM chat, backed by SQLite."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 
 from .db import DB_PATH, get_connection
 from .routers import authors, bible, documents, graph, paragraphs, search
+from .chat import router as chat_router
 
 # Cache durations (seconds)
 CACHE_IMMUTABLE = 60 * 60 * 24  # 24h — data only changes on redeploy
@@ -19,7 +20,6 @@ CACHE_SHORT = 60 * 5  # 5min — for search results
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Verify DB exists on startup
     if not DB_PATH.exists():
         raise FileNotFoundError(f"Database not found: {DB_PATH}")
     conn = get_connection()
@@ -31,20 +31,18 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Knowledge Graph API",
-    description="Read-only API for the CCC Knowledge Graph",
-    version="0.1.0",
+    description="CCC knowledge graph — data API + LLM chat",
+    version="0.2.0",
     lifespan=lifespan,
 )
 
-# Gzip — compress JSON responses (big win for graph subgraphs)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# CORS — allow the frontend origin(s)
 allowed_origins = os.environ.get("CORS_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -53,7 +51,9 @@ app.add_middleware(
 async def add_cache_headers(request: Request, call_next):
     response: Response = await call_next(request)
     path = request.url.path
-    if path.startswith("/search"):
+    if path.startswith("/chat"):
+        response.headers["Cache-Control"] = "no-cache"
+    elif path.startswith("/search"):
         response.headers["Cache-Control"] = f"public, max-age={CACHE_SHORT}"
     elif path == "/health":
         response.headers["Cache-Control"] = "no-cache"
@@ -62,12 +62,16 @@ async def add_cache_headers(request: Request, call_next):
     return response
 
 
+# Data routers
 app.include_router(search.router)
 app.include_router(graph.router)
 app.include_router(paragraphs.router)
 app.include_router(bible.router)
 app.include_router(documents.router)
 app.include_router(authors.router)
+
+# LLM chat router
+app.include_router(chat_router)
 
 
 @app.get("/health")

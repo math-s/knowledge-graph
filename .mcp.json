@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "knowledge-graph": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "/home/math/src/knowledge-graph/api",
+        "python",
+        "-m",
+        "api.mcp_server"
+      ]
+    }
+  }
+}
