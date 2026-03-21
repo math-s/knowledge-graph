@@ -23,6 +23,7 @@ from bs4 import BeautifulSoup
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "cathen"
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
+_ENCYCLOPEDIA_DB_PATH = PROJECT_ROOT / "data" / "encyclopedia.db"  # standalone, used during initial scrape
 
 BASE_URL = "https://www.newadvent.org/cathen/"
 
