@@ -465,6 +465,89 @@ def lexicon(ctx: click.Context, query: str, **kwargs) -> None:
 
 
 # ---------------------------------------------------------------------------
+# search-encyclopedia
+# ---------------------------------------------------------------------------
+
+@cli.command("search-encyclopedia")
+@click.argument("query")
+@click.option("--limit", "-n", default=10, help="Max results")
+@_common_options
+@click.pass_context
+def search_encyclopedia(ctx: click.Context, query: str, limit: int, **kwargs) -> None:
+    """Full-text search across Catholic Encyclopedia articles."""
+    r = _get_retriever(ctx)
+    try:
+        rows = r.conn.execute("""
+            SELECT e.id, e.title, e.summary, e.url,
+                   substr(e.text_en, 1, 300) as preview
+            FROM encyclopedia_fts f
+            JOIN encyclopedia e ON e.id = f.id
+            WHERE encyclopedia_fts MATCH ?
+            ORDER BY f.rank
+            LIMIT ?
+        """, (query, limit)).fetchall()
+    except Exception:
+        rows = []
+
+    if _is_json(ctx, kwargs):
+        _json_out([{
+            "id": row["id"], "title": row["title"],
+            "summary": row["summary"], "url": row["url"],
+            "preview": row["preview"],
+        } for row in rows])
+    else:
+        if not rows:
+            click.echo(f"No encyclopedia articles found for '{query}'.")
+            return
+        click.echo(f"Found {len(rows)} articles for '{query}':")
+        for row in rows:
+            click.echo(f"\n--- {row['title']} ({row['id']}) ---")
+            if row["summary"]:
+                click.echo(f"  {row['summary']}")
+            if _is_verbose(ctx, kwargs) and row["preview"]:
+                click.echo(f"\n{row['preview']}...")
+
+
+# ---------------------------------------------------------------------------
+# encyclopedia
+# ---------------------------------------------------------------------------
+
+@cli.command("encyclopedia")
+@click.argument("article_id")
+@_common_options
+@click.pass_context
+def encyclopedia(ctx: click.Context, article_id: str, **kwargs) -> None:
+    """Get a Catholic Encyclopedia article by ID (e.g. 05649a)."""
+    r = _get_retriever(ctx)
+    try:
+        row = r.conn.execute(
+            "SELECT id, title, summary, text_en, url FROM encyclopedia WHERE id = ?",
+            (article_id,)
+        ).fetchone()
+    except Exception:
+        row = None
+
+    if not row:
+        raise click.ClickException(f"Article '{article_id}' not found.")
+
+    if _is_json(ctx, kwargs):
+        _json_out({
+            "id": row["id"], "title": row["title"],
+            "summary": row["summary"], "text": row["text_en"], "url": row["url"],
+        })
+    else:
+        click.echo(f"\n=== {row['title']} ===")
+        if row["summary"]:
+            click.echo(f"Summary: {row['summary']}")
+        click.echo(f"URL: {row['url']}\n")
+        if row["text_en"]:
+            if _is_verbose(ctx, kwargs):
+                click.echo(row["text_en"])
+            else:
+                click.echo(row["text_en"][:1000] + ("..." if len(row["text_en"]) > 1000 else ""))
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
