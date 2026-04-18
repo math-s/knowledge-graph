@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import AsyncIterator
+from typing import Any, AsyncIterator
 
 import anthropic
 from fastapi import APIRouter
@@ -46,16 +46,21 @@ def _make_client() -> anthropic.Anthropic:
     return anthropic.Anthropic(api_key=api_key)
 
 
-async def _stream_chat(messages: list[dict]) -> AsyncIterator[str]:
-    """Run the agentic tool-use loop, yielding SSE-formatted chunks."""
+async def _run_agent(messages: list[dict]) -> AsyncIterator[dict]:
+    """Run the agentic tool-use loop, yielding structured events.
+
+    Event shapes:
+      {"type": "text", "text": str}                         -- streamed text delta
+      {"type": "tool_call", "name": str, "input": dict}     -- model is calling a tool
+      {"type": "tool_result", "name": str, "output": Any}   -- tool returned
+      {"type": "done"}                                      -- end of conversation
+    """
     client = _make_client()
     history = list(messages)
 
     while True:
-        # Collect a full response (streaming per token but buffering tool calls)
         response_text = ""
         tool_uses: list[dict] = []
-        stop_reason = None
 
         with client.messages.stream(
             model="claude-sonnet-4-6",
@@ -65,38 +70,23 @@ async def _stream_chat(messages: list[dict]) -> AsyncIterator[str]:
             messages=history,
         ) as stream:
             for event in stream:
-                if hasattr(event, "type"):
-                    if event.type == "content_block_delta":
-                        if hasattr(event.delta, "text"):
-                            chunk = event.delta.text
-                            response_text += chunk
-                            yield _sse("text", chunk)
-                    elif event.type == "content_block_start":
-                        if hasattr(event.content_block, "type") and event.content_block.type == "tool_use":
-                            tool_uses.append({
-                                "id": event.content_block.id,
-                                "name": event.content_block.name,
-                                "input": "",
-                            })
-                    elif event.type == "content_block_stop":
-                        pass
+                if not hasattr(event, "type"):
+                    continue
+                if event.type == "content_block_delta" and hasattr(event.delta, "text"):
+                    chunk = event.delta.text
+                    response_text += chunk
+                    yield {"type": "text", "text": chunk}
 
-            # Get final message for stop_reason and complete tool inputs
             final = stream.get_final_message()
             stop_reason = final.stop_reason
 
-            # Rebuild tool_uses with complete input from final message
-            tool_uses = []
-            for block in final.content:
-                if block.type == "tool_use":
-                    tool_uses.append({
-                        "id": block.id,
-                        "name": block.name,
-                        "input": block.input,
-                    })
+            tool_uses = [
+                {"id": b.id, "name": b.name, "input": b.input}
+                for b in final.content
+                if b.type == "tool_use"
+            ]
 
-        # Build assistant message for history
-        assistant_content = []
+        assistant_content: list[dict] = []
         if response_text:
             assistant_content.append({"type": "text", "text": response_text})
         for tu in tool_uses:
@@ -108,17 +98,15 @@ async def _stream_chat(messages: list[dict]) -> AsyncIterator[str]:
             })
         history.append({"role": "assistant", "content": assistant_content})
 
-        # If no tool calls or stop_reason is end_turn, we're done
         if stop_reason != "tool_use" or not tool_uses:
-            yield _sse("done", "")
+            yield {"type": "done"}
             return
 
-        # Execute tools and add results
         tool_results = []
         for tu in tool_uses:
-            yield _sse("tool_call", json.dumps({"name": tu["name"], "input": tu["input"]}))
+            yield {"type": "tool_call", "name": tu["name"], "input": tu["input"]}
             result = dispatch_to_content(tu["name"], tu["input"])
-            yield _sse("tool_result", json.dumps({"name": tu["name"]}))
+            yield {"type": "tool_result", "name": tu["name"]}
             tool_results.append({
                 "type": "tool_result",
                 "tool_use_id": tu["id"],
@@ -126,11 +114,34 @@ async def _stream_chat(messages: list[dict]) -> AsyncIterator[str]:
             })
 
         history.append({"role": "user", "content": tool_results})
-        # Loop back for Claude's next response
 
 
 def _sse(event: str, data: str) -> str:
     return f"event: {event}\ndata: {data}\n\n"
+
+
+async def _sse_stream(messages: list[dict]) -> AsyncIterator[str]:
+    async for ev in _run_agent(messages):
+        kind = ev["type"]
+        if kind == "text":
+            yield _sse("text", ev["text"])
+        elif kind == "tool_call":
+            yield _sse("tool_call", json.dumps({"name": ev["name"], "input": ev["input"]}))
+        elif kind == "tool_result":
+            yield _sse("tool_result", json.dumps({"name": ev["name"]}))
+        elif kind == "done":
+            yield _sse("done", "")
+
+
+async def _collect(messages: list[dict]) -> dict[str, Any]:
+    text_parts: list[str] = []
+    tool_calls: list[dict] = []
+    async for ev in _run_agent(messages):
+        if ev["type"] == "text":
+            text_parts.append(ev["text"])
+        elif ev["type"] == "tool_call":
+            tool_calls.append({"name": ev["name"], "input": ev["input"]})
+    return {"response": "".join(text_parts), "tool_calls": tool_calls}
 
 
 @router.post("/chat")
@@ -138,14 +149,10 @@ async def chat(req: ChatRequest):
     messages = [{"role": m.role, "content": m.content} for m in req.messages]
 
     if not req.stream:
-        # Non-streaming: collect everything and return
-        chunks = []
-        async for chunk in _stream_chat(messages):
-            chunks.append(chunk)
-        return {"response": "".join(chunks)}
+        return await _collect(messages)
 
     return StreamingResponse(
-        _stream_chat(messages),
+        _sse_stream(messages),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",

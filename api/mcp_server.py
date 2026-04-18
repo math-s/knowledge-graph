@@ -8,7 +8,7 @@ Or register in Claude Code settings:
       "mcpServers": {
         "knowledge-graph": {
           "command": "uv",
-          "args": ["run", "--project", "/path/to/api", "python", "-m", "api.mcp_server"]
+          "args": ["run", "--project", "api", "python", "-m", "api.mcp_server"]
         }
       }
     }

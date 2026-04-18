@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-sigma/core": "^5.0.6",
+    "fuse.js": "^7.3.0",
     "graphology": "^0.26.0",
     "graphology-communities-louvain": "^2.0.2",
     "graphology-layout-forceatlas2": "^0.10.1",
@@ -17,6 +18,8 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "sigma": "^3.0.2"
   },
   "devDependencies": {

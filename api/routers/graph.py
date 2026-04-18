@@ -36,6 +36,26 @@ def _format_node(r: sqlite3.Row, seed_ids: set[str] | None = None) -> dict:
     }
 
 
+def _paginated_seeds(
+    db: sqlite3.Connection,
+    base_sql: str,
+    params: tuple,
+    limit: Optional[int],
+    offset: int,
+) -> set[str]:
+    """Run a seed query with optional LIMIT/OFFSET and return the node_id set."""
+    sql = base_sql
+    query_params: list = list(params)
+    if limit is not None:
+        sql += " LIMIT ? OFFSET ?"
+        query_params.extend([limit, offset])
+    elif offset > 0:
+        sql += " LIMIT -1 OFFSET ?"
+        query_params.append(offset)
+    rows = db.execute(sql, query_params).fetchall()
+    return {r["node_id"] for r in rows}
+
+
 def _expand_subgraph(
     db: sqlite3.Connection,
     seed_ids: set[str],
@@ -100,23 +120,37 @@ def list_themes(db: sqlite3.Connection = Depends(get_db)):
 def graph_by_theme(
     theme_id: str,
     include_dense: bool = Query(False, description="Include high-cardinality edge types (shared_topic)"),
+    limit: Optional[int] = Query(None, ge=1, description="Max seed paragraphs to include"),
+    offset: int = Query(0, ge=0, description="Seed paragraph offset"),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a theme: themed paragraphs + 1-hop neighbors + edges."""
-    seed_rows = db.execute(
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_themes WHERE theme_id = ?",
+    total_row = db.execute(
+        "SELECT COUNT(*) AS c FROM paragraph_themes WHERE theme_id = ?",
         (theme_id,),
-    ).fetchall()
-    seed_ids = {r["node_id"] for r in seed_rows}
+    ).fetchone()
+    total_seeds = total_row["c"] if total_row else 0
 
-    if not seed_ids:
-        return {"theme": theme_id, "nodes": [], "edges": []}
+    if total_seeds == 0:
+        return {"theme": theme_id, "total_seeds": 0, "nodes": [], "edges": []}
+
+    seed_ids = _paginated_seeds(
+        db,
+        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_themes "
+        "WHERE theme_id = ? ORDER BY paragraph_id",
+        (theme_id,),
+        limit,
+        offset,
+    )
 
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
     return {
         "theme": theme_id,
+        "total_seeds": total_seeds,
         "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,
@@ -227,17 +261,37 @@ def graph_connect(
 def graph_by_community(
     community_id: int,
     include_dense: bool = Query(False),
+    limit: Optional[int] = Query(None, ge=1),
+    offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a community."""
-    seed_rows = db.execute(
-        "SELECT id FROM graph_nodes WHERE community = ?",
+    total_row = db.execute(
+        "SELECT COUNT(*) AS c FROM graph_nodes WHERE community = ?",
         (community_id,),
-    ).fetchall()
+    ).fetchone()
+    total_seeds = total_row["c"] if total_row else 0
+    if total_seeds == 0:
+        return {"community": community_id, "total_seeds": 0, "nodes": [], "edges": []}
+
+    seed_sql = "SELECT id FROM graph_nodes WHERE community = ? ORDER BY degree DESC, id"
+    seed_params: list = [community_id]
+    if limit is not None:
+        seed_sql += " LIMIT ? OFFSET ?"
+        seed_params.extend([limit, offset])
+    elif offset > 0:
+        seed_sql += " LIMIT -1 OFFSET ?"
+        seed_params.append(offset)
+    seed_rows = db.execute(seed_sql, seed_params).fetchall()
     seed_ids = {r["id"] for r in seed_rows}
 
     if not seed_ids:
-        return {"community": community_id, "nodes": [], "edges": []}
+        return {
+            "community": community_id,
+            "total_seeds": total_seeds,
+            "nodes": [],
+            "edges": [],
+        }
 
     # Get edges between community members only (no expansion)
     id_list = list(seed_ids)
@@ -271,6 +325,10 @@ def graph_by_community(
 
     return {
         "community": community_id,
+        "total_seeds": total_seeds,
+        "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,
@@ -284,6 +342,8 @@ def graph_by_filter(
     entities: Optional[str] = Query(None, description="Comma-separated entity IDs (AND logic)"),
     topics: Optional[str] = Query(None, description="Comma-separated topic IDs (AND logic)"),
     include_dense: bool = Query(False),
+    limit: Optional[int] = Query(None, ge=1, description="Max seed paragraphs to include"),
+    offset: int = Query(0, ge=0, description="Seed paragraph offset"),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for paragraphs matching ALL specified filters (AND logic).
@@ -297,7 +357,7 @@ def graph_by_filter(
     topic_list = [int(t.strip()) for t in topics.split(",") if t.strip()] if topics else []
 
     if not theme_list and not entity_list and not topic_list:
-        return {"filters": {}, "nodes": [], "edges": []}
+        return {"filters": {}, "total_seeds": 0, "nodes": [], "edges": []}
 
     # Start with all paragraph IDs, then intersect with each filter
     candidate_ids: set[int] | None = None
@@ -329,16 +389,26 @@ def graph_by_filter(
     if not candidate_ids:
         return {
             "filters": {"themes": theme_list, "entities": entity_list, "topics": topic_list},
+            "total_seeds": 0,
             "nodes": [],
             "edges": [],
         }
 
-    seed_ids = {f"p:{pid}" for pid in candidate_ids}
+    sorted_candidates = sorted(candidate_ids)
+    total_seeds = len(sorted_candidates)
+    if limit is not None:
+        window = sorted_candidates[offset : offset + limit]
+    else:
+        window = sorted_candidates[offset:]
+    seed_ids = {f"p:{pid}" for pid in window}
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
     return {
         "filters": {"themes": theme_list, "entities": entity_list, "topics": topic_list},
+        "total_seeds": total_seeds,
         "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,
@@ -366,20 +436,34 @@ def list_topics(db: sqlite3.Connection = Depends(get_db)):
 def graph_by_entity(
     entity_id: str,
     include_dense: bool = Query(False),
+    limit: Optional[int] = Query(None, ge=1),
+    offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for an entity: paragraphs with this entity + 1-hop neighbors."""
-    seed_rows = db.execute(
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_entities WHERE entity_id = ?",
+    total_row = db.execute(
+        "SELECT COUNT(*) AS c FROM paragraph_entities WHERE entity_id = ?",
         (entity_id,),
-    ).fetchall()
-    seed_ids = {r["node_id"] for r in seed_rows}
-    if not seed_ids:
-        return {"entity": entity_id, "nodes": [], "edges": []}
+    ).fetchone()
+    total_seeds = total_row["c"] if total_row else 0
+    if total_seeds == 0:
+        return {"entity": entity_id, "total_seeds": 0, "nodes": [], "edges": []}
+
+    seed_ids = _paginated_seeds(
+        db,
+        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_entities "
+        "WHERE entity_id = ? ORDER BY paragraph_id",
+        (entity_id,),
+        limit,
+        offset,
+    )
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
     return {
         "entity": entity_id,
+        "total_seeds": total_seeds,
         "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,
@@ -391,20 +475,34 @@ def graph_by_entity(
 def graph_by_topic(
     topic_id: int,
     include_dense: bool = Query(False),
+    limit: Optional[int] = Query(None, ge=1),
+    offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a topic: paragraphs with this topic + 1-hop neighbors."""
-    seed_rows = db.execute(
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_topics WHERE topic_id = ?",
+    total_row = db.execute(
+        "SELECT COUNT(*) AS c FROM paragraph_topics WHERE topic_id = ?",
         (topic_id,),
-    ).fetchall()
-    seed_ids = {r["node_id"] for r in seed_rows}
-    if not seed_ids:
-        return {"topic": topic_id, "nodes": [], "edges": []}
+    ).fetchone()
+    total_seeds = total_row["c"] if total_row else 0
+    if total_seeds == 0:
+        return {"topic": topic_id, "total_seeds": 0, "nodes": [], "edges": []}
+
+    seed_ids = _paginated_seeds(
+        db,
+        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_topics "
+        "WHERE topic_id = ? ORDER BY paragraph_id",
+        (topic_id,),
+        limit,
+        offset,
+    )
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
     return {
         "topic": topic_id,
+        "total_seeds": total_seeds,
         "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
         "node_count": len(nodes),
         "edge_count": len(edges),
         "nodes": nodes,

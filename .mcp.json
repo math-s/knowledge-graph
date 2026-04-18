@@ -5,7 +5,7 @@
       "args": [
         "run",
         "--project",
-        "/home/math/src/knowledge-graph/api",
+        "api",
         "python",
         "-m",
         "api.mcp_server"

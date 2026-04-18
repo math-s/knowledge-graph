@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
+import MessageContent from "./MessageContent";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  error?: boolean;
 }
 
 interface SSEEvent {
@@ -30,27 +32,45 @@ function parseSSE(raw: string): SSEEvent[] {
   return events;
 }
 
+const TOOL_LABELS: Record<string, string> = {
+  search_ccc: "Searching Catechism",
+  get_paragraph: "Fetching CCC paragraph",
+  search_encyclopedia: "Searching Encyclopedia",
+  get_encyclopedia_article: "Fetching article",
+  search_patristic: "Searching Church Fathers",
+  search_bible: "Searching Bible",
+  get_citations: "Fetching citations",
+};
+
+function describeToolCall(name: string, input: Record<string, unknown>): string {
+  const label = TOOL_LABELS[name] || name.replace(/_/g, " ");
+  const query = input.query ?? input.id ?? input.article_id ?? input.paragraph_id;
+  if (query !== undefined) return `${label}: "${String(query)}"`;
+  return `${label}…`;
+}
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [statusTrail, setStatusTrail] = useState<string[]>([]);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, status]);
+  }, [messages, statusTrail]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!input.trim() || loading) return;
+    const text = input.trim();
+    if (!text || loading) return;
 
-    const userMessage: Message = { role: "user", content: input };
+    const userMessage: Message = { role: "user", content: text };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
-    setStatus("");
+    setStatusTrail([]);
 
     let assistantText = "";
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
@@ -62,7 +82,11 @@ export default function ChatPage() {
         body: JSON.stringify({ messages: newMessages }),
       });
 
-      const reader = res.body!.getReader();
+      if (!res.ok || !res.body) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
 
@@ -72,7 +96,6 @@ export default function ChatPage() {
         buffer += decoder.decode(value, { stream: true });
 
         const events = parseSSE(buffer);
-        // Keep only the incomplete last block in the buffer
         const lastDouble = buffer.lastIndexOf("\n\n");
         if (lastDouble !== -1) buffer = buffer.slice(lastDouble + 2);
 
@@ -84,31 +107,32 @@ export default function ChatPage() {
               updated[updated.length - 1] = { role: "assistant", content: assistantText };
               return updated;
             });
-            setStatus("");
           } else if (ev.event === "tool_call") {
             try {
               const tc = JSON.parse(ev.data);
-              setStatus(`Querying: ${tc.name.replace(/_/g, " ")}…`);
+              const line = describeToolCall(tc.name, tc.input || {});
+              setStatusTrail((prev) => [...prev, line]);
             } catch {}
-          } else if (ev.event === "tool_result") {
-            setStatus("Processing…");
           } else if (ev.event === "done") {
-            setStatus("");
+            setStatusTrail([]);
           }
         }
       }
-    } catch (err) {
+    } catch {
       setMessages((prev) => {
         const updated = [...prev];
         updated[updated.length - 1] = {
           role: "assistant",
-          content: "Error connecting to the API. Is the server running?",
+          content:
+            "Could not reach the API. Make sure the backend is running, then try again.",
+          error: true,
         };
         return updated;
       });
+      setInput(text);
     } finally {
       setLoading(false);
-      setStatus("");
+      setStatusTrail([]);
     }
   }
 
@@ -156,19 +180,41 @@ export default function ChatPage() {
                 className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === "user"
                     ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                    : "bg-white text-zinc-800 shadow-sm ring-1 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:ring-zinc-700"
+                    : msg.error
+                      ? "bg-red-50 text-red-900 ring-1 ring-red-200 dark:bg-red-950 dark:text-red-200 dark:ring-red-900"
+                      : "bg-white text-zinc-800 shadow-sm ring-1 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:ring-zinc-700"
                 }`}
               >
-                <pre className="whitespace-pre-wrap font-sans">{msg.content}</pre>
+                {msg.role === "user" ? (
+                  <div className="whitespace-pre-wrap">{msg.content}</div>
+                ) : msg.content ? (
+                  <MessageContent content={msg.content} />
+                ) : null}
               </div>
             </div>
           ))}
 
-          {status && (
+          {statusTrail.length > 0 && (
             <div className="flex justify-start">
-              <div className="flex items-center gap-2 rounded-2xl bg-zinc-100 px-4 py-3 text-sm text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+              <div className="rounded-2xl bg-zinc-100 px-4 py-3 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                {statusTrail.map((line, i) => {
+                  const isLast = i === statusTrail.length - 1;
+                  return (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className={isLast ? "animate-pulse" : "opacity-60"}>●</span>
+                      <span className={isLast ? "" : "opacity-60 line-through"}>{line}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {loading && statusTrail.length === 0 && messages.at(-1)?.role === "assistant" && !messages.at(-1)?.content && (
+            <div className="flex justify-start">
+              <div className="flex items-center gap-2 rounded-2xl bg-zinc-100 px-4 py-3 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                 <span className="animate-pulse">●</span>
-                {status}
+                Thinking…
               </div>
             </div>
           )}

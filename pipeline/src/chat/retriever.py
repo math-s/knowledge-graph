@@ -59,6 +59,15 @@ class PatristicText:
     text: str
 
 
+@dataclass
+class EncyclopediaArticle:
+    id: str
+    title: str
+    summary: str = ""
+    text: str = ""
+    url: str = ""
+
+
 # ---------------------------------------------------------------------------
 # FTS helpers
 # ---------------------------------------------------------------------------
@@ -160,6 +169,40 @@ class Retriever:
             reference=f"{r['chapter']}:{r['verse']}",
             text=r["text_en"] or "",
         ) for r in rows]
+
+    def search_encyclopedia(self, query: str, limit: int = 10) -> list[EncyclopediaArticle]:
+        """Full-text search across the Catholic Encyclopedia."""
+        fts_q = sanitize_fts(query)
+        rows = self.conn.execute("""
+            SELECT e.id, e.title, e.summary, substr(e.text_en, 1, 500) AS preview
+            FROM encyclopedia_fts f
+            JOIN encyclopedia e ON e.id = f.id
+            WHERE encyclopedia_fts MATCH ?
+            ORDER BY f.rank
+            LIMIT ?
+        """, (fts_q, limit)).fetchall()
+        return [EncyclopediaArticle(
+            id=r["id"],
+            title=r["title"] or "",
+            summary=r["summary"] or "",
+            text=r["preview"] or "",
+        ) for r in rows]
+
+    def get_encyclopedia_article(self, article_id: str) -> EncyclopediaArticle | None:
+        """Fetch a single Catholic Encyclopedia article by ID."""
+        r = self.conn.execute(
+            "SELECT id, title, summary, text_en, url FROM encyclopedia WHERE id = ?",
+            (article_id,),
+        ).fetchone()
+        if not r:
+            return None
+        return EncyclopediaArticle(
+            id=r["id"],
+            title=r["title"] or "",
+            summary=r["summary"] or "",
+            text=r["text_en"] or "",
+            url=r["url"] or "",
+        )
 
     def search_patristic(self, query: str, limit: int = 10) -> list[PatristicText]:
         """Full-text search across patristic texts."""

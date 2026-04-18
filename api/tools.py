@@ -157,38 +157,22 @@ def dispatch(tool_name: str, tool_input: dict) -> Any:
         return result
 
     if tool_name == "search_encyclopedia":
-        try:
-            rows = r.conn.execute("""
-                SELECT e.id, e.title, e.summary, substr(e.text_en, 1, 500) as preview
-                FROM encyclopedia_fts f
-                JOIN encyclopedia e ON e.id = f.id
-                WHERE encyclopedia_fts MATCH ?
-                ORDER BY f.rank
-                LIMIT ?
-            """, (tool_input["query"], tool_input.get("limit", 5))).fetchall()
-        except Exception as e:
-            return {"error": str(e)}
+        results = r.search_encyclopedia(tool_input["query"], limit=tool_input.get("limit", 5))
         return [
-            {"id": row["id"], "title": row["title"], "summary": row["summary"], "preview": row["preview"]}
-            for row in rows
+            {"id": a.id, "title": a.title, "summary": a.summary, "preview": a.text}
+            for a in results
         ]
 
     if tool_name == "get_encyclopedia_article":
-        try:
-            row = r.conn.execute(
-                "SELECT id, title, summary, text_en, url FROM encyclopedia WHERE id = ?",
-                (tool_input["article_id"],),
-            ).fetchone()
-        except Exception as e:
-            return {"error": str(e)}
-        if not row:
+        article = r.get_encyclopedia_article(tool_input["article_id"])
+        if not article:
             return {"error": f"Article '{tool_input['article_id']}' not found"}
         return {
-            "id": row["id"],
-            "title": row["title"],
-            "summary": row["summary"],
-            "text": row["text_en"],
-            "url": row["url"],
+            "id": article.id,
+            "title": article.title,
+            "summary": article.summary,
+            "text": article.text,
+            "url": article.url,
         }
 
     if tool_name == "search_patristic":
