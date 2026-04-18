@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import logging
+import sqlite3
 from collections import defaultdict
 from itertools import combinations
+from pathlib import Path
 
 import networkx as nx
 
@@ -586,4 +588,92 @@ def add_document_section_hierarchy(
                             cites_count += 1
 
     logger.info("Added %d CCC-to-section cites edges", cites_count)
+    return G
+
+
+ENCYCLOPEDIA_COLOR = "#C77B8A"  # dusty rose — distinct from part/source palettes
+
+
+def add_encyclopedia_nodes(
+    G: nx.Graph,
+    paragraphs: list[Paragraph],
+    encyclopedia_db: Path,
+) -> nx.Graph:
+    """Add Catholic Encyclopedia articles as nodes and link them to CCC paragraphs.
+
+    Each article becomes an ``ency:<article_id>`` node. An article is linked
+    with a ``discussed_in`` edge to every CCC paragraph tagged with an entity
+    whose label matches the article title exactly (case-insensitive).
+    Articles with no entity match are still added as isolated nodes.
+    """
+    if not encyclopedia_db.exists():
+        logger.info("Encyclopedia DB not found at %s — skipping", encyclopedia_db)
+        return G
+
+    conn = sqlite3.connect(str(encyclopedia_db))
+    conn.row_factory = sqlite3.Row
+    try:
+        articles = conn.execute(
+            "SELECT id, title, summary, url FROM encyclopedia"
+        ).fetchall()
+    finally:
+        conn.close()
+
+    if not articles:
+        logger.info("Encyclopedia DB has no articles — skipping")
+        return G
+
+    # Index articles by normalized title for entity matching. When multiple
+    # articles share a normalized title, prefer the one whose raw title is
+    # shortest (heuristic: shorter title = more canonical).
+    by_title: dict[str, sqlite3.Row] = {}
+    for row in articles:
+        key = (row["title"] or "").strip().lower()
+        if not key:
+            continue
+        existing = by_title.get(key)
+        if existing is None or len(row["title"]) < len(existing["title"]):
+            by_title[key] = row
+
+    for row in articles:
+        node_id = f"ency:{row['id']}"
+        G.add_node(
+            node_id,
+            node_type="encyclopedia",
+            label=row["title"] or row["id"],
+            color=ENCYCLOPEDIA_COLOR,
+            summary=(row["summary"] or "")[:200],
+            url=row["url"] or "",
+        )
+    logger.info("Added %d encyclopedia article nodes", len(articles))
+
+    # Resolve entity ids -> labels via the curated definitions
+    from .entity_extraction import ENTITY_DEFINITIONS
+
+    entity_label_by_id = {e.id: e.label for e in ENTITY_DEFINITIONS}
+
+    edge_count = 0
+    unique_articles_linked: set[str] = set()
+    for p in paragraphs:
+        para_node = f"p:{p.id}"
+        if not G.has_node(para_node):
+            continue
+        for entity_id in p.entities:
+            label = entity_label_by_id.get(entity_id)
+            if not label:
+                continue
+            match = by_title.get(label.strip().lower())
+            if not match:
+                continue
+            ency_node = f"ency:{match['id']}"
+            if not G.has_edge(para_node, ency_node):
+                G.add_edge(para_node, ency_node, edge_type="discussed_in")
+                edge_count += 1
+                unique_articles_linked.add(ency_node)
+
+    logger.info(
+        "Added %d discussed_in edges to %d encyclopedia articles",
+        edge_count,
+        len(unique_articles_linked),
+    )
     return G

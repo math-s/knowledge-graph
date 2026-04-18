@@ -36,6 +36,7 @@ from pipeline.src.graph_builder import (
     add_bible_crossref_edges,
     add_patristic_work_hierarchy,
     add_document_section_hierarchy,
+    add_encyclopedia_nodes,
 )
 from pipeline.src.entity_extraction import extract_all_entities
 from pipeline.src.topic_model import build_topic_model
@@ -599,6 +600,11 @@ steps:
         if document_sources:
             logger.info("--- Adding document section hierarchy ---")
             G = add_document_section_hierarchy(G, document_sources, paragraphs)
+
+        encyclopedia_db = project_root / "data" / "encyclopedia.db"
+        if encyclopedia_db.exists():
+            logger.info("--- Adding encyclopedia article nodes ---")
+            G = add_encyclopedia_nodes(G, paragraphs, encyclopedia_db)
 
         logger.info("  Step 15 done in %.1fs (%d nodes, %d edges)", time.time() - t0, G.number_of_nodes(), G.number_of_edges())
         _save_checkpoint(15, _current_state())
