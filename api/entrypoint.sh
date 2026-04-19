@@ -3,7 +3,7 @@ set -euo pipefail
 
 DATA_DIR="/app/data"
 DB_PATH="$DATA_DIR/knowledge-graph.db"
-S3_PATH="s3://knowledge-graph-matheus/db/knowledge-graph.db"
+S3_PATH="s3://knowledge-graph-matheus-personal/db/knowledge-graph.db"
 
 mkdir -p "$DATA_DIR"
 

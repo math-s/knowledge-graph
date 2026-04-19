@@ -69,7 +69,8 @@ def _download_pt_bible() -> list[dict]:
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     resp = requests.get(PT_URL, timeout=120)
     resp.raise_for_status()
-    data = resp.json()
+    # Source ships with a UTF-8 BOM, so decode via utf-8-sig before json.loads.
+    data = json.loads(resp.content.decode("utf-8-sig"))
     with open(PT_CACHE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False)
     logger.info("Cached Portuguese Bible JSON: %s (%d books)", PT_CACHE, len(data))
