@@ -1,0 +1,6171 @@
+{
+  "tool": "stanza",
+  "lang": "la",
+  "model": "la",
+  "treebank": "proiel",
+  "n_verses": 55,
+  "n_tokens": 953,
+  "load_seconds": 2.89,
+  "parse_seconds_total": 0.54,
+  "parse_seconds_per_verse": 0.01,
+  "results": [
+    {
+      "book_id": "1-john",
+      "chapter": 1,
+      "verse": 9,
+      "text": "Si confiteamur peccata nostra : fidelis est, et justus, ut remittat nobis peccata nostra, et emundet nos ab omni iniquitate.",
+      "tokens": [
+        {
+          "form": "Si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "confiteamur",
+          "lemma": "confiteor",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "peccata",
+          "lemma": "peccatum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "nostra",
+          "lemma": "noster",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur|Person=1|Poss=Yes"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "fidelis",
+          "lemma": "fidelis",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "est,",
+          "lemma": "est,um",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "justus,",
+          "lemma": "justus,",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ut",
+          "lemma": "ut",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "remittat",
+          "lemma": "remitto",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "nobis",
+          "lemma": "nos",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur|Person=1|PronType=Prs"
+        },
+        {
+          "form": "peccata",
+          "lemma": "peccatum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "nostra,",
+          "lemma": "noster",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur|Person=1|Poss=Yes"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "emundet",
+          "lemma": "emundo",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "nos",
+          "lemma": "nos",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=1|PronType=Prs"
+        },
+        {
+          "form": "ab",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "omni",
+          "lemma": "omnis",
+          "pos": "DET",
+          "feats": "Case=Abl|Number=Sing"
+        },
+        {
+          "form": "iniquitate.",
+          "lemma": "iniquitas",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 2,
+      "verse": 22,
+      "text": "Quis est mendax, nisi is qui negat quoniam Jesus est Christus? Hic est antichristus, qui negat Patrem, et Filium.",
+      "tokens": [
+        {
+          "form": "Quis",
+          "lemma": "quis",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Int"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mendax,",
+          "lemma": "mendax,um",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "nisi",
+          "lemma": "nisi",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "is",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "negat",
+          "lemma": "nego",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "Jesus",
+          "lemma": "Jesus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Christus?",
+          "lemma": "Christus?",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Hic",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "antichristus,",
+          "lemma": "antichristus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "negat",
+          "lemma": "nego",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Patrem,",
+          "lemma": "Patrem,a",
+          "pos": "PROPN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Filium.",
+          "lemma": "Filius",
+          "pos": "PROPN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 3,
+      "verse": 2,
+      "text": "Carissimi, nunc filii Dei sumus : et nondum apparuit quid erimus. Scimus quoniam cum apparuerit, similes ei erimus : quoniam videbimus eum sicuti est.",
+      "tokens": [
+        {
+          "form": "Carissimi,",
+          "lemma": "Carus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Sup|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "nunc",
+          "lemma": "nunc",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "filii",
+          "lemma": "filius",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Dei",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "sumus",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "nondum",
+          "lemma": "nondum",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "apparuit",
+          "lemma": "appareo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quid",
+          "lemma": "quis",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Int"
+        },
+        {
+          "form": "erimus.",
+          "lemma": "erimo",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Scimus",
+          "lemma": "scio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "apparuerit,",
+          "lemma": "appareo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "similes",
+          "lemma": "similis",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ei",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "erimus",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "videbimus",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "sicuti",
+          "lemma": "sicut",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "est.",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 3,
+      "verse": 4,
+      "text": "Omnis qui facit peccatum, et iniquitatem facit : et peccatum est iniquitas.",
+      "tokens": [
+        {
+          "form": "Omnis",
+          "lemma": "omnis",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "facit",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "peccatum,",
+          "lemma": "peccatum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "iniquitatem",
+          "lemma": "iniquitas",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "facit",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "peccatum",
+          "lemma": "peccatum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "iniquitas.",
+          "lemma": "iniquitas",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 4,
+      "verse": 15,
+      "text": "Quisquis confessus fuerit quoniam Jesus est Filius Dei, Deus in eo manet, et ipse in Deo.",
+      "tokens": [
+        {
+          "form": "Quisquis",
+          "lemma": "quisquis",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "confessus",
+          "lemma": "confiteor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "fuerit",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "Jesus",
+          "lemma": "Jesus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Filius",
+          "lemma": "filius",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Dei,",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Deus",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "eo",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "manet,",
+          "lemma": "maneo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ipse",
+          "lemma": "ipse",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Deo.",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 1,
+      "verse": 11,
+      "text": "qui et dixerunt : Viri Galilæi, quid statis aspicientes in cælum? Hic Jesus, qui assumptus est a vobis in cælum, sic veniet quemadmodum vidistis eum euntem in cælum.",
+      "tokens": [
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "dixerunt",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Viri",
+          "lemma": "vir",
+          "pos": "NOUN",
+          "feats": "Case=Voc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Galilæi,",
+          "lemma": "Galilæi,",
+          "pos": "PROPN",
+          "feats": "Case=Voc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "quid",
+          "lemma": "quis",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Int"
+        },
+        {
+          "form": "statis",
+          "lemma": "sto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "aspicientes",
+          "lemma": "aspicio",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cælum?",
+          "lemma": "cælum?",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "Hic",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Jesus,",
+          "lemma": "Jesus,",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "assumptus",
+          "lemma": "assumo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vobis",
+          "lemma": "vos",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur|Person=2|PronType=Prs"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cælum,",
+          "lemma": "cælum,",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "sic",
+          "lemma": "sic",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "veniet",
+          "lemma": "venio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quemadmodum",
+          "lemma": "quemadmodum",
+          "pos": "ADV",
+          "feats": "PronType=Rel"
+        },
+        {
+          "form": "vidistis",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "euntem",
+          "lemma": "eo",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cælum.",
+          "lemma": "cælus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 6,
+      "verse": 10,
+      "text": "et non poterant resistere sapientiæ, et Spiritui qui loquebatur.",
+      "tokens": [
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "poterant",
+          "lemma": "possum",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "resistere",
+          "lemma": "resisto",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "sapientiæ,",
+          "lemma": "sapio",
+          "pos": "VERB",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Spiritui",
+          "lemma": "spiritus",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "loquebatur.",
+          "lemma": "loquor",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 7,
+      "verse": 21,
+      "text": "Exposito autem illo, sustulit eum filia Pharaonis, et nutrivit eum sibi in filium.",
+      "tokens": [
+        {
+          "form": "Exposito",
+          "lemma": "expono",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Abl|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "illo,",
+          "lemma": "illo,",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "sustulit",
+          "lemma": "tollo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "filia",
+          "lemma": "filia",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Pharaonis,",
+          "lemma": "Pharao",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "nutrivit",
+          "lemma": "nutrio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "sibi",
+          "lemma": "se",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=3|PronType=Prs|Reflex=Yes"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "filium.",
+          "lemma": "filius",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Erat autem iratus Tyriis et Sidoniis. At illi unanimes venerunt ad eum, et persuaso Blasto, qui erat super cubiculum regis, postulabant pacem, eo quod alerentur regiones eorum ab illo.",
+      "tokens": [
+        {
+          "form": "Erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "iratus",
+          "lemma": "irascor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "Tyriis",
+          "lemma": "Tyrii",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Sidoniis.",
+          "lemma": "Sidonius",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "At",
+          "lemma": "at",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "illi",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "unanimes",
+          "lemma": "unanimis",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "venerunt",
+          "lemma": "venio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "eum,",
+          "lemma": "eus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "persuaso",
+          "lemma": "persuadeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Abl|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "Blasto,",
+          "lemma": "Blasto,",
+          "pos": "PROPN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "super",
+          "lemma": "super",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cubiculum",
+          "lemma": "cubiculum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "regis,",
+          "lemma": "rex",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "postulabant",
+          "lemma": "postulo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "pacem,",
+          "lemma": "pax",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "eo",
+          "lemma": "eo",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quod",
+          "lemma": "quod",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "alerentur",
+          "lemma": "alo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "regiones",
+          "lemma": "regio",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "eorum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "ab",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "illo.",
+          "lemma": "ille",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 24,
+      "verse": 11,
+      "text": "Potes enim cognoscere quia non plus sunt mihi dies quam duodecim, ex quo ascendi adorare in Jerusalem:",
+      "tokens": [
+        {
+          "form": "Potes",
+          "lemma": "possum",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "enim",
+          "lemma": "enim",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "cognoscere",
+          "lemma": "cognosco",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "quia",
+          "lemma": "quia",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "plus",
+          "lemma": "multum",
+          "pos": "ADV",
+          "feats": "Degree=Cmp"
+        },
+        {
+          "form": "sunt",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mihi",
+          "lemma": "ego",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1|PronType=Prs"
+        },
+        {
+          "form": "dies",
+          "lemma": "dies",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "quam",
+          "lemma": "quam",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "duodecim,",
+          "lemma": "duodecim,",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ex",
+          "lemma": "ex",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "quo",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "ascendi",
+          "lemma": "ascendo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "adorare",
+          "lemma": "adoro",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Jerusalem:",
+          "lemma": "Jerusalis",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Neut|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Omne fermentatum non comedetis : in cunctis habitaculis vestris edetis azyma.",
+      "tokens": [
+        {
+          "form": "Omne",
+          "lemma": "omnis",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "fermentatum",
+          "lemma": "fermento",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Neut|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "comedetis",
+          "lemma": "comedo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cunctis",
+          "lemma": "cunctus",
+          "pos": "ADJ",
+          "feats": "Case=Abl|Degree=Pos|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "habitaculis",
+          "lemma": "habitaculum",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "vestris",
+          "lemma": "vester",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Neut|Number=Plur|Person=2|Poss=Yes"
+        },
+        {
+          "form": "edetis",
+          "lemma": "edo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "azyma.",
+          "lemma": "azyma",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Cumque audisset Jethro, sacerdos Madian, cognatus Moysi, omnia quæ fecerat Deus Moysi, et Israëli populo suo, et quod eduxisset Dominus Israël de Ægypto,",
+      "tokens": [
+        {
+          "form": "Cumque",
+          "lemma": "cumque",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "audisset",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Jethro,",
+          "lemma": "Jethro,",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "sacerdos",
+          "lemma": "sacerdos",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Madian,",
+          "lemma": "Madian,a",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "cognatus",
+          "lemma": "cognatus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Moysi,",
+          "lemma": "Moys",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "omnia",
+          "lemma": "omnis",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "fecerat",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Deus",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Moysi,",
+          "lemma": "Moys",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Israëli",
+          "lemma": "Israëlus",
+          "pos": "PROPN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "populo",
+          "lemma": "populus",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "suo,",
+          "lemma": "suo",
+          "pos": "VERB",
+          "feats": "Number=Sing|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "quod",
+          "lemma": "quod",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "eduxisset",
+          "lemma": "educo",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Dominus",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Israël",
+          "lemma": "Israël",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Ægypto,",
+          "lemma": "Ægypto,",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 24,
+      "verse": 11,
+      "text": "Nec super eos qui procul recesserant de filiis Israël, misit manum suam, videruntque Deum, et comederunt, ac biberunt.",
+      "tokens": [
+        {
+          "form": "Nec",
+          "lemma": "neque",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "super",
+          "lemma": "super",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "eos",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "procul",
+          "lemma": "procul",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "recesserant",
+          "lemma": "recedo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "filiis",
+          "lemma": "filius",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Israël,",
+          "lemma": "Israël,",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "misit",
+          "lemma": "mitto",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "manum",
+          "lemma": "manus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "suam,",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "videruntque",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Deum,",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "comederunt,",
+          "lemma": "comedo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ac",
+          "lemma": "atque",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "biberunt.",
+          "lemma": "bibo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 30,
+      "verse": 21,
+      "text": "ne forte moriantur; legitimum sempiternum erit ipsi, et semini ejus per successiones.",
+      "tokens": [
+        {
+          "form": "ne",
+          "lemma": "ne",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "forte",
+          "lemma": "forte",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "moriantur;",
+          "lemma": "morior",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "legitimum",
+          "lemma": "legitimus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "sempiternum",
+          "lemma": "sempiternus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "erit",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ipsi,",
+          "lemma": "ipses",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "semini",
+          "lemma": "semen",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ejus",
+          "lemma": "ejus",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "per",
+          "lemma": "per",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "successiones.",
+          "lemma": "successio",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 36,
+      "verse": 31,
+      "text": "Fecit et vectes de lignis setim, quinque ad continendas tabulas unius lateris tabernaculi,",
+      "tokens": [
+        {
+          "form": "Fecit",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "vectes",
+          "lemma": "vectis",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "lignis",
+          "lemma": "lignum",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "setim,",
+          "lemma": "seto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "quinque",
+          "lemma": "quinque",
+          "pos": "NUM",
+          "feats": null
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "continendas",
+          "lemma": "contineo",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur|VerbForm=Gdv"
+        },
+        {
+          "form": "tabulas",
+          "lemma": "tabula",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "unius",
+          "lemma": "unus",
+          "pos": "NUM",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "lateris",
+          "lemma": "latus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "tabernaculi,",
+          "lemma": "tabernaculum",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Præcepitque Pharao super Abram viris : et deduxerunt eum, et uxorem illius, et omnia quæ habebat.",
+      "tokens": [
+        {
+          "form": "Præcepitque",
+          "lemma": "præcepio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Pharao",
+          "lemma": "Pharaus",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "super",
+          "lemma": "super",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Abram",
+          "lemma": "Abra",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "viris",
+          "lemma": "vir",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "deduxerunt",
+          "lemma": "deduco",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum,",
+          "lemma": "eus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "uxorem",
+          "lemma": "uxor",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "illius,",
+          "lemma": "illius,",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "omnia",
+          "lemma": "omnis",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "habebat.",
+          "lemma": "habeo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Apparuit autem ei Dominus in convalle Mambre sedenti in ostio tabernaculi sui in ipso fervore diei.",
+      "tokens": [
+        {
+          "form": "Apparuit",
+          "lemma": "appareo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ei",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "Dominus",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "convalle",
+          "lemma": "convallis",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Mambre",
+          "lemma": "Mambre",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "sedenti",
+          "lemma": "sedeo",
+          "pos": "VERB",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ostio",
+          "lemma": "ostium",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "tabernaculi",
+          "lemma": "tabernaculum",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "sui",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ipso",
+          "lemma": "ipse",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Masc,Neut|Number=Sing"
+        },
+        {
+          "form": "fervore",
+          "lemma": "fervus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "diei.",
+          "lemma": "dies",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 18,
+      "verse": 30,
+      "text": "Ne quæso, inquit, indigneris, Domine, si loquar : quid si ibi inventi fuerint triginta? Respondit : Non faciam, si invenero ibi triginta.",
+      "tokens": [
+        {
+          "form": "Ne",
+          "lemma": "ne",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "quæso,",
+          "lemma": "quæso,",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "inquit,",
+          "lemma": "inquam",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "indigneris,",
+          "lemma": "indignor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Sub|Number=Sing|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Domine,",
+          "lemma": "domine,",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "loquar",
+          "lemma": "loquor",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quid",
+          "lemma": "quis",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Int"
+        },
+        {
+          "form": "si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ibi",
+          "lemma": "ibi",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "inventi",
+          "lemma": "invenio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "fuerint",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "triginta?",
+          "lemma": "triginto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Respondit",
+          "lemma": "respondeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "faciam,",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "invenero",
+          "lemma": "invenio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ibi",
+          "lemma": "ibi",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "triginta.",
+          "lemma": "triginto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 24,
+      "verse": 11,
+      "text": "Cumque camelos fecisset accumbere extra oppidum juxta puteum aquæ vespere, tempore quo solent mulieres egredi ad hauriendam aquam, dixit:",
+      "tokens": [
+        {
+          "form": "Cumque",
+          "lemma": "cumque",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "camelos",
+          "lemma": "camelus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "fecisset",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "accumbere",
+          "lemma": "accumbo",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "extra",
+          "lemma": "extra",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "oppidum",
+          "lemma": "oppidum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "juxta",
+          "lemma": "juxta",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "puteum",
+          "lemma": "puteus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "aquæ",
+          "lemma": "aquæ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "vespere,",
+          "lemma": "vesper",
+          "pos": "ADJ",
+          "feats": "Case=Abl|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "tempore",
+          "lemma": "tempus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "quo",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "solent",
+          "lemma": "soleo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mulieres",
+          "lemma": "mulier",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "egredi",
+          "lemma": "egredior",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Pass"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "hauriendam",
+          "lemma": "haurio",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|VerbForm=Gdv"
+        },
+        {
+          "form": "aquam,",
+          "lemma": "aqua",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "dixit:",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 24,
+      "verse": 40,
+      "text": "Dominus, ait, in cujus conspectu ambulo, mittet angelum suum tecum, et diriget viam tuam : accipiesque uxorem filio meo de cognatione mea, et de domo patris mei.",
+      "tokens": [
+        {
+          "form": "Dominus,",
+          "lemma": "Dominus,",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ait,",
+          "lemma": "aio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cujus",
+          "lemma": "cujus",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "conspectu",
+          "lemma": "conspectus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ambulo,",
+          "lemma": "ambulo,",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "mittet",
+          "lemma": "mitto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "angelum",
+          "lemma": "angelus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "suum",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "tecum,",
+          "lemma": "tecus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "diriget",
+          "lemma": "dirigo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "viam",
+          "lemma": "via",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "tuam",
+          "lemma": "tuus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=2|Poss=Yes"
+        },
+        {
+          "form": ":",
+          "lemma": "v",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "accipiesque",
+          "lemma": "accipio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "uxorem",
+          "lemma": "uxor",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "filio",
+          "lemma": "filius",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "meo",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1|Poss=Yes"
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cognatione",
+          "lemma": "cognatio",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "mea,",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing|Person=1|Poss=Yes"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "domo",
+          "lemma": "domus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "patris",
+          "lemma": "pater",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "mei.",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=1|Poss=Yes"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Excæca cor populi hujus, et aures ejus aggrava, et oculos ejus claude : ne forte videat oculis suis, et auribus suis audiat, et corde suo intelligat, et convertatur, et sanem eum.",
+      "tokens": [
+        {
+          "form": "Excæca",
+          "lemma": "excæcamio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "cor",
+          "lemma": "cor",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "populi",
+          "lemma": "populus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "hujus,",
+          "lemma": "hujus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "aures",
+          "lemma": "auris",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ejus",
+          "lemma": "ejus",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "aggrava,",
+          "lemma": "aggro",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "oculos",
+          "lemma": "oculus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ejus",
+          "lemma": "ejus",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "claude",
+          "lemma": "claudo",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ne",
+          "lemma": "ne",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "forte",
+          "lemma": "forte",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "videat",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "oculis",
+          "lemma": "oculus",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "suis,",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "auribus",
+          "lemma": "auris",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "suis",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "audiat,",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "corde",
+          "lemma": "cor",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "suo",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "intelligat,",
+          "lemma": "intellego",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "convertatur,",
+          "lemma": "converto",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "sanem",
+          "lemma": "sano",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum.",
+          "lemma": "es",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 24,
+      "verse": 11,
+      "text": "Clamor erit super vino in plateis, deserta est omnia lætitia, translatum est gaudium terræ.",
+      "tokens": [
+        {
+          "form": "Clamor",
+          "lemma": "Clamor",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "erit",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "super",
+          "lemma": "super",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vino",
+          "lemma": "vinum",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "plateis,",
+          "lemma": "platea",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "deserta",
+          "lemma": "desero",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "omnia",
+          "lemma": "omnis",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "lætitia,",
+          "lemma": "lætitia",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "translatum",
+          "lemma": "transfero",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Neut|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "gaudium",
+          "lemma": "gaudium",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "terræ.",
+          "lemma": "terræa",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 30,
+      "verse": 21,
+      "text": "Et aures tuæ audient verbum post tergum monentis : Hæc est via; ambulate in ea, et non declinetis neque ad dexteram, neque ad sinistram.",
+      "tokens": [
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "aures",
+          "lemma": "auris",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "tuæ",
+          "lemma": "tuæ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur|Person=2|Poss=Yes"
+        },
+        {
+          "form": "audient",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "verbum",
+          "lemma": "verbum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "post",
+          "lemma": "post",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "tergum",
+          "lemma": "tergum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "monentis",
+          "lemma": "moneo",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Hæc",
+          "lemma": "hæc",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "via;",
+          "lemma": "via",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ambulate",
+          "lemma": "ambulo",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ea,",
+          "lemma": "ea,",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "declinetis",
+          "lemma": "declino",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "neque",
+          "lemma": "neque",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "dexteram,",
+          "lemma": "dexter",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "neque",
+          "lemma": "neque",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "sinistram.",
+          "lemma": "sinistra",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 59,
+      "verse": 2,
+      "text": "Sed iniquitates vestræ diviserunt inter vos et Deum vestrum; et peccata vestra absconderunt faciem ejus a vobis, ne exaudiret.",
+      "tokens": [
+        {
+          "form": "Sed",
+          "lemma": "sed",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "iniquitates",
+          "lemma": "iniquitas",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "vestræ",
+          "lemma": "vester",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur|Person=2|Poss=Yes"
+        },
+        {
+          "form": "diviserunt",
+          "lemma": "divido",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "inter",
+          "lemma": "inter",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vos",
+          "lemma": "vos",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=2|PronType=Prs"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Deum",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "vestrum;",
+          "lemma": "vestio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "peccata",
+          "lemma": "peccatum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "vestra",
+          "lemma": "vester",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur|Person=2|Poss=Yes"
+        },
+        {
+          "form": "absconderunt",
+          "lemma": "abscondo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "faciem",
+          "lemma": "facies",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ejus",
+          "lemma": "ejus",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vobis,",
+          "lemma": "vos",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ne",
+          "lemma": "ne",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "exaudiret.",
+          "lemma": "exaudio",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 65,
+      "verse": 12,
+      "text": "numerabo vos in gladio, et omnes in cæde corruetis : pro eo quod vocavi, et non respondistis; locutus sum, et non audistis; et faciebatis malum in oculis meis, et quæ nolui elegistis.",
+      "tokens": [
+        {
+          "form": "numerabo",
+          "lemma": "numero",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "vos",
+          "lemma": "vos",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=2|PronType=Prs"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "gladio,",
+          "lemma": "gladius",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "omnes",
+          "lemma": "omnis",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cæde",
+          "lemma": "cædes",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "corruetis",
+          "lemma": "corruo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "pro",
+          "lemma": "pro",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "eo",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "quod",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "vocavi,",
+          "lemma": "voco",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "respondistis;",
+          "lemma": "respondeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "locutus",
+          "lemma": "loquor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "sum,",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "audistis;",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "faciebatis",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "malum",
+          "lemma": "malus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "oculis",
+          "lemma": "oculus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "meis,",
+          "lemma": "meus",
+          "pos": "ADJ",
+          "feats": "Case=Abl|Degree=Pos|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "nolui",
+          "lemma": "nolo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "elegistis.",
+          "lemma": "eligo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 1,
+      "verse": 40,
+      "text": "Erat autem Andreas, frater Simonis Petri, unus ex duobus qui audierant a Joanne, et secuti fuerant eum.",
+      "tokens": [
+        {
+          "form": "Erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Andreas,",
+          "lemma": "Andreas,a",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "frater",
+          "lemma": "frater",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Simonis",
+          "lemma": "Simon",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Petri,",
+          "lemma": "Petri,",
+          "pos": "PROPN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "unus",
+          "lemma": "unus",
+          "pos": "NUM",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ex",
+          "lemma": "ex",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "duobus",
+          "lemma": "duo",
+          "pos": "NUM",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "audierant",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Joanne,",
+          "lemma": "Joannes",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "secuti",
+          "lemma": "sequor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "fuerant",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum.",
+          "lemma": "es",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Dixit ergo Jesus : Facite homines discumbere. Erat autem fœnum multum in loco. Discumberunt ergo viri, numero quasi quinque millia.",
+      "tokens": [
+        {
+          "form": "Dixit",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ergo",
+          "lemma": "ergo",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Jesus",
+          "lemma": "Jesus",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Facite",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "homines",
+          "lemma": "homo",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "discumbere.",
+          "lemma": "discumbo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "fœnum",
+          "lemma": "fœnus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "multum",
+          "lemma": "multum",
+          "pos": "ADV",
+          "feats": "Degree=Pos"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "loco.",
+          "lemma": "locus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Discumberunt",
+          "lemma": "discumbo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ergo",
+          "lemma": "ergo",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "viri,",
+          "lemma": "vir",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "numero",
+          "lemma": "numerus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "quasi",
+          "lemma": "quasi",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quinque",
+          "lemma": "quinque",
+          "pos": "NUM",
+          "feats": null
+        },
+        {
+          "form": "millia.",
+          "lemma": "millia",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Erant autem quidam gentiles, ex his qui ascenderant ut adorarent in die festo.",
+      "tokens": [
+        {
+          "form": "Erant",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quidam",
+          "lemma": "quidam",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "gentiles,",
+          "lemma": "gentilis",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ex",
+          "lemma": "ex",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "his",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "ascenderant",
+          "lemma": "ascendo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ut",
+          "lemma": "ut",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "adorarent",
+          "lemma": "adoro",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "die",
+          "lemma": "dies",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "festo.",
+          "lemma": "festus",
+          "pos": "ADJ",
+          "feats": "Case=Abl|Degree=Pos|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Hæc cum dixisset Jesus, egressus est cum discipulis suis trans torrentem Cedron, ubi erat hortus, in quem introivit ipse, et discipuli ejus.",
+      "tokens": [
+        {
+          "form": "Hæc",
+          "lemma": "hæc",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "dixisset",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Jesus,",
+          "lemma": "Jesus,",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "egressus",
+          "lemma": "egredior",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "discipulis",
+          "lemma": "discipulus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "suis",
+          "lemma": "suus",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur|Person=3|Poss=Yes|Reflex=Yes"
+        },
+        {
+          "form": "trans",
+          "lemma": "trans",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "torrentem",
+          "lemma": "torrens",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Cedron,",
+          "lemma": "Cedron,e",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "ubi",
+          "lemma": "ubi",
+          "pos": "ADV",
+          "feats": "PronType=Rel"
+        },
+        {
+          "form": "erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "hortus,",
+          "lemma": "hortus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "quem",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "introivit",
+          "lemma": "introeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ipse,",
+          "lemma": "ipse,",
+          "pos": "PROPN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "discipuli",
+          "lemma": "discipulus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ejus.",
+          "lemma": "is",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=1|Poss=Yes"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 18,
+      "verse": 30,
+      "text": "Responderunt, et dixerunt ei : Si non esset hic malefactor, non tibi tradidissemus eum.",
+      "tokens": [
+        {
+          "form": "Responderunt,",
+          "lemma": "respondeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "dixerunt",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ei",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "esset",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "hic",
+          "lemma": "hic",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "malefactor,",
+          "lemma": "malefactor",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "tibi",
+          "lemma": "tu",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=2|PronType=Prs"
+        },
+        {
+          "form": "tradidissemus",
+          "lemma": "trado",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=1|Tense=Pqp|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum.",
+          "lemma": "es",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Et circumspectis omnibus dixit homini : Extende manum tuam. Et extendit : et restituta est manus ejus.",
+      "tokens": [
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "circumspectis",
+          "lemma": "circumspicio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Abl|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "omnibus",
+          "lemma": "omnis",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "dixit",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "homini",
+          "lemma": "homo",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Extende",
+          "lemma": "extendo",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "manum",
+          "lemma": "manus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "tuam.",
+          "lemma": "tuus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=1|Poss=Yes"
+        },
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "extendit",
+          "lemma": "extendo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "restituta",
+          "lemma": "restituo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "manus",
+          "lemma": "manus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ejus.",
+          "lemma": "ejus.",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Dixit autem illi Deus : Stulte, hac nocte animam tuam repetunt a te : quæ autem parasti, cujus erunt?",
+      "tokens": [
+        {
+          "form": "Dixit",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "illi",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Deus",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Stulte,",
+          "lemma": "stulte,",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "hac",
+          "lemma": "hic",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "nocte",
+          "lemma": "nox",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "animam",
+          "lemma": "anima",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "tuam",
+          "lemma": "tuus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=2|Poss=Yes"
+        },
+        {
+          "form": "repetunt",
+          "lemma": "repeto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "te",
+          "lemma": "tu",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|Person=2|PronType=Prs"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "parasti,",
+          "lemma": "paro",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "cujus",
+          "lemma": "cujus",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "erunt?",
+          "lemma": "eruo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Dicebat autem et parabolam ad illos, quoniam oportet semper orare et non deficere,",
+      "tokens": [
+        {
+          "form": "Dicebat",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "parabolam",
+          "lemma": "parabola",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "illos,",
+          "lemma": "illes,a",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "oportet",
+          "lemma": "oportet",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "semper",
+          "lemma": "semper",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "orare",
+          "lemma": "oro",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "deficere,",
+          "lemma": "deficio",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 18,
+      "verse": 30,
+      "text": "et non recipiat multo plura in hoc tempore, et in sæculo venturo vitam æternam.",
+      "tokens": [
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "recipiat",
+          "lemma": "recipio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "multo",
+          "lemma": "multo",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "plura",
+          "lemma": "multus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Cmp|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "hoc",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "tempore,",
+          "lemma": "tempus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "sæculo",
+          "lemma": "sæculus",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "venturo",
+          "lemma": "venio",
+          "pos": "VERB",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing|Tense=Fut|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "vitam",
+          "lemma": "vita",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "æternam.",
+          "lemma": "æternus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 24,
+      "verse": 11,
+      "text": "Et visa sunt ante illos sicut deliramentum verba ista, et non crediderunt illis.",
+      "tokens": [
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "visa",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Neut|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "sunt",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ante",
+          "lemma": "ante",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "illos",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "sicut",
+          "lemma": "sicut",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "deliramentum",
+          "lemma": "deliramentum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "verba",
+          "lemma": "verbum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ista,",
+          "lemma": "ista",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "crediderunt",
+          "lemma": "credo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "illis.",
+          "lemma": "ille",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Adveniat regnum tuum; fiat voluntas tua, sicut in cælo et in terra.",
+      "tokens": [
+        {
+          "form": "Adveniat",
+          "lemma": "advenio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "regnum",
+          "lemma": "regnum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "tuum;",
+          "lemma": "tuum;",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "fiat",
+          "lemma": "fio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "voluntas",
+          "lemma": "voluntas",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "tua,",
+          "lemma": "tua",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "sicut",
+          "lemma": "sicut",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "cælo",
+          "lemma": "cælo",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "terra.",
+          "lemma": "terra",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 12,
+      "verse": 20,
+      "text": "arundinem quassatam non confringet, et linum fumigans non extinguet, donec ejiciat ad victoriam judicium :",
+      "tokens": [
+        {
+          "form": "arundinem",
+          "lemma": "arundo",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "quassatam",
+          "lemma": "quasso",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Acc|Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "confringet,",
+          "lemma": "confringo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "linum",
+          "lemma": "linum",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "fumigans",
+          "lemma": "fumigo",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "extinguet,",
+          "lemma": "extinguo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "donec",
+          "lemma": "donec",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ejiciat",
+          "lemma": "ejicio",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "victoriam",
+          "lemma": "victoria",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "judicium",
+          "lemma": "judicium",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": "greek.expression",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 18,
+      "verse": 1,
+      "text": "In illa hora accesserunt discipuli ad Jesum, dicentes : Quis, putas, major est in regno cælorum?",
+      "tokens": [
+        {
+          "form": "In",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "illa",
+          "lemma": "ille",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "hora",
+          "lemma": "hora",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "accesserunt",
+          "lemma": "accedo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "discipuli",
+          "lemma": "discipulus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Jesum,",
+          "lemma": "Jesus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "dicentes",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Quis,",
+          "lemma": "quis",
+          "pos": "NOUN",
+          "feats": "Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "putas,",
+          "lemma": "puto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "major",
+          "lemma": "majnus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Cmp|Gender=Fem,Masc|Number=Sing"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "regno",
+          "lemma": "regnum",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "cælorum?",
+          "lemma": "cælor",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 18,
+      "verse": 30,
+      "text": "Ille autem noluit : sed abiit, et misit eum in carcerem donec redderet debitum.",
+      "tokens": [
+        {
+          "form": "Ille",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "noluit",
+          "lemma": "nolo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "sed",
+          "lemma": "sed",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "abiit,",
+          "lemma": "abeo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "misit",
+          "lemma": "mitto",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "carcerem",
+          "lemma": "carcer",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "donec",
+          "lemma": "donec",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "redderet",
+          "lemma": "reddo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "debitum.",
+          "lemma": "debeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Acc|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 24,
+      "verse": 40,
+      "text": "Tunc duo erunt in agro : unus assumetur, et unus relinquetur.",
+      "tokens": [
+        {
+          "form": "Tunc",
+          "lemma": "tunc",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "duo",
+          "lemma": "duo",
+          "pos": "NUM",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "erunt",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "agro",
+          "lemma": "ager",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "unus",
+          "lemma": "unus",
+          "pos": "NUM",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "assumetur,",
+          "lemma": "assumo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "unus",
+          "lemma": "unus",
+          "pos": "NUM",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "relinquetur.",
+          "lemma": "relinquo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Pass"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Exaudivit Dominus deprecationem meam; Dominus orationem meam suscepit.",
+      "tokens": [
+        {
+          "form": "Exaudivit",
+          "lemma": "exaudio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Dominus",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "deprecationem",
+          "lemma": "deprecatio",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "meam;",
+          "lemma": "meus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Sup|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Dominus",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "orationem",
+          "lemma": "oratio",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "meam",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=1|Poss=Yes"
+        },
+        {
+          "form": "suscepit.",
+          "lemma": "suscipio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 59,
+      "verse": 2,
+      "text": "cum succendit Mesopotamiam Syriæ et Sobal, et convertit Joab, et percussit Idumæam in valle Salinarum duodecim millia.",
+      "tokens": [
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "succendit",
+          "lemma": "succendo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Mesopotamiam",
+          "lemma": "Mesopotamia",
+          "pos": "PROPN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Syriæ",
+          "lemma": "Syriæ",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Sobal,",
+          "lemma": "Sobal,",
+          "pos": "PROPN",
+          "feats": null
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "convertit",
+          "lemma": "converto",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Joab,",
+          "lemma": "Joab,",
+          "pos": "PROPN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "percussit",
+          "lemma": "percutio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Idumæam",
+          "lemma": "Idumæa",
+          "pos": "PROPN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "valle",
+          "lemma": "valles",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Salinarum",
+          "lemma": "Salina",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "duodecim",
+          "lemma": "duodecim",
+          "pos": "NUM",
+          "feats": null
+        },
+        {
+          "form": "millia.",
+          "lemma": "millia",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 100,
+      "verse": 3,
+      "text": "Non proponebam ante oculos meos rem injustam; facientes prævaricationes odivi; non adhæsit mihi",
+      "tokens": [
+        {
+          "form": "Non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "proponebam",
+          "lemma": "propono",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ante",
+          "lemma": "ante",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "oculos",
+          "lemma": "oculus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "meos",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=1|Poss=Yes"
+        },
+        {
+          "form": "rem",
+          "lemma": "res",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "injustam;",
+          "lemma": "injustus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "facientes",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "prævaricationes",
+          "lemma": "prævaricatio",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "odivi;",
+          "lemma": "odiviscor",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "adhæsit",
+          "lemma": "adhideo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mihi",
+          "lemma": "ego",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1|PronType=Prs"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 106,
+      "verse": 13,
+      "text": "Et clamaverunt ad Dominum cum tribularentur; et de necessitatibus eorum liberavit eos.",
+      "tokens": [
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "clamaverunt",
+          "lemma": "clamo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Dominum",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "tribularentur;",
+          "lemma": "tribulo",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "de",
+          "lemma": "de",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "necessitatibus",
+          "lemma": "necessitas",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "eorum",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "liberavit",
+          "lemma": "libero",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eos.",
+          "lemma": "eos",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 118,
+      "verse": 33,
+      "text": "He. Legem pone mihi, Domine, viam justificationum tuarum, et exquiram eam semper.",
+      "tokens": [
+        {
+          "form": "He.",
+          "lemma": "he.",
+          "pos": "INTJ",
+          "feats": null
+        },
+        {
+          "form": "Legem",
+          "lemma": "lex",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "pone",
+          "lemma": "pono",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mihi,",
+          "lemma": "mihes",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Domine,",
+          "lemma": "dominus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "viam",
+          "lemma": "via",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "justificationum",
+          "lemma": "justificatio",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "tuarum,",
+          "lemma": "tuar",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "exquiram",
+          "lemma": "exquiro",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "eam",
+          "lemma": "is",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Person=3|PronType=Prs"
+        },
+        {
+          "form": "semper.",
+          "lemma": "semper",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 2,
+      "verse": 22,
+      "text": "qui dicis non mœchandum, mœcharis : qui abominaris idola, sacrilegium facis:",
+      "tokens": [
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "dicis",
+          "lemma": "dico",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "mœchandum,",
+          "lemma": "mœchor",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|VerbForm=Gdv"
+        },
+        {
+          "form": "mœcharis",
+          "lemma": "mœchor",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "abominaris",
+          "lemma": "abomino",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "idola,",
+          "lemma": "idolus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "sacrilegium",
+          "lemma": "sacrilegium",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "facis:",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Quod enim mortuus est peccato, mortuus est semel : quod autem vivit, vivit Deo.",
+      "tokens": [
+        {
+          "form": "Quod",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "enim",
+          "lemma": "enim",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "mortuus",
+          "lemma": "morior",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "peccato,",
+          "lemma": "peccato,",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "mortuus",
+          "lemma": "morior",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "est",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "semel",
+          "lemma": "semel",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quod",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "vivit,",
+          "lemma": "vivo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "vivit",
+          "lemma": "vivo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Deo.",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 7,
+      "verse": 21,
+      "text": "Invenio igitur legem, volenti mihi facere bonum, quoniam mihi malum adjacet:",
+      "tokens": [
+        {
+          "form": "Invenio",
+          "lemma": "invenio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "igitur",
+          "lemma": "igitur",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "legem,",
+          "lemma": "lex",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "volenti",
+          "lemma": "volo",
+          "pos": "VERB",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "mihi",
+          "lemma": "ego",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1|PronType=Prs"
+        },
+        {
+          "form": "facere",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "bonum,",
+          "lemma": "bonus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "mihi",
+          "lemma": "ego",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1|PronType=Prs"
+        },
+        {
+          "form": "malum",
+          "lemma": "malus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "adjacet:",
+          "lemma": "adjaceo",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Sed si esurierit inimicus tuus, ciba illum : si sitit, potum da illi : hoc enim faciens, carbones ignis congeres super caput ejus.",
+      "tokens": [
+        {
+          "form": "Sed",
+          "lemma": "sed",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "esurierit",
+          "lemma": "esurio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "inimicus",
+          "lemma": "inimicus",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "tuus,",
+          "lemma": "tuus,",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ciba",
+          "lemma": "cibo",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "illum",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "sitit,",
+          "lemma": "sitio",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "potum",
+          "lemma": "potus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "da",
+          "lemma": "do",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "illi",
+          "lemma": "ille",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "hoc",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "enim",
+          "lemma": "enim",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "faciens,",
+          "lemma": "facio",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "carbones",
+          "lemma": "carbo",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ignis",
+          "lemma": "ignis",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "congeres",
+          "lemma": "congero",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "super",
+          "lemma": "super",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "caput",
+          "lemma": "caput",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ejus.",
+          "lemma": "is",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Person=2|Poss=Yes"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 13,
+      "verse": 2,
+      "text": "Itaque qui resistit potestati, Dei ordinationi resistit. Qui autem resistunt, ipsi sibi damnationem acquirunt:",
+      "tokens": [
+        {
+          "form": "Itaque",
+          "lemma": "itaque",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "resistit",
+          "lemma": "resisto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "potestati,",
+          "lemma": "potestas",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Dei",
+          "lemma": "deus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ordinationi",
+          "lemma": "ordinatio",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "resistit.",
+          "lemma": "resisto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Qui",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "resistunt,",
+          "lemma": "resisto",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ipsi",
+          "lemma": "ipse",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "sibi",
+          "lemma": "se",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur|Person=3|PronType=Prs|Reflex=Yes"
+        },
+        {
+          "form": "damnationem",
+          "lemma": "damnatio",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "acquirunt:",
+          "lemma": "acquiro",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 1,
+      "verse": 11,
+      "text": "Custodite ergo vos a murmuratione quæ nihil prodest, et a detractione parcite linguæ : quoniam sermo obscurus in vacuum non ibit, os autem quod mentitur occidit animam.",
+      "tokens": [
+        {
+          "form": "Custodite",
+          "lemma": "custodio",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ergo",
+          "lemma": "ergo",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "vos",
+          "lemma": "vos",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=2|PronType=Prs"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "murmuratione",
+          "lemma": "murmuratio",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "nihil",
+          "lemma": "nihil",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "prodest,",
+          "lemma": "prosum",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "detractione",
+          "lemma": "detractio",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "parcite",
+          "lemma": "parco",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "linguæ",
+          "lemma": "linguæ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quoniam",
+          "lemma": "quoniam",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "sermo",
+          "lemma": "sermo",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "obscurus",
+          "lemma": "obscurus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "in",
+          "lemma": "in",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vacuum",
+          "lemma": "vacuus",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Pos|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "ibit,",
+          "lemma": "eo",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "os",
+          "lemma": "os",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "quod",
+          "lemma": "qui",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing|PronType=Rel"
+        },
+        {
+          "form": "mentitur",
+          "lemma": "mentior",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "occidit",
+          "lemma": "occido",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "animam.",
+          "lemma": "anima",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 6,
+      "verse": 10,
+      "text": "Ad vos ergo, reges, sunt hi sermones mei : ut discatis sapientiam, et non excidatis.",
+      "tokens": [
+        {
+          "form": "Ad",
+          "lemma": "ad",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "vos",
+          "lemma": "vos",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=2|PronType=Prs"
+        },
+        {
+          "form": "ergo,",
+          "lemma": "ergo,",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "reges,",
+          "lemma": "rex",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "sunt",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "hi",
+          "lemma": "hic",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "sermones",
+          "lemma": "sermo",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "mei",
+          "lemma": "meus",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Person=1|Poss=Yes"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ut",
+          "lemma": "ut",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "discatis",
+          "lemma": "disco",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "sapientiam,",
+          "lemma": "sapientia",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "excidatis.",
+          "lemma": "excido",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 7,
+      "verse": 21,
+      "text": "Et quæcumque sunt absconsa et improvisa didici : omnium enim artifex docuit me sapientia.",
+      "tokens": [
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "quæcumque",
+          "lemma": "quæcumque",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "sunt",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "absconsa",
+          "lemma": "absconsum",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "improvisa",
+          "lemma": "improvisus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Pos|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "didici",
+          "lemma": "disco",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "omnium",
+          "lemma": "omnis",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "enim",
+          "lemma": "enim",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "artifex",
+          "lemma": "artifex",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "docuit",
+          "lemma": "doceo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "me",
+          "lemma": "ego",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=1|PronType=Prs"
+        },
+        {
+          "form": "sapientia.",
+          "lemma": "sapientia",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Si enim inimicos servorum tuorum, et debitos morti, cum tanta cruciasti attentione, dans tempus et locum per quæ possent mutari a malitia :",
+      "tokens": [
+        {
+          "form": "Si",
+          "lemma": "si",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "enim",
+          "lemma": "enim",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "inimicos",
+          "lemma": "inimicus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "servorum",
+          "lemma": "servus",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "tuorum,",
+          "lemma": "tuor",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "debitos",
+          "lemma": "debeo",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Acc|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "morti,",
+          "lemma": "mors",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "cum",
+          "lemma": "cum",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "tanta",
+          "lemma": "tantus",
+          "pos": "ADJ",
+          "feats": "Case=Abl|Degree=Pos|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "cruciasti",
+          "lemma": "crucio",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "attentione,",
+          "lemma": "attentio",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "dans",
+          "lemma": "do",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "tempus",
+          "lemma": "tempus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "locum",
+          "lemma": "locus",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "per",
+          "lemma": "per",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "quæ",
+          "lemma": "quæ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur|PronType=Rel"
+        },
+        {
+          "form": "possent",
+          "lemma": "possum",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "mutari",
+          "lemma": "muto",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Pass"
+        },
+        {
+          "form": "a",
+          "lemma": "ab",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "malitia",
+          "lemma": "malitia",
+          "pos": "NOUN",
+          "feats": "Case=Abl|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "ADV",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Sanctis autem tuis maxima erat lux, et horum quidem vocem audiebant, sed figuram non videbant. Et quia non et ipsi eadem passi erant, magnificabant te;",
+      "tokens": [
+        {
+          "form": "Sanctis",
+          "lemma": "sanctus",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Degree=Pos|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "autem",
+          "lemma": "autem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "tuis",
+          "lemma": "tuus",
+          "pos": "DET",
+          "feats": "Case=Abl|Gender=Fem|Number=Plur|Person=2|Poss=Yes"
+        },
+        {
+          "form": "maxima",
+          "lemma": "magnus",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Sup|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "erat",
+          "lemma": "sum",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "lux,",
+          "lemma": "lux",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "horum",
+          "lemma": "hic",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "quidem",
+          "lemma": "quidem",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "vocem",
+          "lemma": "vox",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "audiebant,",
+          "lemma": "audio",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "sed",
+          "lemma": "sed",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "figuram",
+          "lemma": "figura",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "videbant.",
+          "lemma": "video",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Et",
+          "lemma": "et",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "quia",
+          "lemma": "quia",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "non",
+          "lemma": "non",
+          "pos": "ADV",
+          "feats": "Polarity=Neg"
+        },
+        {
+          "form": "et",
+          "lemma": "et",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ipsi",
+          "lemma": "ipse",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Person=3|PronType=Prs"
+        },
+        {
+          "form": "eadem",
+          "lemma": "idem",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "passi",
+          "lemma": "patior",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "erant,",
+          "lemma": "ero",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "magnificabant",
+          "lemma": "magnifico",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "te;",
+          "lemma": "te;",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs"
+        }
+      ]
+    }
+  ]
+}

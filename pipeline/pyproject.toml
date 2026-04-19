@@ -18,3 +18,10 @@ dev = [
     "pytest>=7.0",
     "ruff>=0.1",
 ]
+# Lemmatization (Step 3 of lexicon pipeline). Heavy ML deps (~600MB torch +
+# ~500MB models per language); installed only when running lemma_bakeoff or
+# inject_lemma_edges. Pull with: uv sync --project pipeline --extra lemma
+lemma = [
+    "stanza>=1.8",
+    "cltk>=1.4",
+]

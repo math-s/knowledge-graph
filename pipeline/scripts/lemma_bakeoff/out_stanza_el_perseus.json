@@ -1,0 +1,7101 @@
+{
+  "tool": "stanza",
+  "lang": "el",
+  "model": "grc",
+  "treebank": "perseus",
+  "n_verses": 55,
+  "n_tokens": 1108,
+  "load_seconds": 0.67,
+  "parse_seconds_total": 0.58,
+  "parse_seconds_per_verse": 0.011,
+  "results": [
+    {
+      "book_id": "1-john",
+      "chapter": 1,
+      "verse": 9,
+      "text": "ἐὰν ὁμολογῶμεν τὰς ἁμαρτίας ἡμῶν, πιστός ἐστιν καὶ δίκαιος ἵνα ἀφῇ ἡμῖν τὰς ἁμαρτίας καὶ καθαρίσῃ ἡμᾶς ἀπὸ πάσης ἀδικίας.",
+      "tokens": [
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὁμολογῶμεν",
+          "lemma": "ὁμολογέω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἁμαρτίας",
+          "lemma": "ἁμαρτία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἡμῶν",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "πιστός",
+          "lemma": "πιστός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "δίκαιος",
+          "lemma": "δίκαιος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἵνα",
+          "lemma": "ἵνα",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀφῇ",
+          "lemma": "ἀφίημι",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἡμῖν",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἁμαρτίας",
+          "lemma": "ἁμαρτία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "καθαρίσῃ",
+          "lemma": "καθαρίζω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἡμᾶς",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Person=1"
+        },
+        {
+          "form": "ἀπὸ",
+          "lemma": "ἀπό",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "πάσης",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀδικίας",
+          "lemma": "ἄδικιος",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 2,
+      "verse": 22,
+      "text": "τίς ἐστιν ὁ ψεύστης εἰ μὴ ὁ ἀρνούμενος ὅτι Ἰησοῦς οὐκ ἔστιν ὁ Χριστός; οὗτός ἐστιν ὁ ἀντίχριστος, ὁ ἀρνούμενος τὸν πατέρα καὶ τὸν υἱόν.",
+      "tokens": [
+        {
+          "form": "τίς",
+          "lemma": "τις",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ψεύστης",
+          "lemma": "ψεύστης",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "εἰ",
+          "lemma": "εἰ",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀρνούμενος",
+          "lemma": "ἀρνόω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "Ἰησοῦς",
+          "lemma": "Ἰησός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἔστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Χριστός",
+          "lemma": "Χριστός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "οὗτός",
+          "lemma": "οὗτος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀντίχριστος",
+          "lemma": "ἀντίχριστος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀρνούμενος",
+          "lemma": "ἀρνόω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πατέρα",
+          "lemma": "πατήρ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "υἱόν",
+          "lemma": "υἱός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 3,
+      "verse": 2,
+      "text": "ἀγαπητοί, νῦν τέκνα θεοῦ ἐσμεν, καὶ οὔπω ἐφανερώθη τί ἐσόμεθα. οἴδαμεν ὅτι ἐὰν φανερωθῇ ὅμοιοι αὐτῷ ἐσόμεθα, ὅτι ὀψόμεθα αὐτὸν καθώς ἐστιν.",
+      "tokens": [
+        {
+          "form": "ἀγαπητοί",
+          "lemma": "ἀγαπητός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "νῦν",
+          "lemma": "νῦν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τέκνα",
+          "lemma": "τέκνον",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "θεοῦ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐσμεν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "οὔπω",
+          "lemma": "οὔπω",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐφανερώθη",
+          "lemma": "φανερόω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "τί",
+          "lemma": "τίς",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἐσόμεθα",
+          "lemma": "εἰσοράω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "οἴδαμεν",
+          "lemma": "οἶδα",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Plur|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "φανερωθῇ",
+          "lemma": "φανερόω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "ὅμοιοι",
+          "lemma": "ὅμοιος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐσόμεθα",
+          "lemma": "εἰσοράω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὀψόμεθα",
+          "lemma": "ὁράω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καθώς",
+          "lemma": "καθώς",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 3,
+      "verse": 4,
+      "text": "πᾶς ὁ ποιῶν τὴν ἁμαρτίαν καὶ τὴν ἀνομίαν ποιεῖ, καὶ ἡ ἁμαρτία ἐστὶν ἡ ἀνομία.",
+      "tokens": [
+        {
+          "form": "πᾶς",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ποιῶν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἁμαρτίαν",
+          "lemma": "ἁμαρτία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀνομίαν",
+          "lemma": "ἀνομία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ποιεῖ",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἁμαρτία",
+          "lemma": "ἁμαρτίον",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐστὶν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀνομία",
+          "lemma": "ἀνομία",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "1-john",
+      "chapter": 4,
+      "verse": 15,
+      "text": "ὃς ἐὰν ὁμολογήσῃ ὅτι Ἰησοῦς [χριστός] ἐστιν ὁ υἱὸς τοῦ θεοῦ, ὁ θεὸς ἐν αὐτῷ μένει καὶ αὐτὸς ἐν τῷ θεῷ.",
+      "tokens": [
+        {
+          "form": "ὃς",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὁμολογήσῃ",
+          "lemma": "ὁμολογέω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "Ἰησοῦς",
+          "lemma": "Ἰησός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "[χριστός",
+          "lemma": "[χριστός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "]",
+          "lemma": "]",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "υἱὸς",
+          "lemma": "υἱός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεοῦ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεὸς",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "μένει",
+          "lemma": "μένω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "αὐτὸς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεῷ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 1,
+      "verse": 11,
+      "text": "οἳ καὶ εἶπαν: ἄνδρες Γαλιλαῖοι, τί ἑστήκατε βλέποντες εἰς τὸν οὐρανόν; οὗτος ὁ Ἰησοῦς ὁ ἀναλημφθεὶς ἀφ' ὑμῶν εἰς τὸν οὐρανὸν οὕτως ἐλεύσεται ὃν τρόπον ἐθεάσασθε αὐτὸν πορευόμενον εἰς τὸν οὐρανόν.",
+      "tokens": [
+        {
+          "form": "οἳ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "εἶπαν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἄνδρες",
+          "lemma": "ἀνήρ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Γαλιλαῖοι",
+          "lemma": "Γαλιλαῖος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "τί",
+          "lemma": "τίς",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἑστήκατε",
+          "lemma": "ἵστημι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "βλέποντες",
+          "lemma": "βλέπω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὐρανόν",
+          "lemma": "οὐρανός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "οὗτος",
+          "lemma": "οὗτος",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ἰησοῦς",
+          "lemma": "Ἰησός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀναλημφθεὶς",
+          "lemma": "ἀναλαμβάνω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "ἀφ'",
+          "lemma": "ἀνά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὐρανὸν",
+          "lemma": "οὐρανός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὕτως",
+          "lemma": "οὕτως",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐλεύσεται",
+          "lemma": "ἔρχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ὃν",
+          "lemma": "ἑός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τρόπον",
+          "lemma": "τρόπος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐθεάσασθε",
+          "lemma": "θεάομαι",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πορευόμενον",
+          "lemma": "πορεύω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὐρανόν",
+          "lemma": "οὐρανός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 6,
+      "verse": 10,
+      "text": "καὶ οὐκ ἴσχυον ἀντιστῆναι τῇ σοφίᾳ καὶ τῷ πνεύματι ᾧ ἐλάλει.",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἴσχυον",
+          "lemma": "ἰσχύω",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἀντιστῆναι",
+          "lemma": "ἀντιστέω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σοφίᾳ",
+          "lemma": "σοφία",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πνεύματι",
+          "lemma": "πνεῦμα",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ᾧ",
+          "lemma": "ἑός",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἐλάλει",
+          "lemma": "λάλλω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 7,
+      "verse": 21,
+      "text": "ἐκτεθέντος δὲ αὐτοῦ ἀνείλατο αὐτὸν ἡ θυγάτηρ Φαραὼ καὶ ἀνεθρέψατο αὐτὸν ἑαυτῇ εἰς υἱόν.",
+      "tokens": [
+        {
+          "form": "ἐκτεθέντος",
+          "lemma": "ἐκτίθημι",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀνείλατο",
+          "lemma": "ἀναιρέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "θυγάτηρ",
+          "lemma": "θυγάτηρ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Φαραὼ",
+          "lemma": "Φαραός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀνεθρέψατο",
+          "lemma": "ἀνατρέπω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἑαυτῇ",
+          "lemma": "ἑαυτοῦ",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "υἱόν",
+          "lemma": "υἱός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 12,
+      "verse": 20,
+      "text": "ἦν δὲ θυμομαχῶν Τυρίοις καὶ Σιδωνίοις: ὁμοθυμαδὸν δὲ παρῆσαν πρὸς αὐτόν, καὶ πείσαντες Βλάστον τὸν ἐπὶ τοῦ κοιτῶνος τοῦ βασιλέως ᾐτοῦντο εἰρήνην, διὰ τὸ τρέφεσθαι αὐτῶν τὴν χώραν ἀπὸ τῆς βασιλικῆς.",
+      "tokens": [
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "θυμομαχῶν",
+          "lemma": "θυμομαχός",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Τυρίοις",
+          "lemma": "Τύριος",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Σιδωνίοις",
+          "lemma": "Σιδών",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὁμοθυμαδὸν",
+          "lemma": "ὁμοθυμαδός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "παρῆσαν",
+          "lemma": "πάρειμι",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "αὐτόν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "πείσαντες",
+          "lemma": "πείθω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "Βλάστον",
+          "lemma": "βλάστος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐπὶ",
+          "lemma": "ἐπί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "κοιτῶνος",
+          "lemma": "κοιτών",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "βασιλέως",
+          "lemma": "βασιλεύς",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ᾐτοῦντο",
+          "lemma": "αἰτέω",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "εἰρήνην",
+          "lemma": "εἰρήνη",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "διὰ",
+          "lemma": "διά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τρέφεσθαι",
+          "lemma": "τρέφω",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Mid"
+        },
+        {
+          "form": "αὐτῶν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "χώραν",
+          "lemma": "χώρα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀπὸ",
+          "lemma": "ἀπό",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "βασιλικῆς",
+          "lemma": "βασιλικός",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "acts",
+      "chapter": 24,
+      "verse": 11,
+      "text": "δυναμένου σου ἐπιγνῶναι ὅτι οὐ πλείους εἰσίν μοι ἡμέραι δώδεκα ἀφ' ἧς ἀνέβην προσκυνήσων εἰς Ἰερουσαλήμ,",
+      "tokens": [
+        {
+          "form": "δυναμένου",
+          "lemma": "δύναμαι",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐπιγνῶναι",
+          "lemma": "ἐπιγιγνώσκω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "πλείους",
+          "lemma": "πλείων",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Degree=Cmp|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "εἰσίν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "μοι",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἡμέραι",
+          "lemma": "ἡμέρα",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "δώδεκα",
+          "lemma": "δώδεκα",
+          "pos": "NUM",
+          "feats": null
+        },
+        {
+          "form": "ἀφ'",
+          "lemma": "ἀνά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ἧς",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀνέβην",
+          "lemma": "ἀναβαίνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "προσκυνήσων",
+          "lemma": "προσκυνέω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Fut|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Ἰερουσαλήμ",
+          "lemma": "Ἰερουσαλήμ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 12,
+      "verse": 20,
+      "text": "πᾶν ζυμωτὸν οὐκ ἔδεσθε ἐν παντὶ δὲ κατοικητηρίῳ ὑμῶν ἔδεσθε ἄζυμα",
+      "tokens": [
+        {
+          "form": "πᾶν",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ζυμωτὸν",
+          "lemma": "ζυμωτός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἔδεσθε",
+          "lemma": "δέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "παντὶ",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "κατοικητηρίῳ",
+          "lemma": "κατοικητήρ",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἔδεσθε",
+          "lemma": "δέω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ἄζυμα",
+          "lemma": "ἄζυμα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 18,
+      "verse": 1,
+      "text": "ἤκουσεν δὲ Ιοθορ ὁ ἱερεὺς Μαδιαμ ὁ γαμβρὸς Μωυσῆ πάντα ὅσα ἐποίησεν κύριος Ισραηλ τῷ ἑαυτοῦ λαῷ ἐξήγαγεν γὰρ κύριος τὸν Ισραηλ ἐξ Αἰγύπτου",
+      "tokens": [
+        {
+          "form": "ἤκουσεν",
+          "lemma": "ἀκούω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Ιοθορ",
+          "lemma": "Ιοθορ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἱερεὺς",
+          "lemma": "ἱερεύς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Μαδιαμ",
+          "lemma": "Μαδιαμ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "γαμβρὸς",
+          "lemma": "γαμβρός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Μωυσῆ",
+          "lemma": "Μωύσης",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "πάντα",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ὅσα",
+          "lemma": "ὅσος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἐποίησεν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "κύριος",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ισραηλ",
+          "lemma": "Ισραηλ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἑαυτοῦ",
+          "lemma": "ἑαυτοῦ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "λαῷ",
+          "lemma": "λαός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐξήγαγεν",
+          "lemma": "ἐξάγω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "γὰρ",
+          "lemma": "γάρ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "κύριος",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ισραηλ",
+          "lemma": "Ισραηλ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐξ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Αἰγύπτου",
+          "lemma": "Αἴγυπτος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 24,
+      "verse": 11,
+      "text": "καὶ τῶν ἐπιλέκτων τοῦ Ισραηλ οὐ διεφώνησεν οὐδὲ εἷς καὶ ὤφθησαν ἐν τῷ τόπῳ τοῦ θεοῦ καὶ ἔφαγον καὶ ἔπιον",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἐπιλέκτων",
+          "lemma": "ἐπίλεκτος",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ισραηλ",
+          "lemma": "Ισραηλ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "διεφώνησεν",
+          "lemma": "διαφωνέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "οὐδὲ",
+          "lemma": "οὐδέ",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "εἷς",
+          "lemma": "εἷς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὤφθησαν",
+          "lemma": "ὀφθέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τόπῳ",
+          "lemma": "τόπος",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεοῦ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἔφαγον",
+          "lemma": "φαγεῖν",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἔπιον",
+          "lemma": "ἔπιον",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 30,
+      "verse": 21,
+      "text": "νίψονται τὰς χεῖρας καὶ τοὺς πόδας ὕδατι ὅταν εἰσπορεύωνται εἰς τὴν σκηνὴν τοῦ μαρτυρίου νίψονται ὕδατι ἵνα μὴ ἀποθάνωσιν καὶ ἔσται αὐτοῖς νόμιμον αἰώνιον αὐτῷ καὶ ταῖς γενεαῖς αὐτοῦ μετ' αὐτόν",
+      "tokens": [
+        {
+          "form": "νίψονται",
+          "lemma": "νίζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "χεῖρας",
+          "lemma": "χείρ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τοὺς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "πόδας",
+          "lemma": "πούς",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ὕδατι",
+          "lemma": "ὕδωρ",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὅταν",
+          "lemma": "ὅταν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "εἰσπορεύωνται",
+          "lemma": "εἰσπορεύω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σκηνὴν",
+          "lemma": "σκηνή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "μαρτυρίου",
+          "lemma": "μαρτύριον",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "νίψονται",
+          "lemma": "νίζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ὕδατι",
+          "lemma": "ὕδωρ",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἵνα",
+          "lemma": "ἵνα",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἀποθάνωσιν",
+          "lemma": "ἀποθνήσκω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἔσται",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αὐτοῖς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "νόμιμον",
+          "lemma": "νόμιμος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "αἰώνιον",
+          "lemma": "αἰώνιος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ταῖς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "γενεαῖς",
+          "lemma": "γενεά",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μετ'",
+          "lemma": "μείνομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτόν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "exodus",
+      "chapter": 36,
+      "verse": 31,
+      "text": "καὶ ἐποίησαν ἐπὶ τοῦ λώματος τοῦ ὑποδύτου κάτωθεν ὡς ἐξανθούσης ῥόας ῥοίσκους ἐξ ὑακίνθου καὶ πορφύρας καὶ κοκκίνου νενησμένου καὶ βύσσου κεκλωσμένης",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐποίησαν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐπὶ",
+          "lemma": "ἐπί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "λώματος",
+          "lemma": "λῶμα",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὑποδύτου",
+          "lemma": "ὑπόδυτος",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "κάτωθεν",
+          "lemma": "κάτωθεν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὡς",
+          "lemma": "ὡς",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐξανθούσης",
+          "lemma": "ἐξανθόω",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ῥόας",
+          "lemma": "ῥᾶας",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ῥοίσκους",
+          "lemma": "ῥοῖσκος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἐξ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὑακίνθου",
+          "lemma": "ὑάκινθος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "πορφύρας",
+          "lemma": "πορφύρω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "κοκκίνου",
+          "lemma": "κόκκινος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "νενησμένου",
+          "lemma": "ναίω",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Gen|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "βύσσου",
+          "lemma": "βύσσος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "κεκλωσμένης",
+          "lemma": "κλόω",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Gen|Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Mid"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 12,
+      "verse": 20,
+      "text": "καὶ ἐνετείλατο Φαραω ἀνδράσιν περὶ Αβραμ συμπροπέμψαι αὐτὸν καὶ τὴν γυναῖκα αὐτοῦ καὶ πάντα ὅσα ἦν αὐτῷ καὶ Λωτ μετ' αὐτοῦ",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐνετείλατο",
+          "lemma": "ἐντέλλω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "Φαραω",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀνδράσιν",
+          "lemma": "ἀνήρ",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "περὶ",
+          "lemma": "περί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Αβραμ",
+          "lemma": "Αβρα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "συμπροπέμψαι",
+          "lemma": "συμπροπέμπω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "γυναῖκα",
+          "lemma": "γυνή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "πάντα",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ὅσα",
+          "lemma": "ὅσος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "Λωτ",
+          "lemma": "Λωτ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "μετ'",
+          "lemma": "μείνομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 18,
+      "verse": 1,
+      "text": "ὤφθη δὲ αὐτῷ ὁ θεὸς πρὸς τῇ δρυὶ τῇ Μαμβρη καθημένου αὐτοῦ ἐπὶ τῆς θύρας τῆς σκηνῆς αὐτοῦ μεσημβρίας",
+      "tokens": [
+        {
+          "form": "ὤφθη",
+          "lemma": "ὁράω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεὸς",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "δρυὶ",
+          "lemma": "δρῦς",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Μαμβρη",
+          "lemma": "Μαμβρη",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καθημένου",
+          "lemma": "κάθημαι",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Gen|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐπὶ",
+          "lemma": "ἐπί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "θύρας",
+          "lemma": "θύρα",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σκηνῆς",
+          "lemma": "σκηνή",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μεσημβρίας",
+          "lemma": "μεσημβρία",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 18,
+      "verse": 30,
+      "text": "καὶ εἶπεν μή τι κύριε ἐὰν λαλήσω ἐὰν δὲ εὑρεθῶσιν ἐκεῖ τριάκοντα καὶ εἶπεν οὐ μὴ ἀπολέσω ἐὰν εὕρω ἐκεῖ τριάκοντα",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "εἶπεν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "μή",
+          "lemma": "μή",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τι",
+          "lemma": "τις",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "κύριε",
+          "lemma": "κυρίνω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "λαλήσω",
+          "lemma": "λάλλω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "εὑρεθῶσιν",
+          "lemma": "εὑρίσκω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐκεῖ",
+          "lemma": "ἐκεῖ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τριάκοντα",
+          "lemma": "τριάκοντα",
+          "pos": "ADJ",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "εἶπεν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀπολέσω",
+          "lemma": "ἀπόλλυμι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "εὕρω",
+          "lemma": "εὑρίσκω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐκεῖ",
+          "lemma": "ἐκεῖ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τριάκοντα",
+          "lemma": "τριάκοντα",
+          "pos": "ADJ",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 24,
+      "verse": 11,
+      "text": "καὶ ἐκοίμισεν τὰς καμήλους ἔξω τῆς πόλεως παρὰ τὸ φρέαρ τοῦ ὕδατος τὸ πρὸς ὀψέ ἡνίκα ἐκπορεύονται αἱ ὑδρευόμεναι",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐκοίμισεν",
+          "lemma": "κοιμίζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "καμήλους",
+          "lemma": "κάμηλος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἔξω",
+          "lemma": "ἔξω",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πόλεως",
+          "lemma": "πόλις",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "παρὰ",
+          "lemma": "παρά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "φρέαρ",
+          "lemma": "φρέαρ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὕδατος",
+          "lemma": "ὕδωρ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὀψέ",
+          "lemma": "ὀψέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἡνίκα",
+          "lemma": "ἡνίκα",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐκπορεύονται",
+          "lemma": "ἐκπορεύομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "αἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ὑδρευόμεναι",
+          "lemma": "ὑδρεύω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Mid"
+        }
+      ]
+    },
+    {
+      "book_id": "genesis",
+      "chapter": 24,
+      "verse": 40,
+      "text": "καὶ εἶπέν μοι κύριος ᾧ εὐηρέστησα ἐναντίον αὐτοῦ αὐτὸς ἀποστελεῖ τὸν ἄγγελον αὐτοῦ μετὰ σοῦ καὶ εὐοδώσει τὴν ὁδόν σου καὶ λήμψῃ γυναῖκα τῷ υἱῷ μου ἐκ τῆς φυλῆς μου καὶ ἐκ τοῦ οἴκου τοῦ πατρός μου",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "εἶπέν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "μοι",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Person=1"
+        },
+        {
+          "form": "κύριος",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ᾧ",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "εὐηρέστησα",
+          "lemma": "εὐηρίσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐναντίον",
+          "lemma": "ἐναντίον",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "αὐτὸς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀποστελεῖ",
+          "lemma": "ἀποστέλλω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἄγγελον",
+          "lemma": "ἄγγελος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μετὰ",
+          "lemma": "μετά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "σοῦ",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "εὐοδώσει",
+          "lemma": "εὐοδόω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὁδόν",
+          "lemma": "ὁδός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "λήμψῃ",
+          "lemma": "λήμπω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "γυναῖκα",
+          "lemma": "γυνή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "υἱῷ",
+          "lemma": "υἱός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "φυλῆς",
+          "lemma": "φυλή",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οἴκου",
+          "lemma": "οἶκος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πατρός",
+          "lemma": "πατήρ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 24,
+      "verse": 11,
+      "text": "ὀλολύζετε περὶ τοῦ οἴνου πανταχῇ πέπαυται πᾶσα εὐφροσύνη τῆς γῆς",
+      "tokens": [
+        {
+          "form": "ὀλολύζετε",
+          "lemma": "ὀλολύζω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "περὶ",
+          "lemma": "περί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οἴνου",
+          "lemma": "οἶνος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πανταχῇ",
+          "lemma": "πανταχῆ",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πέπαυται",
+          "lemma": "παύω",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "πᾶσα",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "εὐφροσύνη",
+          "lemma": "εὐφροσύνη",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "γῆς",
+          "lemma": "γῆ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 30,
+      "verse": 21,
+      "text": "καὶ τὰ ὦτά σου ἀκούσονται τοὺς λόγους τῶν ὀπίσω σε πλανησάντων οἱ λέγοντες αὕτη ἡ ὁδός πορευθῶμεν ἐν αὐτῇ εἴτε δεξιὰ εἴτε ἀριστερά",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τὰ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ὦτά",
+          "lemma": "ὦτος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀκούσονται",
+          "lemma": "ἀκούω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "τοὺς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "λόγους",
+          "lemma": "λόγος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ὀπίσω",
+          "lemma": "ὀπίσω",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "σε",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πλανησάντων",
+          "lemma": "πλανάω",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "λέγοντες",
+          "lemma": "λέγω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "αὕτη",
+          "lemma": "οὗτος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὁδός",
+          "lemma": "ὁδός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πορευθῶμεν",
+          "lemma": "πορεύω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "αὐτῇ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "εἴτε",
+          "lemma": "εἴτε",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "δεξιὰ",
+          "lemma": "δεξιός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "εἴτε",
+          "lemma": "εἴτε",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀριστερά",
+          "lemma": "ἀριστερός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 36,
+      "verse": 2,
+      "text": "καὶ ἀπέστειλεν βασιλεὺς Ἀσσυρίων Ραψακην ἐκ Λαχις εἰς Ιερουσαλημ πρὸς τὸν βασιλέα Εζεκιαν μετὰ δυνάμεως πολλῆς καὶ ἔστη ἐν τῷ ὑδραγωγῷ τῆς κολυμβήθρας τῆς ἄνω ἐν τῇ ὁδῷ τοῦ ἀγροῦ τοῦ γναφέως",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἀπέστειλεν",
+          "lemma": "ἀποστέλλω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "βασιλεὺς",
+          "lemma": "βασιλεύς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ἀσσυρίων",
+          "lemma": "Ἀσσύριοι",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Ραψακην",
+          "lemma": "Ραψακή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Λαχις",
+          "lemma": "Λαχις",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Ιερουσαλημ",
+          "lemma": "Ιερουσάπτω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "βασιλέα",
+          "lemma": "βασιλεύς",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Εζεκιαν",
+          "lemma": "Εζεκια",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μετὰ",
+          "lemma": "μετά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "δυνάμεως",
+          "lemma": "δύναμις",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πολλῆς",
+          "lemma": "πολύς",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἔστη",
+          "lemma": "ἵστημι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὑδραγωγῷ",
+          "lemma": "ὑδραγωγός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "κολυμβήθρας",
+          "lemma": "κολυμβήθρας",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἄνω",
+          "lemma": "ἄνω",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὁδῷ",
+          "lemma": "ὁδός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀγροῦ",
+          "lemma": "ἀγρός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "γναφέως",
+          "lemma": "γναφής",
+          "pos": "ADV",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 59,
+      "verse": 2,
+      "text": "ἀλλὰ τὰ ἁμαρτήματα ὑμῶν διιστῶσιν ἀνὰ μέσον ὑμῶν καὶ τοῦ θεοῦ καὶ διὰ τὰς ἁμαρτίας ὑμῶν ἀπέστρεψεν τὸ πρόσωπον αὐτοῦ ἀφ' ὑμῶν τοῦ μὴ ἐλεῆσαι",
+      "tokens": [
+        {
+          "form": "ἀλλὰ",
+          "lemma": "ἀλλά",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τὰ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἁμαρτήματα",
+          "lemma": "ἁμάρτημα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "διιστῶσιν",
+          "lemma": "διιστόω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἀνὰ",
+          "lemma": "ἀνά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "μέσον",
+          "lemma": "μέσος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεοῦ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "διὰ",
+          "lemma": "διά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἁμαρτίας",
+          "lemma": "ἁμαρτία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀπέστρεψεν",
+          "lemma": "ἀποστρέφω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πρόσωπον",
+          "lemma": "πρόσωπον",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀφ'",
+          "lemma": "ἀνά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὑμῶν",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐλεῆσαι",
+          "lemma": "ἐλεέω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "isaiah",
+      "chapter": 65,
+      "verse": 12,
+      "text": "ἐγὼ παραδώσω ὑμᾶς εἰς μάχαιραν πάντες ἐν σφαγῇ πεσεῖσθε ὅτι ἐκάλεσα ὑμᾶς καὶ οὐχ ὑπηκούσατε ἐλάλησα καὶ παρηκούσατε καὶ ἐποιήσατε τὸ πονηρὸν ἐναντίον ἐμοῦ καὶ ἃ οὐκ ἐβουλόμην ἐξελέξασθε",
+      "tokens": [
+        {
+          "form": "ἐγὼ",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "παραδώσω",
+          "lemma": "παραδίδωμι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὑμᾶς",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "μάχαιραν",
+          "lemma": "μάχαιρα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πάντες",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "σφαγῇ",
+          "lemma": "σφαγή",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "πεσεῖσθε",
+          "lemma": "πίπτω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐκάλεσα",
+          "lemma": "καλέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὑμᾶς",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "οὐχ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὑπηκούσατε",
+          "lemma": "ὑπακούω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐλάλησα",
+          "lemma": "λαμβάνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "παρηκούσατε",
+          "lemma": "παρακούω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐποιήσατε",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πονηρὸν",
+          "lemma": "πονηρός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἐναντίον",
+          "lemma": "ἐναντίον",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐμοῦ",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἃ",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐβουλόμην",
+          "lemma": "βούλομαι",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "ἐξελέξασθε",
+          "lemma": "ἐκλέγω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 1,
+      "verse": 40,
+      "text": "ἦν Ἀνδρέας ὁ ἀδελφὸς Σίμωνος Πέτρου εἷς ἐκ τῶν δύο τῶν ἀκουσάντων παρὰ Ἰωάννου καὶ ἀκολουθησάντων αὐτῷ:",
+      "tokens": [
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Ἀνδρέας",
+          "lemma": "Ἀνδρεύς",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀδελφὸς",
+          "lemma": "ἀδελφός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Σίμωνος",
+          "lemma": "Σίμων",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Πέτρου",
+          "lemma": "Πέτρος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "εἷς",
+          "lemma": "εἷς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "δύο",
+          "lemma": "δύο",
+          "pos": "ADJ",
+          "feats": null
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀκουσάντων",
+          "lemma": "ἀκούω",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "παρὰ",
+          "lemma": "παρά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "Ἰωάννου",
+          "lemma": "Ἰωάννος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀκολουθησάντων",
+          "lemma": "ἀκολουθέω",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 6,
+      "verse": 10,
+      "text": "εἶπεν ὁ Ἰησοῦς: ποιήσατε τοὺς ἀνθρώπους ἀναπεσεῖν. ἦν δὲ χόρτος πολὺς ἐν τῷ τόπῳ. ἀνέπεσαν οὖν οἱ ἄνδρες τὸν ἀριθμὸν ὡς πεντακισχίλιοι.",
+      "tokens": [
+        {
+          "form": "εἶπεν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ἰησοῦς",
+          "lemma": "Ἰησός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ποιήσατε",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τοὺς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀνθρώπους",
+          "lemma": "ἄνθρωπος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀναπεσεῖν",
+          "lemma": "ἀναπίπτω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "χόρτος",
+          "lemma": "χόρτος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πολὺς",
+          "lemma": "πολύς",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τόπῳ",
+          "lemma": "τόπος",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἀνέπεσαν",
+          "lemma": "ἀναφέρω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "οὖν",
+          "lemma": "οὖν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἄνδρες",
+          "lemma": "ἀνήρ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀριθμὸν",
+          "lemma": "ἀριθμός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὡς",
+          "lemma": "ὡς",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "πεντακισχίλιοι",
+          "lemma": "πεντακισχίλιοι",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 12,
+      "verse": 20,
+      "text": "Ἦσαν δὲ Ἕλληνές τινες ἐκ τῶν ἀναβαινόντων ἵνα προσκυνήσωσιν ἐν τῇ ἑορτῇ:",
+      "tokens": [
+        {
+          "form": "Ἦσαν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "Ἕλληνές",
+          "lemma": "Ἕλλην",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τινες",
+          "lemma": "τις",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἀναβαινόντων",
+          "lemma": "ἀναβαίνω",
+          "pos": "VERB",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἵνα",
+          "lemma": "ἵνα",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "προσκυνήσωσιν",
+          "lemma": "προσκυνέω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἑορτῇ",
+          "lemma": "ἑορτή",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Ταῦτα εἰπὼν Ἰησοῦς ἐξῆλθεν σὺν τοῖς μαθηταῖς αὐτοῦ πέραν τοῦ χειμάρρου τῶν Κεδρὼν, ὅπου ἦν κῆπος, εἰς ὃν εἰσῆλθεν αὐτὸς καὶ οἱ μαθηταὶ αὐτοῦ.",
+      "tokens": [
+        {
+          "form": "Ταῦτα",
+          "lemma": "οὗτος",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "εἰπὼν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "Ἰησοῦς",
+          "lemma": "Ἰησός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐξῆλθεν",
+          "lemma": "ἐξέρχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "σὺν",
+          "lemma": "σύν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοῖς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "μαθηταῖς",
+          "lemma": "μαθητής",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "πέραν",
+          "lemma": "πέραν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "χειμάρρου",
+          "lemma": "χειμάρρους",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "Κεδρὼν",
+          "lemma": "Κέδρος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὅπου",
+          "lemma": "ὅπου",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "κῆπος",
+          "lemma": "κῆπος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὃν",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "εἰσῆλθεν",
+          "lemma": "εἰσέρχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτὸς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "μαθηταὶ",
+          "lemma": "μαθητής",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "john",
+      "chapter": 18,
+      "verse": 30,
+      "text": "ἀπεκρίθησαν καὶ εἶπαν αὐτῷ: εἰ μὴ ἦν οὗτος κακὸν ποιῶν, οὐκ ἄν σοι παρεδώκαμεν αὐτόν.",
+      "tokens": [
+        {
+          "form": "ἀπεκρίθησαν",
+          "lemma": "ἀποκρίνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "εἶπαν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "εἰ",
+          "lemma": "εἰ",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "οὗτος",
+          "lemma": "οὗτος",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "κακὸν",
+          "lemma": "κακός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ποιῶν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἄν",
+          "lemma": "ἄν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "σοι",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "παρεδώκαμεν",
+          "lemma": "παραδίδωμι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτόν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 6,
+      "verse": 10,
+      "text": "καὶ περιβλεψάμενος πάντας αὐτοὺς εἶπεν αὐτῷ: ἔκτεινον τὴν χεῖρά σου. ὁ δὲ ἐποίησεν, καὶ ἀπεκατεστάθη ἡ χεὶρ αὐτοῦ.",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "περιβλεψάμενος",
+          "lemma": "περιβλέπομαι",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "πάντας",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "αὐτοὺς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "εἶπεν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἔκτεινον",
+          "lemma": "κτείνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "χεῖρά",
+          "lemma": "χείρ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐποίησεν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀπεκατεστάθη",
+          "lemma": "ἀποκατίκομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Pass"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "χεὶρ",
+          "lemma": "χείρ",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 12,
+      "verse": 20,
+      "text": "εἶπεν δὲ αὐτῷ ὁ θεός: ἄφρων, ταύτῃ τῇ νυκτὶ τὴν ψυχήν σου αἰτοῦσιν ἀπὸ σοῦ: ἃ δὲ ἡτοίμασας, τίνι ἔσται;",
+      "tokens": [
+        {
+          "form": "εἶπεν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "αὐτῷ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεός",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἄφρων",
+          "lemma": "ἄφρων",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ταύτῃ",
+          "lemma": "οὗτος",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "νυκτὶ",
+          "lemma": "νύξ",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ψυχήν",
+          "lemma": "ψυχή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "αἰτοῦσιν",
+          "lemma": "αἰτέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἀπὸ",
+          "lemma": "ἀπό",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "σοῦ",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἃ",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "ἡτοίμασας",
+          "lemma": "ἑτοιμάζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "τίνι",
+          "lemma": "τίς",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἔσται",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Ἔλεγεν δὲ παραβολὴν αὐτοῖς πρὸς τὸ δεῖν πάντοτε προσεύχεσθαι αὐτοὺς καὶ μὴ ἐγκακεῖν,",
+      "tokens": [
+        {
+          "form": "Ἔλεγεν",
+          "lemma": "λέγω",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "παραβολὴν",
+          "lemma": "παραβολή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αὐτοῖς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "δεῖν",
+          "lemma": "δεῖ",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "πάντοτε",
+          "lemma": "πάντοτε",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "προσεύχεσθαι",
+          "lemma": "προσεύχομαι",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Mid"
+        },
+        {
+          "form": "αὐτοὺς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐγκακεῖν",
+          "lemma": "ἐγκακέω",
+          "pos": "VERB",
+          "feats": "Tense=Past|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 18,
+      "verse": 30,
+      "text": "ὃς οὐχὶ μὴ λάβῃ πολλαπλασίονα ἐν τῷ καιρῷ τούτῳ, καὶ ἐν τῷ αἰῶνι τῷ ἐρχομένῳ ζωὴν αἰώνιον.",
+      "tokens": [
+        {
+          "form": "ὃς",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "οὐχὶ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "λάβῃ",
+          "lemma": "λαμβάνω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "πολλαπλασίονα",
+          "lemma": "πολλαπλασίων",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καιρῷ",
+          "lemma": "καιρός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τούτῳ",
+          "lemma": "οὗτος",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "αἰῶνι",
+          "lemma": "αἰών",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐρχομένῳ",
+          "lemma": "ἔρχομαι",
+          "pos": "VERB",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "ζωὴν",
+          "lemma": "ζώή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αἰώνιον",
+          "lemma": "αἰώνιος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "luke",
+      "chapter": 24,
+      "verse": 40,
+      "text": "[[Καὶ τοῦτο εἰπὼν ἔδειξεν αὐτοῖς τὰς χεῖρας καὶ τοὺς πόδας.]]",
+      "tokens": [
+        {
+          "form": "[",
+          "lemma": "[",
+          "pos": "INTJ",
+          "feats": null
+        },
+        {
+          "form": "[Καὶ",
+          "lemma": "[εά",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "τοῦτο",
+          "lemma": "οὗτος",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "εἰπὼν",
+          "lemma": "εἶπον",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἔδειξεν",
+          "lemma": "δείκνυμι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτοῖς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τὰς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "χεῖρας",
+          "lemma": "χείρ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τοὺς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "πόδας",
+          "lemma": "πούς",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "]]",
+          "lemma": "ἵημι",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 6,
+      "verse": 10,
+      "text": "ἐλθέτω ἡ βασιλεία σου, γενηθήτω τὸ θέλημά σου, ὡς ἐν οὐρανῷ καὶ ἐπὶ γῆς.",
+      "tokens": [
+        {
+          "form": "ἐλθέτω",
+          "lemma": "ἔρχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "βασιλεία",
+          "lemma": "βασιλεία",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "γενηθήτω",
+          "lemma": "γενάω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "θέλημά",
+          "lemma": "θέλημα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὡς",
+          "lemma": "ὡς",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "οὐρανῷ",
+          "lemma": "οὐρανός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐπὶ",
+          "lemma": "ἐπί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "γῆς",
+          "lemma": "γῆ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 12,
+      "verse": 20,
+      "text": "κάλαμον συντετριμμένον οὐ κατεάξει καὶ λίνον τυφόμενον οὐ σβέσει, ἕως ἂν ἐκβάλῃ εἰς νῖκος τὴν κρίσιν.",
+      "tokens": [
+        {
+          "form": "κάλαμον",
+          "lemma": "κάλαμος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "συντετριμμένον",
+          "lemma": "συντρίπτω",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Acc|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "κατεάξει",
+          "lemma": "κατασάζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "λίνον",
+          "lemma": "Λίνος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τυφόμενον",
+          "lemma": "τύπτω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "σβέσει",
+          "lemma": "σβέννυμι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἕως",
+          "lemma": "ἕως",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἂν",
+          "lemma": "ἄν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐκβάλῃ",
+          "lemma": "ἐκβάλλω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "νῖκος",
+          "lemma": "νῖκος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "κρίσιν",
+          "lemma": "κρίσις",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 18,
+      "verse": 1,
+      "text": "Ἐν ἐκείνῃ τῇ ὥρᾳ προσῆλθον οἱ μαθηταὶ τῷ Ἰησοῦ λέγοντες: τίς ἄρα μείζων ἐστὶν ἐν τῇ βασιλείᾳ τῶν οὐρανῶν;",
+      "tokens": [
+        {
+          "form": "Ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ἐκείνῃ",
+          "lemma": "ἐκεῖνος",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὥρᾳ",
+          "lemma": "ὥρα",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "προσῆλθον",
+          "lemma": "προσέρχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "μαθηταὶ",
+          "lemma": "μαθητής",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "Ἰησοῦ",
+          "lemma": "Ἰεύς",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "λέγοντες",
+          "lemma": "λέγω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "τίς",
+          "lemma": "τις",
+          "pos": "PRON",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἄρα",
+          "lemma": "ἄρα",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "μείζων",
+          "lemma": "μέγας",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Degree=Cmp|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐστὶν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "βασιλείᾳ",
+          "lemma": "βασιλεία",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "οὐρανῶν",
+          "lemma": "οὐρανός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 18,
+      "verse": 30,
+      "text": "ὁ δὲ οὐκ ἤθελεν, ἀλλὰ ἀπελθὼν ἔβαλεν αὐτὸν εἰς φυλακὴν ἕως ἀποδῷ τὸ ὀφειλόμενον.",
+      "tokens": [
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "οὐκ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἤθελεν",
+          "lemma": "ἐθέλω",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἀλλὰ",
+          "lemma": "ἀλλά",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀπελθὼν",
+          "lemma": "ἀπέρχομαι",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἔβαλεν",
+          "lemma": "βάλλω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτὸν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "εἰς",
+          "lemma": "εἰς",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "φυλακὴν",
+          "lemma": "φυλακή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἕως",
+          "lemma": "ἕως",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀποδῷ",
+          "lemma": "ἀποδίδωμι",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὀφειλόμενον",
+          "lemma": "ὀφείλω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "matthew",
+      "chapter": 24,
+      "verse": 40,
+      "text": "τότε ἔσονται δύο ἐν τῷ ἀγρῷ, εἷς παραλαμβάνεται καὶ εἷς ἀφίεται:",
+      "tokens": [
+        {
+          "form": "τότε",
+          "lemma": "τότε",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἔσονται",
+          "lemma": "εἰμί",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "δύο",
+          "lemma": "δύο",
+          "pos": "ADJ",
+          "feats": null
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀγρῷ",
+          "lemma": "ἀγρός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "εἷς",
+          "lemma": "εἷς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "παραλαμβάνεται",
+          "lemma": "παραλαμβάνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "εἷς",
+          "lemma": "εἷς",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀφίεται",
+          "lemma": "ἀφίημι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 6,
+      "verse": 10,
+      "text": "εἰσήκουσεν κύριος τῆς δεήσεώς μου κύριος τὴν προσευχήν μου προσεδέξατο",
+      "tokens": [
+        {
+          "form": "εἰσήκουσεν",
+          "lemma": "εἰσακούω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "κύριος",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "δεήσεώς",
+          "lemma": "δεόσιος",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "κύριος",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "προσευχήν",
+          "lemma": "προσευχή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "προσεδέξατο",
+          "lemma": "προσδέχομαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Mid"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 59,
+      "verse": 2,
+      "text": "ὁπότε ἐνεπύρισεν τὴν Μεσοποταμίαν Συρίας καὶ τὴν Συρίαν Σωβα καὶ ἐπέστρεψεν Ιωαβ καὶ ἐπάταξεν τὴν φάραγγα τῶν ἁλῶν δώδεκα χιλιάδας",
+      "tokens": [
+        {
+          "form": "ὁπότε",
+          "lemma": "ὁπότε",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐνεπύρισεν",
+          "lemma": "ἐμπυρίζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Μεσοποταμίαν",
+          "lemma": "Μεσοποταμία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Συρίας",
+          "lemma": "Συρία",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Συρίαν",
+          "lemma": "Συρία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "Σωβα",
+          "lemma": "Σωβα",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐπέστρεψεν",
+          "lemma": "ἐπιστρέφω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "Ιωαβ",
+          "lemma": "Ιωών",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐπάταξεν",
+          "lemma": "ἐπατάσσω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "φάραγγα",
+          "lemma": "φάραγξ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἁλῶν",
+          "lemma": "ἅλς",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "δώδεκα",
+          "lemma": "δώδεκα",
+          "pos": "ADJ",
+          "feats": null
+        },
+        {
+          "form": "χιλιάδας",
+          "lemma": "χιλιάς",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 100,
+      "verse": 3,
+      "text": "οὐ προεθέμην πρὸ ὀφθαλμῶν μου πρᾶγμα παράνομον ποιοῦντας παραβάσεις ἐμίσησα",
+      "tokens": [
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "προεθέμην",
+          "lemma": "προτίθημι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "πρὸ",
+          "lemma": "πρό",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὀφθαλμῶν",
+          "lemma": "ὀφθαλμός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "πρᾶγμα",
+          "lemma": "πρᾶγμα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "παράνομον",
+          "lemma": "παράνομος",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ποιοῦντας",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "παραβάσεις",
+          "lemma": "παραβαίνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐμίσησα",
+          "lemma": "μισέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 106,
+      "verse": 13,
+      "text": "καὶ ἐκέκραξαν πρὸς κύριον ἐν τῷ θλίβεσθαι αὐτούς καὶ ἐκ τῶν ἀναγκῶν αὐτῶν ἔσωσεν αὐτοὺς",
+      "tokens": [
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐκέκραξαν",
+          "lemma": "κράζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "κύριον",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐν",
+          "lemma": "ἐν",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θλίβεσθαι",
+          "lemma": "θλίβω",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Mid"
+        },
+        {
+          "form": "αὐτούς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐκ",
+          "lemma": "ἐκ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "ἀναγκῶν",
+          "lemma": "ἀνήγκη",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Plur"
+        },
+        {
+          "form": "αὐτῶν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἔσωσεν",
+          "lemma": "σώζω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτοὺς",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        }
+      ]
+    },
+    {
+      "book_id": "psalms",
+      "chapter": 118,
+      "verse": 33,
+      "text": "η. νομοθέτησόν με κύριε τὴν ὁδὸν τῶν δικαιωμάτων σου καὶ ἐκζητήσω αὐτὴν διὰ παντός",
+      "tokens": [
+        {
+          "form": "η",
+          "lemma": "ἠμί",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "νομοθέτησόν",
+          "lemma": "νομοθετέω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "με",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing|Person=1"
+        },
+        {
+          "form": "κύριε",
+          "lemma": "κύριος",
+          "pos": "NOUN",
+          "feats": "Case=Voc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὁδὸν",
+          "lemma": "ὁδός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῶν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "δικαιωμάτων",
+          "lemma": "δίκαιον",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐκζητήσω",
+          "lemma": "ἐκζημέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτὴν",
+          "lemma": "αὐτός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "διὰ",
+          "lemma": "διά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "παντός",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 2,
+      "verse": 22,
+      "text": "ὁ λέγων μὴ μοιχεύειν μοιχεύεις; ὁ βδελυσσόμενος τὰ εἴδωλα ἱεροσυλεῖς;",
+      "tokens": [
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "λέγων",
+          "lemma": "λέγω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "μοιχεύειν",
+          "lemma": "μοιχεύω",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "μοιχεύεις",
+          "lemma": "μοιχεύω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "βδελυσσόμενος",
+          "lemma": "βελύω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "τὰ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "εἴδωλα",
+          "lemma": "εἴδωλα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἱεροσυλεῖς",
+          "lemma": "ἱεροσυλέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ";",
+          "lemma": ";",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 6,
+      "verse": 10,
+      "text": "ὃ γὰρ ἀπέθανεν, τῇ ἁμαρτίᾳ ἀπέθανεν ἐφάπαξ: ὃ δὲ ζῇ, ζῇ τῷ θεῷ.",
+      "tokens": [
+        {
+          "form": "ὃ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "γὰρ",
+          "lemma": "γάρ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἀπέθανεν",
+          "lemma": "ἀποθνήσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἁμαρτίᾳ",
+          "lemma": "ἑμαρτία",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀπέθανεν",
+          "lemma": "ἀποθνήσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐφάπαξ",
+          "lemma": "ἐφάπαξ",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ὃ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ζῇ",
+          "lemma": "ζάω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ζῇ",
+          "lemma": "ζάω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεῷ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 7,
+      "verse": 21,
+      "text": "εὑρίσκω ἄρα τὸν νόμον τῷ θέλοντι ἐμοὶ ποιεῖν τὸ καλὸν ὅτι ἐμοὶ τὸ κακὸν παράκειται:",
+      "tokens": [
+        {
+          "form": "εὑρίσκω",
+          "lemma": "εὑρίσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἄρα",
+          "lemma": "ἄρα",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "τὸν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "νόμον",
+          "lemma": "νόμος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τῷ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θέλοντι",
+          "lemma": "ἐθέλω",
+          "pos": "VERB",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἐμοὶ",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ποιεῖν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Tense=Pres|VerbForm=Inf|Voice=Act"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "καλὸν",
+          "lemma": "καλός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐμοὶ",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "τὸ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "κακὸν",
+          "lemma": "κακός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "παράκειται",
+          "lemma": "παράκειμαι",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 12,
+      "verse": 20,
+      "text": "ἀλλὰ ἐὰν πεινᾷ ὁ ἐχθρός σου, ψώμιζε αὐτόν: ἐὰν διψᾷ, πότιζε αὐτόν: τοῦτο γὰρ ποιῶν ἄνθρακας πυρὸς σωρεύσεις ἐπὶ τὴν κεφαλὴν αὐτοῦ.",
+      "tokens": [
+        {
+          "form": "ἀλλὰ",
+          "lemma": "ἀλλά",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "πεινᾷ",
+          "lemma": "πεινάω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἐχθρός",
+          "lemma": "ἐχθρός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ψώμιζε",
+          "lemma": "ψωμίζω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτόν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "ἐὰν",
+          "lemma": "ἐάν",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "διψᾷ",
+          "lemma": "δίπάω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "πότιζε",
+          "lemma": "ποτίζω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "αὐτόν",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ":",
+          "lemma": ":",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "τοῦτο",
+          "lemma": "οὗτος",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "γὰρ",
+          "lemma": "γάρ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ποιῶν",
+          "lemma": "ποιέω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἄνθρακας",
+          "lemma": "ἀνάραξ",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "πυρὸς",
+          "lemma": "πῦρ",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "σωρεύσεις",
+          "lemma": "σωρεύω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=2|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐπὶ",
+          "lemma": "ἐπί",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τὴν",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "κεφαλὴν",
+          "lemma": "κεφαλή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "αὐτοῦ",
+          "lemma": "αὐτός",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "romans",
+      "chapter": 13,
+      "verse": 2,
+      "text": "ὥστε ὁ ἀντιτασσόμενος τῇ ἐξουσίᾳ τῇ τοῦ θεοῦ διαταγῇ ἀνθέστηκεν, οἱ δὲ ἀνθεστηκότες ἑαυτοῖς κρίμα λήμψονται.",
+      "tokens": [
+        {
+          "form": "ὥστε",
+          "lemma": "ὥστε",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὁ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀντιτασσόμενος",
+          "lemma": "ἀντιτάσσω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐξουσίᾳ",
+          "lemma": "ἐξουσία",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τῇ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "τοῦ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "θεοῦ",
+          "lemma": "θεός",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "διαταγῇ",
+          "lemma": "διαταγή",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἀνθέστηκεν",
+          "lemma": "ἀνθίστημι",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": ",",
+          "lemma": ",",
+          "pos": "PUNCT",
+          "feats": null
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀνθεστηκότες",
+          "lemma": "ἀνθίστημι",
+          "pos": "VERB",
+          "feats": "Aspect=Perf|Case=Nom|Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ἑαυτοῖς",
+          "lemma": "ἑαυτοῦ",
+          "pos": "PRON",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "κρίμα",
+          "lemma": "κρίμα",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "λήμψονται",
+          "lemma": "λήμπω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "feats": null
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 1,
+      "verse": 11,
+      "text": "φυλάξασθε τοίνυν γογγυσμὸν ἀνωφελῆ καὶ ἀπὸ καταλαλιᾶς φείσασθε γλώσσης ὅτι φθέγμα λαθραῖον κενὸν οὐ πορεύσεται στόμα δὲ καταψευδόμενον ἀναιρεῖ ψυχήν",
+      "tokens": [
+        {
+          "form": "φυλάξασθε",
+          "lemma": "φυλάζω",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "τοίνυν",
+          "lemma": "τοίνυν",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "γογγυσμὸν",
+          "lemma": "γογγυσμός",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἀνωφελῆ",
+          "lemma": "ἀνωφελής",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἀπὸ",
+          "lemma": "ἀπό",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "καταλαλιᾶς",
+          "lemma": "καταλαλιά",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "φείσασθε",
+          "lemma": "φείδομαι",
+          "pos": "VERB",
+          "feats": "Mood=Imp|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "γλώσσης",
+          "lemma": "γλῶσσα",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "φθέγμα",
+          "lemma": "φθέγμα",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "λαθραῖον",
+          "lemma": "λαθραῖος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "κενὸν",
+          "lemma": "κενός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "πορεύσεται",
+          "lemma": "πορεύω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin|Voice=Mid"
+        },
+        {
+          "form": "στόμα",
+          "lemma": "στόμα",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "καταψευδόμενον",
+          "lemma": "καταψεύδω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "ἀναιρεῖ",
+          "lemma": "ἀναιρέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ψυχήν",
+          "lemma": "ψυχή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 6,
+      "verse": 10,
+      "text": "πρὸς ὑμᾶς οὖν ὦ τύραννοι οἱ λόγοι μου ἵνα μάθητε σοφίαν καὶ μὴ παραπέσητε",
+      "tokens": [
+        {
+          "form": "πρὸς",
+          "lemma": "πρός",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὑμᾶς",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "οὖν",
+          "lemma": "οὖν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὦ",
+          "lemma": "ὦ",
+          "pos": "INTJ",
+          "feats": null
+        },
+        {
+          "form": "τύραννοι",
+          "lemma": "τύραννος",
+          "pos": "NOUN",
+          "feats": "Case=Voc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "οἱ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "λόγοι",
+          "lemma": "λόγος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "μου",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "ἵνα",
+          "lemma": "ἵνα",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "μάθητε",
+          "lemma": "μανθάνω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "σοφίαν",
+          "lemma": "σοφία",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὴ",
+          "lemma": "μή",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "παραπέσητε",
+          "lemma": "παραπίπτω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=2|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 7,
+      "verse": 21,
+      "text": "ὅσα τέ ἐστιν κρυπτὰ καὶ ἐμφανῆ ἔγνων ἡ γὰρ πάντων τεχνῖτις ἐδίδαξέν με σοφία",
+      "tokens": [
+        {
+          "form": "ὅσα",
+          "lemma": "ὅσος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "τέ",
+          "lemma": "τε",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "ἐστιν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "κρυπτὰ",
+          "lemma": "κρυπτός",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ἐμφανῆ",
+          "lemma": "ἐμφανής",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἔγνων",
+          "lemma": "γιγνώσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἡ",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "γὰρ",
+          "lemma": "γάρ",
+          "pos": "PART",
+          "feats": null
+        },
+        {
+          "form": "πάντων",
+          "lemma": "πᾶς",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "τεχνῖτις",
+          "lemma": "τεχνῖτις",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐδίδαξέν",
+          "lemma": "διδάσκω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "με",
+          "lemma": "ἐγώ",
+          "pos": "PRON",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "σοφία",
+          "lemma": "σοφία",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 12,
+      "verse": 20,
+      "text": "εἰ γὰρ ἐχθροὺς παίδων σου καὶ ὀφειλομένους θανάτῳ μετὰ τοσαύτης ἐτιμωρήσω προσοχῆς καὶ διέσεως δοὺς χρόνους καὶ τόπον δι' ὧν ἀπαλλαγῶσι τῆς κακίας",
+      "tokens": [
+        {
+          "form": "εἰ",
+          "lemma": "εἰ",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "γὰρ",
+          "lemma": "γάρ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἐχθροὺς",
+          "lemma": "ἐχθρός",
+          "pos": "ADJ",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "παίδων",
+          "lemma": "παῖς",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "ὀφειλομένους",
+          "lemma": "ὀφείλω",
+          "pos": "VERB",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Mid"
+        },
+        {
+          "form": "θανάτῳ",
+          "lemma": "θάνατος",
+          "pos": "NOUN",
+          "feats": "Case=Dat|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μετὰ",
+          "lemma": "μετά",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "τοσαύτης",
+          "lemma": "τοσοῦτος",
+          "pos": "ADJ",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "ἐτιμωρήσω",
+          "lemma": "τιμωρέω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Sing|Person=1|Tense=Fut|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "προσοχῆς",
+          "lemma": "προσοχή",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "διέσεως",
+          "lemma": "δίεσις",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "δοὺς",
+          "lemma": "δίδωμι",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "χρόνους",
+          "lemma": "χρόνος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "καὶ",
+          "lemma": "καί",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "τόπον",
+          "lemma": "τόπος",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "δι'",
+          "lemma": "δι'",
+          "pos": "ADP",
+          "feats": null
+        },
+        {
+          "form": "ὧν",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "ἀπαλλαγῶσι",
+          "lemma": "ἀπαλλαξάω",
+          "pos": "VERB",
+          "feats": "Mood=Sub|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "τῆς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "κακίας",
+          "lemma": "κακία",
+          "pos": "NOUN",
+          "feats": "Case=Gen|Gender=Fem|Number=Sing"
+        }
+      ]
+    },
+    {
+      "book_id": "wisdom",
+      "chapter": 18,
+      "verse": 1,
+      "text": "τοῖς δὲ ὁσίοις σου μέγιστον ἦν φῶς ὧν φωνὴν μὲν ἀκούοντες μορφὴν δὲ οὐχ ὁρῶντες ὅτι μὲν οὐ κἀκεῖνοι ἐπεπόνθεισαν ἐμακάριζον",
+      "tokens": [
+        {
+          "form": "τοῖς",
+          "lemma": "ὁ",
+          "pos": "DET",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὁσίοις",
+          "lemma": "ὅσιος",
+          "pos": "ADJ",
+          "feats": "Case=Dat|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "σου",
+          "lemma": "σύ",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Masc|Number=Sing"
+        },
+        {
+          "form": "μέγιστον",
+          "lemma": "μέγας",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ἦν",
+          "lemma": "εἰμί",
+          "pos": "AUX",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "φῶς",
+          "lemma": "φάος",
+          "pos": "NOUN",
+          "feats": "Case=Nom|Gender=Neut|Number=Sing"
+        },
+        {
+          "form": "ὧν",
+          "lemma": "ὅς",
+          "pos": "PRON",
+          "feats": "Case=Gen|Gender=Neut|Number=Plur"
+        },
+        {
+          "form": "φωνὴν",
+          "lemma": "φωνή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "μὲν",
+          "lemma": "μέν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ἀκούοντες",
+          "lemma": "ἀκούω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "μορφὴν",
+          "lemma": "μορφή",
+          "pos": "NOUN",
+          "feats": "Case=Acc|Gender=Fem|Number=Sing"
+        },
+        {
+          "form": "δὲ",
+          "lemma": "δέ",
+          "pos": "CCONJ",
+          "feats": null
+        },
+        {
+          "form": "οὐχ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "ὁρῶντες",
+          "lemma": "ὁράω",
+          "pos": "VERB",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur|Tense=Pres|VerbForm=Part|Voice=Act"
+        },
+        {
+          "form": "ὅτι",
+          "lemma": "ὅτι",
+          "pos": "SCONJ",
+          "feats": null
+        },
+        {
+          "form": "μὲν",
+          "lemma": "μέν",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "οὐ",
+          "lemma": "οὐ",
+          "pos": "ADV",
+          "feats": null
+        },
+        {
+          "form": "κἀκεῖνοι",
+          "lemma": "ἐκεῖνος",
+          "pos": "ADJ",
+          "feats": "Case=Nom|Gender=Masc|Number=Plur"
+        },
+        {
+          "form": "ἐπεπόνθεισαν",
+          "lemma": "ἐπιπονθάνω",
+          "pos": "VERB",
+          "feats": "Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        },
+        {
+          "form": "ἐμακάριζον",
+          "lemma": "ἐμακαρίζω",
+          "pos": "VERB",
+          "feats": "Aspect=Imp|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin|Voice=Act"
+        }
+      ]
+    }
+  ]
+}
