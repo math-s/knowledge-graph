@@ -9,6 +9,10 @@ data/*.bak
 pipeline/data/raw/
 pipeline/data/checkpoints/
 
+# Bend generated artifacts (regenerable from SQLite via export_graph_for_bend.py)
+bend/graph_data.bend
+bend/labels.json
+
 # Python
 __pycache__/
 *.py[cod]
