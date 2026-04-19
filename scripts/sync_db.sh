@@ -2,10 +2,8 @@
 # Sync knowledge-graph databases to/from S3.
 #
 # Usage:
-#   ./scripts/sync_db.sh push          # upload all DBs to S3
-#   ./scripts/sync_db.sh pull          # download all DBs from S3
-#   ./scripts/sync_db.sh push encyclopedia   # upload one DB
-#   ./scripts/sync_db.sh pull encyclopedia   # download one DB
+#   ./scripts/sync_db.sh push          # upload the DB to S3
+#   ./scripts/sync_db.sh pull          # download the DB from S3
 #
 # Options:
 #   --profile <name>   AWS profile to use (or set AWS_PROFILE env var)
@@ -17,7 +15,6 @@ DATA_DIR="$(cd "$(dirname "$0")/.." && pwd)/data"
 
 DATABASES=(
   "knowledge-graph.db"
-  "encyclopedia.db"
 )
 
 usage() {
