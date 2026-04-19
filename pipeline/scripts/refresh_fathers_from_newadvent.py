@@ -46,7 +46,7 @@ FATHERS_PAGE_COLOR = "#B07AA1"  # same family as patristic
 ROOT_COLOR = "#8E6289"
 
 CATHEN_HREF = re.compile(r'^(?:\.\./)?cathen/(\d+[a-z])\.htm')
-BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#vrs?(\d+))?', re.IGNORECASE)
+BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#(?:verse|vrs)(\d+))?', re.IGNORECASE)
 SUMMA_HREF = re.compile(r'^(?:\.\./)?summa/(\d{4}).htm(?:#article(\d+))?', re.IGNORECASE)
 FATHERS_HREF = re.compile(r'^(?:\.\./)?fathers/(\d+).htm', re.IGNORECASE)
 FILE_RE = re.compile(r"^(\d+)\.htm$")

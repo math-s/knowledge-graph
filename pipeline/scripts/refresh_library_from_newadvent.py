@@ -40,7 +40,7 @@ ALMANAC_COLOR = "#A89970"
 SIZE = 5.0
 
 CATHEN_HREF = re.compile(r'^(?:\.\./)?cathen/(\d+[a-z])\.htm')
-BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#vrs?(\d+))?', re.IGNORECASE)
+BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#(?:verse|vrs)(\d+))?', re.IGNORECASE)
 SUMMA_HREF = re.compile(r'^(?:\.\./)?summa/(\d{4})\.htm(?:#article(\d+))?', re.IGNORECASE)
 FATHERS_HREF = re.compile(r'^(?:\.\./)?fathers/(\d+)\.htm', re.IGNORECASE)
 LIBRARY_HREF = re.compile(r'^(?:\.\./)?library/([a-zA-Z0-9_]+)\.htm', re.IGNORECASE)

@@ -241,13 +241,21 @@ def main() -> None:
     conn.commit()
     log.info("Inserted %d verse rows across %d books", len(new_rows), len(per_book))
 
-    # Rebuild FTS if present
+    # Rebuild FTS if present — this FTS is a standalone table (no `content=`),
+    # so the 'rebuild' command is a no-op. Wipe + re-insert from bible_verses.
     fts_exists = conn.execute(
         "SELECT 1 FROM sqlite_master WHERE name='bible_verses_fts'"
     ).fetchone()
     if fts_exists:
-        log.info("Rebuilding bible_verses_fts...")
-        cur.execute("INSERT INTO bible_verses_fts(bible_verses_fts) VALUES('rebuild')")
+        log.info("Rebuilding bible_verses_fts from scratch...")
+        cur.execute("DELETE FROM bible_verses_fts")
+        cur.execute(
+            "INSERT INTO bible_verses_fts "
+            "(rowid, book_id, chapter, verse, text_en, text_la, text_pt, text_el) "
+            "SELECT rowid, book_id, chapter, verse, text_en, text_la, text_pt, text_el "
+            "FROM bible_verses"
+        )
+        cur.execute("INSERT INTO bible_verses_fts(bible_verses_fts) VALUES('optimize')")
         conn.commit()
 
     # --- Sync graph nodes -----------------------------------------------------

@@ -65,7 +65,7 @@ Q_FILE_RE = re.compile(r"^(\d)(\d{3})\.htm$")
 
 # Internal link patterns
 CATHEN_HREF = re.compile(r'^(?:\.\./)?cathen/(\d+[a-z])\.htm')
-BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#vrs?(\d+))?', re.IGNORECASE)
+BIBLE_HREF = re.compile(r'^(?:\.\./)?bible/([a-z0-9]+)\.htm(?:#(?:verse|vrs)(\d+))?', re.IGNORECASE)
 FATHERS_HREF = re.compile(r'^(?:\.\./)?fathers/(\d+)\.htm', re.IGNORECASE)
 
 # Bible filename (e.g. "gen001") → (book_slug, chapter)
