@@ -33,6 +33,9 @@ web/node_modules/
 .env.local
 .env*.local
 
+# Claude Code session state
+.claude/
+
 # IDE
 .vscode/
 .idea/
