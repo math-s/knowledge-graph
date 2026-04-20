@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 from .db import DB_PATH, get_connection
-from .routers import authors, bible, documents, graph, lexicon, paragraphs, search
+from .routers import authors, bible, documents, encyclopedia, fathers, graph, lexicon, library, paragraphs, search, summa
 from .chat import router as chat_router
 
 # Cache durations (seconds)
@@ -70,6 +70,10 @@ app.include_router(bible.router)
 app.include_router(documents.router)
 app.include_router(authors.router)
 app.include_router(lexicon.router)
+app.include_router(summa.router)
+app.include_router(library.router)
+app.include_router(fathers.router)
+app.include_router(encyclopedia.router)
 
 # LLM chat router
 app.include_router(chat_router)

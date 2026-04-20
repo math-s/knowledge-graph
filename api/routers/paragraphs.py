@@ -257,3 +257,39 @@ def get_paragraph_full(
     ]
 
     return para
+
+
+@router.get("/{paragraph_id}/encyclopedia")
+def get_paragraph_encyclopedia(
+    paragraph_id: int,
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Get encyclopedia articles that discuss this paragraph.
+
+    Uses the discussed_in graph edges (3,118 edges) which link paragraphs
+    to the encyclopedia articles that cover them.
+    """
+    row = db.execute("SELECT 1 FROM paragraphs WHERE id = ?", (paragraph_id,)).fetchone()
+    if not row:
+        raise HTTPException(404, f"Paragraph {paragraph_id} not found")
+
+    node_id = f"p:{paragraph_id}"
+    rows = db.execute(
+        """
+        SELECT e.id, e.title, e.summary, e.url
+        FROM graph_edges ge
+        JOIN encyclopedia e ON e.id = SUBSTR(ge.target, 6)
+        WHERE ge.edge_type = 'discussed_in' AND ge.source = ?
+        ORDER BY e.title
+        """,
+        (node_id,),
+    ).fetchall()
+
+    return {
+        "paragraph_id": paragraph_id,
+        "count": len(rows),
+        "articles": [
+            {"id": r["id"], "title": r["title"], "summary": r["summary"], "url": r["url"]}
+            for r in rows
+        ],
+    }
