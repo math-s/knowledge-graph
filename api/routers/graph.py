@@ -5,9 +5,7 @@ from __future__ import annotations
 import json
 import sqlite3
 
-from typing import Optional
-
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..db import get_db
 
@@ -40,7 +38,7 @@ def _paginated_seeds(
     db: sqlite3.Connection,
     base_sql: str,
     params: tuple,
-    limit: Optional[int],
+    limit: int | None,
     offset: int,
 ) -> set[str]:
     """Run a seed query with optional LIMIT/OFFSET and return the node_id set."""
@@ -107,6 +105,46 @@ def _expand_subgraph(
     return nodes, edges
 
 
+def _graph_by_junction(
+    db: sqlite3.Connection,
+    key_name: str,
+    key_val: str | int,
+    junction_table: str,
+    col: str,
+    include_dense: bool,
+    limit: int | None,
+    offset: int,
+) -> dict:
+    """Shared logic for theme/entity/topic subgraph endpoints."""
+    total_row = db.execute(
+        f"SELECT COUNT(*) AS c FROM {junction_table} WHERE {col} = ?", (key_val,)
+    ).fetchone()
+    total_seeds = total_row["c"] if total_row else 0
+    if total_seeds == 0:
+        return {key_name: key_val, "total_seeds": 0, "nodes": [], "edges": []}
+
+    seed_ids = _paginated_seeds(
+        db,
+        f"SELECT 'p:' || paragraph_id AS node_id FROM {junction_table} "
+        f"WHERE {col} = ? ORDER BY paragraph_id",
+        (key_val,),
+        limit,
+        offset,
+    )
+    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
+    return {
+        key_name: key_val,
+        "total_seeds": total_seeds,
+        "seed_count": len(seed_ids),
+        "offset": offset,
+        "limit": limit,
+        "node_count": len(nodes),
+        "edge_count": len(edges),
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
 @router.get("/themes")
 def list_themes(db: sqlite3.Connection = Depends(get_db)):
     """List all themes with paragraph counts."""
@@ -120,42 +158,12 @@ def list_themes(db: sqlite3.Connection = Depends(get_db)):
 def graph_by_theme(
     theme_id: str,
     include_dense: bool = Query(False, description="Include high-cardinality edge types (shared_topic)"),
-    limit: Optional[int] = Query(None, ge=1, description="Max seed paragraphs to include"),
+    limit: int | None = Query(None, ge=1, description="Max seed paragraphs to include"),
     offset: int = Query(0, ge=0, description="Seed paragraph offset"),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a theme: themed paragraphs + 1-hop neighbors + edges."""
-    total_row = db.execute(
-        "SELECT COUNT(*) AS c FROM paragraph_themes WHERE theme_id = ?",
-        (theme_id,),
-    ).fetchone()
-    total_seeds = total_row["c"] if total_row else 0
-
-    if total_seeds == 0:
-        return {"theme": theme_id, "total_seeds": 0, "nodes": [], "edges": []}
-
-    seed_ids = _paginated_seeds(
-        db,
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_themes "
-        "WHERE theme_id = ? ORDER BY paragraph_id",
-        (theme_id,),
-        limit,
-        offset,
-    )
-
-    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
-
-    return {
-        "theme": theme_id,
-        "total_seeds": total_seeds,
-        "seed_count": len(seed_ids),
-        "offset": offset,
-        "limit": limit,
-        "node_count": len(nodes),
-        "edge_count": len(edges),
-        "nodes": nodes,
-        "edges": edges,
-    }
+    return _graph_by_junction(db, "theme", theme_id, "paragraph_themes", "theme_id", include_dense, limit, offset)
 
 
 @router.get("/paragraph/{paragraph_id}")
@@ -172,10 +180,7 @@ def graph_by_paragraph(
     """
     seed_id = f"p:{paragraph_id}"
 
-    # Verify node exists
-    exists = db.execute(
-        "SELECT 1 FROM graph_nodes WHERE id = ?", (seed_id,)
-    ).fetchone()
+    exists = db.execute("SELECT 1 FROM graph_nodes WHERE id = ?", (seed_id,)).fetchone()
     if not exists:
         return {"paragraph": paragraph_id, "nodes": [], "edges": []}
 
@@ -183,10 +188,8 @@ def graph_by_paragraph(
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
     if depth >= 2:
-        # Second hop: expand from all nodes we found
         hop2_seeds = {n["id"] for n in nodes}
         nodes, edges = _expand_subgraph(db, hop2_seeds, include_dense)
-        # Re-mark seeds
         for n in nodes:
             n["is_seed"] = n["id"] == seed_id
 
@@ -208,9 +211,7 @@ def graph_by_node(
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph around any node (Bible book, author, document, etc.)."""
-    exists = db.execute(
-        "SELECT 1 FROM graph_nodes WHERE id = ?", (node_id,)
-    ).fetchone()
+    exists = db.execute("SELECT 1 FROM graph_nodes WHERE id = ?", (node_id,)).fetchone()
     if not exists:
         return {"node": node_id, "nodes": [], "edges": []}
 
@@ -233,18 +234,12 @@ def graph_connect(
     include_dense: bool = Query(False),
     db: sqlite3.Connection = Depends(get_db),
 ):
-    """Return the subgraph connecting multiple seed nodes.
-
-    Finds the 1-hop neighborhood of all specified nodes and returns the
-    intersection — nodes and edges that bridge between the seeds.
-    """
+    """Return the subgraph connecting multiple seed nodes."""
     source_ids = [s.strip() for s in sources.split(",") if s.strip()]
     if len(source_ids) < 2:
-        return {"error": "Provide at least 2 node IDs separated by commas"}
+        raise HTTPException(status_code=422, detail="Provide at least 2 node IDs separated by commas")
 
     seed_ids = set(source_ids)
-
-    # Get the union of all neighborhoods
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
     return {
@@ -257,11 +252,158 @@ def graph_connect(
     }
 
 
+@router.get("/path")
+def graph_path(
+    source: str = Query(..., description="Source node ID"),
+    target: str = Query(..., description="Target node ID"),
+    max_hops: int = Query(5, ge=1, le=8, description="Maximum path length"),
+    include_dense: bool = Query(False),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Find the shortest path between two graph nodes via BFS.
+
+    Traverses graph_edges as an undirected graph (edges are bidirectional
+    in the conceptual model). Returns the ordered node path and the edges
+    connecting them, or an empty path if unreachable within max_hops.
+    """
+    if source == target:
+        raise HTTPException(422, "source and target must differ")
+
+    for nid in (source, target):
+        if not db.execute("SELECT 1 FROM graph_nodes WHERE id = ?", (nid,)).fetchone():
+            raise HTTPException(404, f"Node {nid} not found")
+
+    excluded = set() if include_dense else DENSE_EDGE_TYPES
+
+    # Bidirectional BFS: expand from source and target alternately,
+    # stop when frontiers meet. Faster than unidirectional on large graphs.
+    parents_f: dict[str, tuple[str, str] | None] = {source: None}
+    parents_b: dict[str, tuple[str, str] | None] = {target: None}
+    frontier_f: set[str] = {source}
+    frontier_b: set[str] = {target}
+    meeting: str | None = None
+
+    for _ in range(max_hops):
+        if not frontier_f or not frontier_b:
+            break
+        # Expand the smaller frontier for efficiency
+        if len(frontier_f) <= len(frontier_b):
+            frontier_f, parents_f, meeting = _expand_frontier(
+                db, frontier_f, parents_f, parents_b, excluded
+            )
+        else:
+            frontier_b, parents_b, meeting = _expand_frontier(
+                db, frontier_b, parents_b, parents_f, excluded
+            )
+        if meeting is not None:
+            break
+
+    if meeting is None:
+        return {
+            "source": source,
+            "target": target,
+            "found": False,
+            "max_hops": max_hops,
+            "path": [],
+            "edges": [],
+        }
+
+    # Rebuild path: meeting → source (reversed), meeting → target
+    left: list[str] = []
+    left_edges: list[tuple[str, str, str]] = []
+    cur = meeting
+    while parents_f[cur] is not None:
+        prev, etype = parents_f[cur]  # type: ignore[misc]
+        left.append(cur)
+        left_edges.append((prev, cur, etype))
+        cur = prev
+    left.append(cur)
+    left.reverse()
+    left_edges.reverse()
+
+    right: list[str] = []
+    right_edges: list[tuple[str, str, str]] = []
+    cur = meeting
+    while parents_b[cur] is not None:
+        nxt, etype = parents_b[cur]  # type: ignore[misc]
+        right.append(nxt)
+        right_edges.append((cur, nxt, etype))
+        cur = nxt
+
+    path_ids = left + right
+    edge_tuples = left_edges + right_edges
+
+    ph = ",".join("?" for _ in path_ids)
+    node_rows = db.execute(
+        f"""
+        SELECT id, label, node_type, x, y, size, color, part, degree, community,
+               themes_json, entities_json, topics_json
+        FROM graph_nodes WHERE id IN ({ph})
+        """,
+        path_ids,
+    ).fetchall()
+    nodes_by_id = {r["id"]: _format_node(r) for r in node_rows}
+
+    return {
+        "source": source,
+        "target": target,
+        "found": True,
+        "hops": len(edge_tuples),
+        "max_hops": max_hops,
+        "path": [nodes_by_id[nid] for nid in path_ids if nid in nodes_by_id],
+        "edges": [
+            {"source": s, "target": t, "edge_type": et}
+            for s, t, et in edge_tuples
+        ],
+    }
+
+
+def _expand_frontier(
+    db: sqlite3.Connection,
+    frontier: set[str],
+    parents: dict[str, tuple[str, str] | None],
+    other_parents: dict[str, tuple[str, str] | None],
+    excluded: set[str],
+) -> tuple[set[str], dict[str, tuple[str, str] | None], str | None]:
+    """One BFS step. Returns (new_frontier, updated_parents, meeting_node_or_None)."""
+    if not frontier:
+        return frontier, parents, None
+
+    ph = ",".join("?" for _ in frontier)
+    frontier_list = list(frontier)
+    edge_rows = db.execute(
+        f"""
+        SELECT source, target, edge_type FROM graph_edges
+        WHERE source IN ({ph}) OR target IN ({ph})
+        """,
+        frontier_list + frontier_list,
+    ).fetchall()
+
+    next_frontier: set[str] = set()
+    for r in edge_rows:
+        if r["edge_type"] in excluded:
+            continue
+        src, tgt = r["source"], r["target"]
+        # Determine direction relative to the frontier
+        if src in frontier and tgt not in parents:
+            parents[tgt] = (src, r["edge_type"])
+            if tgt in other_parents:
+                return next_frontier, parents, tgt
+            next_frontier.add(tgt)
+        elif tgt in frontier and src not in parents:
+            parents[src] = (tgt, r["edge_type"])
+            if src in other_parents:
+                return next_frontier, parents, src
+            next_frontier.add(src)
+
+    return next_frontier, parents, None
+
+
 @router.get("/community/{community_id}")
 def graph_by_community(
     community_id: int,
     include_dense: bool = Query(False),
-    limit: Optional[int] = Query(None, ge=1),
+    limit: int | None = Query(None, ge=1),
     offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
@@ -274,30 +416,21 @@ def graph_by_community(
     if total_seeds == 0:
         return {"community": community_id, "total_seeds": 0, "nodes": [], "edges": []}
 
-    seed_sql = "SELECT id FROM graph_nodes WHERE community = ? ORDER BY degree DESC, id"
-    seed_params: list = [community_id]
-    if limit is not None:
-        seed_sql += " LIMIT ? OFFSET ?"
-        seed_params.extend([limit, offset])
-    elif offset > 0:
-        seed_sql += " LIMIT -1 OFFSET ?"
-        seed_params.append(offset)
-    seed_rows = db.execute(seed_sql, seed_params).fetchall()
-    seed_ids = {r["id"] for r in seed_rows}
+    seed_ids = _paginated_seeds(
+        db,
+        "SELECT id AS node_id FROM graph_nodes WHERE community = ? ORDER BY degree DESC, id",
+        (community_id,),
+        limit,
+        offset,
+    )
 
     if not seed_ids:
-        return {
-            "community": community_id,
-            "total_seeds": total_seeds,
-            "nodes": [],
-            "edges": [],
-        }
+        return {"community": community_id, "total_seeds": total_seeds, "nodes": [], "edges": []}
 
-    # Get edges between community members only (no expansion)
     id_list = list(seed_ids)
     ph = ",".join("?" for _ in id_list)
-
     excluded = set() if include_dense else DENSE_EDGE_TYPES
+
     edge_rows = db.execute(
         f"""
         SELECT source, target, edge_type FROM graph_edges
@@ -338,11 +471,11 @@ def graph_by_community(
 
 @router.get("/filter")
 def graph_by_filter(
-    themes: Optional[str] = Query(None, description="Comma-separated theme IDs (AND logic)"),
-    entities: Optional[str] = Query(None, description="Comma-separated entity IDs (AND logic)"),
-    topics: Optional[str] = Query(None, description="Comma-separated topic IDs (AND logic)"),
+    themes: str | None = Query(None, description="Comma-separated theme IDs (AND logic)"),
+    entities: str | None = Query(None, description="Comma-separated entity IDs (AND logic)"),
+    topics: str | None = Query(None, description="Comma-separated topic IDs (AND logic)"),
     include_dense: bool = Query(False),
-    limit: Optional[int] = Query(None, ge=1, description="Max seed paragraphs to include"),
+    limit: int | None = Query(None, ge=1, description="Max seed paragraphs to include"),
     offset: int = Query(0, ge=0, description="Seed paragraph offset"),
     db: sqlite3.Connection = Depends(get_db),
 ):
@@ -359,29 +492,25 @@ def graph_by_filter(
     if not theme_list and not entity_list and not topic_list:
         return {"filters": {}, "total_seeds": 0, "nodes": [], "edges": []}
 
-    # Start with all paragraph IDs, then intersect with each filter
     candidate_ids: set[int] | None = None
 
     for theme_id in theme_list:
         rows = db.execute(
-            "SELECT paragraph_id FROM paragraph_themes WHERE theme_id = ?",
-            (theme_id,),
+            "SELECT paragraph_id FROM paragraph_themes WHERE theme_id = ?", (theme_id,)
         ).fetchall()
         ids = {r["paragraph_id"] for r in rows}
         candidate_ids = ids if candidate_ids is None else candidate_ids & ids
 
     for entity_id in entity_list:
         rows = db.execute(
-            "SELECT paragraph_id FROM paragraph_entities WHERE entity_id = ?",
-            (entity_id,),
+            "SELECT paragraph_id FROM paragraph_entities WHERE entity_id = ?", (entity_id,)
         ).fetchall()
         ids = {r["paragraph_id"] for r in rows}
         candidate_ids = ids if candidate_ids is None else candidate_ids & ids
 
     for topic_id in topic_list:
         rows = db.execute(
-            "SELECT paragraph_id FROM paragraph_topics WHERE topic_id = ?",
-            (topic_id,),
+            "SELECT paragraph_id FROM paragraph_topics WHERE topic_id = ?", (topic_id,)
         ).fetchall()
         ids = {r["paragraph_id"] for r in rows}
         candidate_ids = ids if candidate_ids is None else candidate_ids & ids
@@ -396,10 +525,7 @@ def graph_by_filter(
 
     sorted_candidates = sorted(candidate_ids)
     total_seeds = len(sorted_candidates)
-    if limit is not None:
-        window = sorted_candidates[offset : offset + limit]
-    else:
-        window = sorted_candidates[offset:]
+    window = sorted_candidates[offset : offset + limit] if limit is not None else sorted_candidates[offset:]
     seed_ids = {f"p:{pid}" for pid in window}
     nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
 
@@ -436,78 +562,24 @@ def list_topics(db: sqlite3.Connection = Depends(get_db)):
 def graph_by_entity(
     entity_id: str,
     include_dense: bool = Query(False),
-    limit: Optional[int] = Query(None, ge=1),
+    limit: int | None = Query(None, ge=1),
     offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for an entity: paragraphs with this entity + 1-hop neighbors."""
-    total_row = db.execute(
-        "SELECT COUNT(*) AS c FROM paragraph_entities WHERE entity_id = ?",
-        (entity_id,),
-    ).fetchone()
-    total_seeds = total_row["c"] if total_row else 0
-    if total_seeds == 0:
-        return {"entity": entity_id, "total_seeds": 0, "nodes": [], "edges": []}
-
-    seed_ids = _paginated_seeds(
-        db,
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_entities "
-        "WHERE entity_id = ? ORDER BY paragraph_id",
-        (entity_id,),
-        limit,
-        offset,
-    )
-    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
-    return {
-        "entity": entity_id,
-        "total_seeds": total_seeds,
-        "seed_count": len(seed_ids),
-        "offset": offset,
-        "limit": limit,
-        "node_count": len(nodes),
-        "edge_count": len(edges),
-        "nodes": nodes,
-        "edges": edges,
-    }
+    return _graph_by_junction(db, "entity", entity_id, "paragraph_entities", "entity_id", include_dense, limit, offset)
 
 
 @router.get("/topic/{topic_id}")
 def graph_by_topic(
     topic_id: int,
     include_dense: bool = Query(False),
-    limit: Optional[int] = Query(None, ge=1),
+    limit: int | None = Query(None, ge=1),
     offset: int = Query(0, ge=0),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Return the subgraph for a topic: paragraphs with this topic + 1-hop neighbors."""
-    total_row = db.execute(
-        "SELECT COUNT(*) AS c FROM paragraph_topics WHERE topic_id = ?",
-        (topic_id,),
-    ).fetchone()
-    total_seeds = total_row["c"] if total_row else 0
-    if total_seeds == 0:
-        return {"topic": topic_id, "total_seeds": 0, "nodes": [], "edges": []}
-
-    seed_ids = _paginated_seeds(
-        db,
-        "SELECT 'p:' || paragraph_id AS node_id FROM paragraph_topics "
-        "WHERE topic_id = ? ORDER BY paragraph_id",
-        (topic_id,),
-        limit,
-        offset,
-    )
-    nodes, edges = _expand_subgraph(db, seed_ids, include_dense)
-    return {
-        "topic": topic_id,
-        "total_seeds": total_seeds,
-        "seed_count": len(seed_ids),
-        "offset": offset,
-        "limit": limit,
-        "node_count": len(nodes),
-        "edge_count": len(edges),
-        "nodes": nodes,
-        "edges": edges,
-    }
+    return _graph_by_junction(db, "topic", topic_id, "paragraph_topics", "topic_id", include_dense, limit, offset)
 
 
 @router.get("/stats")
