@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
-from typing import Any, AsyncIterator
+from typing import Any, AsyncIterator, Literal
 
 import anthropic
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
@@ -30,7 +31,7 @@ Be thorough but concise. Prefer primary sources retrieved from the tools over ge
 
 
 class Message(BaseModel):
-    role: str  # "user" or "assistant"
+    role: Literal["user", "assistant"]
     content: str
 
 
@@ -39,11 +40,17 @@ class ChatRequest(BaseModel):
     stream: bool = True
 
 
-def _make_client() -> anthropic.Anthropic:
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise RuntimeError("ANTHROPIC_API_KEY environment variable not set")
-    return anthropic.Anthropic(api_key=api_key)
+_client: anthropic.AsyncAnthropic | None = None
+
+
+def _get_client() -> anthropic.AsyncAnthropic:
+    global _client
+    if _client is None:
+        api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not api_key:
+            raise RuntimeError("ANTHROPIC_API_KEY environment variable not set")
+        _client = anthropic.AsyncAnthropic(api_key=api_key)
+    return _client
 
 
 async def _run_agent(messages: list[dict]) -> AsyncIterator[dict]:
@@ -55,36 +62,39 @@ async def _run_agent(messages: list[dict]) -> AsyncIterator[dict]:
       {"type": "tool_result", "name": str, "output": Any}   -- tool returned
       {"type": "done"}                                      -- end of conversation
     """
-    client = _make_client()
+    client = _get_client()
     history = list(messages)
 
     while True:
         response_text = ""
         tool_uses: list[dict] = []
 
-        with client.messages.stream(
-            model="claude-sonnet-4-6",
-            max_tokens=4096,
-            system=SYSTEM_PROMPT,
-            tools=TOOLS,
-            messages=history,
-        ) as stream:
-            for event in stream:
-                if not hasattr(event, "type"):
-                    continue
-                if event.type == "content_block_delta" and hasattr(event.delta, "text"):
-                    chunk = event.delta.text
-                    response_text += chunk
-                    yield {"type": "text", "text": chunk}
+        try:
+            async with client.messages.stream(
+                model="claude-sonnet-4-6",
+                max_tokens=4096,
+                system=SYSTEM_PROMPT,
+                tools=TOOLS,
+                messages=history,
+            ) as stream:
+                async for event in stream:
+                    if not hasattr(event, "type"):
+                        continue
+                    if event.type == "content_block_delta" and hasattr(event.delta, "text"):
+                        chunk = event.delta.text
+                        response_text += chunk
+                        yield {"type": "text", "text": chunk}
 
-            final = stream.get_final_message()
-            stop_reason = final.stop_reason
+                final = await stream.get_final_message()
+                stop_reason = final.stop_reason
 
-            tool_uses = [
-                {"id": b.id, "name": b.name, "input": b.input}
-                for b in final.content
-                if b.type == "tool_use"
-            ]
+                tool_uses = [
+                    {"id": b.id, "name": b.name, "input": b.input}
+                    for b in final.content
+                    if b.type == "tool_use"
+                ]
+        except anthropic.APIError as e:
+            raise HTTPException(status_code=502, detail=str(e))
 
         assistant_content: list[dict] = []
         if response_text:
@@ -105,7 +115,7 @@ async def _run_agent(messages: list[dict]) -> AsyncIterator[dict]:
         tool_results = []
         for tu in tool_uses:
             yield {"type": "tool_call", "name": tu["name"], "input": tu["input"]}
-            result = dispatch_to_content(tu["name"], tu["input"])
+            result = await asyncio.to_thread(dispatch_to_content, tu["name"], tu["input"])
             yield {"type": "tool_result", "name": tu["name"]}
             tool_results.append({
                 "type": "tool_result",
