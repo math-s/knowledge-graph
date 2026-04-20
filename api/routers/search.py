@@ -3,55 +3,48 @@
 from __future__ import annotations
 
 import sqlite3
+from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..db import get_db
 from .lexicon import resolve_bible_text, resolve_patristic_text
+from ..utils import truncate
 
 router = APIRouter(tags=["search"])
 
-LANG_COLUMNS = {
-    "en": "text_en",
-    "la": "text_la",
-    "pt": "text_pt",
-    "el": "text_el",
-}
-
 SNIPPET_LANGS = ("en", "la", "pt")
 BIBLE_SNIPPET_LANGS = ("en", "la", "pt", "el")
-PATRISTIC_SNIPPET_LANGS = ("en", "la", "el")
+PATRISTIC_SNIPPET_LANGS = ("en",)  # FTS only indexes text_en
 
 
 def _pick_snippet(row: sqlite3.Row, lang: str, available: tuple[str, ...] = SNIPPET_LANGS) -> str:
-    """Pick the best snippet for the requested language."""
-    key = f"snippet_{lang}"
-    if key in row.keys():
-        val = row[key]
-        if val:
-            return val
-    # Fallback through available languages
-    for l in available:
-        val = row.get(f"snippet_{l}", "")
-        if val:
-            return val
+    """Pick the best snippet for the requested language, falling back through available."""
+    keys = row.keys()
+    preferred = f"snippet_{lang}"
+    if preferred in keys and row[preferred]:
+        return row[preferred]
+    for lang_opt in available:
+        key = f"snippet_{lang_opt}"
+        if key in keys and row[key]:
+            return row[key]
     return ""
 
 
 def _all_snippets(row: sqlite3.Row, available: tuple[str, ...] = SNIPPET_LANGS) -> dict[str, str]:
     """Return all non-empty snippets as a dict."""
-    out = {}
-    for l in available:
-        val = row.get(f"snippet_{l}", "")
-        if val:
-            out[l] = val
-    return out
+    keys = row.keys()
+    return {
+        lang: row[f"snippet_{lang}"]
+        for lang in available
+        if f"snippet_{lang}" in keys and row[f"snippet_{lang}"]
+    }
 
 
 @router.get("/search")
 def search(
     q: str = Query(..., min_length=2, description="Search query"),
-    lang: str = Query("en", description="Preferred language (en, la, pt)"),
+    lang: Literal["en", "la", "pt"] = Query("en", description="Preferred language"),
     bilingual: bool = Query(False, description="Return all available translations per result"),
     limit: int = Query(20, ge=1, le=100),
     db: sqlite3.Connection = Depends(get_db),
@@ -90,7 +83,7 @@ def search(
 @router.get("/search/bible")
 def search_bible(
     q: str = Query(..., min_length=2, description="Search query"),
-    lang: str = Query("en", description="Language to search (en, la, pt, el)"),
+    lang: Literal["en", "la", "pt", "el"] = Query("en", description="Language to search"),
     bilingual: bool = Query(False, description="Return all available translations per result"),
     limit: int = Query(20, ge=1, le=100),
     db: sqlite3.Connection = Depends(get_db),
@@ -150,20 +143,17 @@ def search_by_lemma(
     literally contain "love" in English.
     """
     langs = ("la", "el") if lang == "both" else (lang,)
-    if any(l not in ("la", "el") for l in langs):
-        raise HTTPException(404, f"Unknown lemma lang: {lang!r} (use 'la', 'el', or 'both')")
+    if any(lang_opt not in ("la", "el") for lang_opt in langs):
+        raise HTTPException(422, f"Unknown lemma lang: {lang!r} (use 'la', 'el', or 'both')")
 
     # Step 1: resolve query → lemma_ids via FTS, then re-rank by corpus
     # frequency. Pure FTS rank surfaces hapax proper nouns ("Cotiso" for
     # "king") above canonical lemmas like "rex1"; corpus-weighted ranking
-    # prefers lemmas actually used in the texts. Pull a wider FTS window
-    # (3× max_lemmas) so we have enough candidates to re-rank.
+    # prefers lemmas actually used in the texts.
     matched_lemmas: list[dict] = []
-    # Pull a wide FTS window then re-rank by corpus frequency (pre-aggregated
-    # in lemma_corpus_freq so this is an indexed join, not a full scan).
     fts_limit = max(max_lemmas * 10, 200)
-    for l in langs:
-        fts = f"lemma_{l}_fts"
+    for lang_opt in langs:
+        fts = f"lemma_{lang_opt}_fts"
         try:
             rows = db.execute(
                 f"""
@@ -182,13 +172,13 @@ def search_by_lemma(
                 ORDER BY corpus_freq DESC, h.rank ASC
                 LIMIT ?
                 """,
-                (q, fts_limit, l, max_lemmas),
+                (q, fts_limit, lang_opt, max_lemmas),
             ).fetchall()
         except sqlite3.OperationalError as e:
             raise HTTPException(400, f"Invalid FTS query: {e}")
         for r in rows:
             matched_lemmas.append({
-                "lang": l,
+                "lang": lang_opt,
                 "id": r["id"],
                 "lemma": r["lemma"],
                 "corpus_freq": r["corpus_freq"],
@@ -200,8 +190,7 @@ def search_by_lemma(
             "total": 0, "limit": limit, "offset": offset, "results": [],
         }
 
-    # Step 2: find sources containing any matched lemma. Score by distinct
-    # lemmas hit (richer overlap > more occurrences of one lemma).
+    # Step 2: find sources containing any matched lemma.
     lemma_keys = [(m["lang"], m["id"]) for m in matched_lemmas]
     lang_placeholders = ",".join("?" for _ in lemma_keys)
     flat: list = []
@@ -234,24 +223,21 @@ def search_by_lemma(
         [*flat, limit, offset],
     ).fetchall()
 
-    # Resolve text per source (per-language column).
     by_lang_st: dict[tuple[str, str], list[str]] = {}
     for r in rows:
         by_lang_st.setdefault((r["lang"], r["source_type"]), []).append(r["source_id"])
     text_lookup: dict[tuple[str, str, str], str] = {}
-    for (l, st), sids in by_lang_st.items():
+    for (lang_opt, st), sids in by_lang_st.items():
         if st == "bible-verse":
-            d = resolve_bible_text(db, sids, l)
+            d = resolve_bible_text(db, sids, lang_opt)
         else:
-            d = resolve_patristic_text(db, sids, l)
+            d = resolve_patristic_text(db, sids, lang_opt)
         for sid, txt in d.items():
-            text_lookup[(l, st, sid)] = txt
+            text_lookup[(lang_opt, st, sid)] = txt
 
     results = []
     for r in rows:
         text = text_lookup.get((r["lang"], r["source_type"], r["source_id"]), "")
-        if snippet_chars and text and len(text) > snippet_chars:
-            text = text[:snippet_chars].rstrip() + "…"
         results.append({
             "source_type": r["source_type"],
             "source_id": r["source_id"],
@@ -260,7 +246,7 @@ def search_by_lemma(
             "total_hits": r["total_hits"],
             "matched_lemma_ids": (r["hit_lemma_ids"] or "").split(","),
             "matched_forms": (r["hit_forms"] or "").split(",") if r["hit_forms"] else [],
-            "text": text,
+            "text": truncate(text, snippet_chars) if snippet_chars else text,
         })
 
     return {
@@ -277,7 +263,7 @@ def search_by_lemma(
 @router.get("/search/patristic")
 def search_patristic(
     q: str = Query(..., min_length=2, description="Search query"),
-    lang: str = Query("en", description="Language to search (en, la, el)"),
+    lang: Literal["en", "la", "el"] = Query("en", description="Language to search"),
     bilingual: bool = Query(False, description="Return all available translations per result"),
     limit: int = Query(20, ge=1, le=100),
     db: sqlite3.Connection = Depends(get_db),
@@ -285,14 +271,16 @@ def search_patristic(
     """Search within patristic text."""
     rows = db.execute(
         """
-        SELECT section_id, work_id, author_id,
-               snippet(patristic_sections_fts, 3, '<mark>', '</mark>', '…', 40) AS snippet_en,
-               snippet(patristic_sections_fts, 4, '<mark>', '</mark>', '…', 40) AS snippet_la,
-               snippet(patristic_sections_fts, 5, '<mark>', '</mark>', '…', 40) AS snippet_el,
-               rank
+        SELECT patristic_sections_fts.id AS section_id,
+               pc.work_id,
+               aw.author_id,
+               snippet(patristic_sections_fts, 2, '<mark>', '</mark>', '…', 40) AS snippet_en,
+               patristic_sections_fts.rank
         FROM patristic_sections_fts
+        JOIN patristic_chapters pc ON pc.id = patristic_sections_fts.chapter_id
+        JOIN author_works aw ON aw.id = pc.work_id
         WHERE patristic_sections_fts MATCH ?
-        ORDER BY rank
+        ORDER BY patristic_sections_fts.rank
         LIMIT ?
         """,
         (q, limit),
