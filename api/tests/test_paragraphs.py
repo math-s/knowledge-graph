@@ -58,6 +58,43 @@ def test_get_paragraph_full(client):
     assert "en" in verse["text"]
 
 
+def test_get_paragraph_siblings_by_citation(client):
+    r = client.get("/paragraphs/2/siblings?by=citation")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["count"] > 0
+    sib = body["siblings"][0]
+    assert "id" in sib
+    assert sib["edge_type"] == "shared_citation"
+    assert "overlap_count" in sib
+    assert "text_en" in sib
+
+
+def test_get_paragraph_siblings_by_entity(client):
+    r = client.get("/paragraphs/11/siblings?by=entity&limit=5")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["count"] > 0
+    assert body["siblings"][0]["edge_type"] == "shared_entity"
+
+
+def test_get_paragraph_siblings_both(client):
+    r = client.get("/paragraphs/2/siblings?by=both&limit=10")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["count"] > 0
+
+
+def test_get_paragraph_siblings_invalid_by(client):
+    r = client.get("/paragraphs/2/siblings?by=invalid")
+    assert r.status_code == 422
+
+
+def test_get_paragraph_siblings_not_found(client):
+    r = client.get("/paragraphs/99999/siblings")
+    assert r.status_code == 404
+
+
 def test_get_paragraph_full_not_found(client):
     r = client.get("/paragraphs/99999/full")
     assert r.status_code == 404

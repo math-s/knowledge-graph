@@ -8,7 +8,7 @@ import sqlite3
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..db import get_db
-from ..utils import multilang_text
+from ..utils import multilang_text, truncate
 
 router = APIRouter(prefix="/paragraphs", tags=["paragraphs"])
 
@@ -257,6 +257,78 @@ def get_paragraph_full(
     ]
 
     return para
+
+
+@router.get("/{paragraph_id}/siblings")
+def get_paragraph_siblings(
+    paragraph_id: int,
+    by: str = Query(
+        "citation",
+        description="Similarity signal: 'citation' (shared source), 'entity' (shared entity), or 'both'",
+    ),
+    limit: int = Query(20, ge=1, le=100),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Find CCC paragraphs that share the same sources or entities as this one.
+
+    Uses shared_citation edges (7,496) — paragraphs citing the same Bible
+    verse, patristic work, or document — and shared_entity edges (43k) —
+    paragraphs mentioning the same theological entity (Trinity, Incarnation…).
+    """
+    row = db.execute("SELECT 1 FROM paragraphs WHERE id = ?", (paragraph_id,)).fetchone()
+    if not row:
+        raise HTTPException(404, f"Paragraph {paragraph_id} not found")
+    if by not in ("citation", "entity", "both"):
+        raise HTTPException(422, "Parameter 'by' must be 'citation', 'entity', or 'both'")
+
+    node_id = f"p:{paragraph_id}"
+
+    edge_types: list[str] = []
+    if by in ("citation", "both"):
+        edge_types.append("shared_citation")
+    if by in ("entity", "both"):
+        edge_types.append("shared_entity")
+
+    type_ph = ",".join("?" for _ in edge_types)
+
+    rows = db.execute(
+        f"""
+        SELECT CASE WHEN ge.source = ? THEN ge.target ELSE ge.source END AS sibling_node,
+               ge.edge_type,
+               COUNT(*) AS overlap_count
+        FROM graph_edges ge
+        WHERE ge.edge_type IN ({type_ph})
+          AND (ge.source = ? OR ge.target = ?)
+        GROUP BY sibling_node, ge.edge_type
+        ORDER BY overlap_count DESC, sibling_node
+        LIMIT ?
+        """,
+        [node_id, *edge_types, node_id, node_id, limit],
+    ).fetchall()
+
+    sibling_ids = [int(r["sibling_node"][2:]) for r in rows]
+    text_by_id: dict[int, str] = {}
+    if sibling_ids:
+        ph = ",".join("?" for _ in sibling_ids)
+        for p in db.execute(
+            f"SELECT id, text_en FROM paragraphs WHERE id IN ({ph})", sibling_ids
+        ):
+            text_by_id[p["id"]] = p["text_en"]
+
+    return {
+        "paragraph_id": paragraph_id,
+        "by": by,
+        "count": len(rows),
+        "siblings": [
+            {
+                "id": int(r["sibling_node"][2:]),
+                "edge_type": r["edge_type"],
+                "overlap_count": r["overlap_count"],
+                "text_en": truncate(text_by_id.get(int(r["sibling_node"][2:]), ""), 300),
+            }
+            for r in rows
+        ],
+    }
 
 
 @router.get("/{paragraph_id}/encyclopedia")
