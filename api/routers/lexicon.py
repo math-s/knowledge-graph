@@ -17,6 +17,7 @@ import sqlite3
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..db import get_db
+from ..utils import truncate
 
 router = APIRouter(prefix="/lexicon", tags=["lexicon"])
 
@@ -25,7 +26,7 @@ VALID_LANGS = ("la", "el")
 
 def _check_lang(lang: str) -> None:
     if lang not in VALID_LANGS:
-        raise HTTPException(404, f"Unknown lexicon language: {lang!r} (use 'la' or 'el')")
+        raise HTTPException(422, f"Unknown lexicon language: {lang!r} (use 'la' or 'el')")
 
 
 def _entry_to_dict(row: sqlite3.Row, lang: str, db: sqlite3.Connection) -> dict:
@@ -91,26 +92,22 @@ def _occurrences_summary(db: sqlite3.Connection, lang: str, lemma_id: str) -> di
 @router.get("/{lang}/entry")
 def get_entry(
     lang: str,
-    id: str | None = Query(None, description="Source key, e.g. 'verbum' or 'lo/gos'"),
+    lemma_id: str | None = Query(None, alias="id", description="Source key, e.g. 'verbum' or 'lo/gos'"),
     lemma: str | None = Query(None, description="Lookup by surface lemma instead of id"),
     db: sqlite3.Connection = Depends(get_db),
 ):
     """Fetch a single lemma entry by `id` or by `lemma`."""
     _check_lang(lang)
-    if not id and not lemma:
+    if not lemma_id and not lemma:
         raise HTTPException(400, "Provide either ?id=... or ?lemma=...")
 
     table = f"lemma_{lang}"
-    if id:
-        row = db.execute(
-            f"SELECT * FROM {table} WHERE id = ?", (id,)
-        ).fetchone()
+    if lemma_id:
+        row = db.execute(f"SELECT * FROM {table} WHERE id = ?", (lemma_id,)).fetchone()
     else:
-        row = db.execute(
-            f"SELECT * FROM {table} WHERE lemma = ? LIMIT 1", (lemma,)
-        ).fetchone()
+        row = db.execute(f"SELECT * FROM {table} WHERE lemma = ? LIMIT 1", (lemma,)).fetchone()
     if not row:
-        raise HTTPException(404, f"No {lang} lemma matching {id or lemma!r}")
+        raise HTTPException(404, f"No {lang} lemma matching {lemma_id or lemma!r}")
     return _entry_to_dict(row, lang, db)
 
 
@@ -171,8 +168,7 @@ def resolve_patristic_text(db: sqlite3.Connection, source_ids: list[str], lang: 
     return {r["id"]: r["text"] for r in rows if r["text"]}
 
 
-# Curated corpus slices on top of bible_books.testament. Useful for hapax /
-# vocab queries where you want a meaningful subset of the canon.
+# Curated corpus slices on top of bible_books.testament.
 _CORPUS_OVERRIDES = {
     "gospels": ["matthew", "mark", "luke", "john"],
     "pauline": [
@@ -195,26 +191,14 @@ def _book_ids_for_corpus(db: sqlite3.Connection, corpus: str) -> list[str] | Non
         return [r[0] for r in db.execute(
             "SELECT id FROM bible_books WHERE testament = ?", (testament,)
         )]
-    # Treat as a single book_id
     exists = db.execute("SELECT 1 FROM bible_books WHERE id = ?", (corpus,)).fetchone()
     if not exists:
         raise HTTPException(404, f"Unknown corpus / book: {corpus!r}")
     return [corpus]
 
 
-def _book_filter_clause(book_ids: list[str] | None) -> tuple[str, list]:
-    """Return (sql_fragment, params) restricting source_id to one or more books.
-    Empty fragment when no filter applies. Used by paths still on text_lemma_forms."""
-    if not book_ids:
-        return "", []
-    patterns = [f"{b}-%" for b in book_ids]
-    placeholders = " OR ".join(["t.source_id LIKE ?"] * len(patterns))
-    return f"AND ({placeholders})", patterns
-
-
 def _book_in_clause(book_ids: list[str] | None) -> tuple[str, list]:
-    """Return (`AND book_id IN (?, ?, …)`, params). Used by paths reading from
-    bible_lemma_per_book where book_id is a first-class column."""
+    """Return (`AND book_id IN (?, ?, …)`, params)."""
     if not book_ids:
         return "", []
     placeholders = ",".join("?" for _ in book_ids)
@@ -232,13 +216,9 @@ def get_hapax(
     """Lemmas that appear exactly once in the chosen corpus slice (hapax legomena)."""
     _check_lang(lang)
     book_ids = _book_ids_for_corpus(db, corpus)
-    book_clause, book_params = _book_filter_clause(book_ids)
-
     dict_table = f"lemma_{lang}"
-    dict_join_text_col = "definition_en"
-    # Use the pre-aggregated per-book table — instant for any corpus slice.
-    # Hapax = lemmas with SUM(tokens)=1 across the chosen books.
     book_in_clause, book_in_params = _book_in_clause(book_ids)
+
     rows = db.execute(
         f"""
         WITH counts AS (
@@ -248,7 +228,7 @@ def get_hapax(
             GROUP BY lemma_id
             HAVING cnt = 1
         )
-        SELECT c.lemma_id, l.lemma, l.{dict_join_text_col} AS definition, l.pos
+        SELECT c.lemma_id, l.lemma, l.definition_en AS definition, l.pos
         FROM counts c
         JOIN {dict_table} l ON l.id = c.lemma_id
         ORDER BY c.lemma_id
@@ -256,11 +236,11 @@ def get_hapax(
         """,
         [lang, *book_in_params, limit, offset],
     ).fetchall()
-    # Look up the source verse for each hapax (one-shot indexed query)
+
+    forms_by_id: dict[str, tuple[str, str]] = {}
     if rows:
         ph_l = ",".join("?" for _ in rows)
         params = [lang, *[r["lemma_id"] for r in rows]]
-        forms_by_id = {}
         for fr in db.execute(
             f"SELECT lemma_id, MIN(source_id) AS source_id, MIN(form) AS form "
             f"FROM text_lemma_forms WHERE lang=? AND lemma_id IN ({ph_l}) "
@@ -268,8 +248,6 @@ def get_hapax(
             params,
         ):
             forms_by_id[fr["lemma_id"]] = (fr["source_id"], fr["form"])
-    else:
-        forms_by_id = {}
 
     total = db.execute(
         f"""
@@ -282,7 +260,6 @@ def get_hapax(
         [lang, *book_in_params],
     ).fetchone()[0]
 
-    # Resolve verse text for the source_ids on the page
     sids = [forms_by_id.get(r["lemma_id"], ("", ""))[0] for r in rows]
     text_by_sid = resolve_bible_text(db, [s for s in sids if s], lang)
 
@@ -293,7 +270,7 @@ def get_hapax(
             "id": r["lemma_id"],
             "lemma": r["lemma"],
             "pos": r["pos"],
-            "definition": (r["definition"][:200].rstrip() + "…") if r["definition"] and len(r["definition"]) > 200 else r["definition"],
+            "definition": truncate(r["definition"], 200),
             "form": form,
             "source_id": sid,
             "verse_text": text_by_sid.get(sid, ""),
@@ -325,14 +302,10 @@ def get_vocab(
     book_ids = _book_ids_for_corpus(db, corpus)
     dict_table = f"lemma_{lang}"
 
+    pos_clause = "AND f.pos = ?" if pos else ""
+    pos_params: list = [pos.upper()] if pos else []
+
     if book_ids is None:
-        # Whole-corpus path: served by the pre-aggregated table to avoid an 8M-row
-        # GROUP BY on every request. Aggregate across pos rows when no pos filter.
-        pos_clause = ""
-        pos_params: list = []
-        if pos:
-            pos_clause = "AND f.pos = ?"
-            pos_params = [pos.upper()]
         rows = db.execute(
             f"""
             SELECT f.lemma_id,
@@ -351,15 +324,7 @@ def get_vocab(
             [lang, *pos_params, min_count, limit, offset],
         ).fetchall()
     else:
-        # Per-book path: served by the pre-aggregated `bible_lemma_per_book`
-        # table — instant for any subset of books, including 27/46-book OR'd
-        # corpora like nt/ot.
         book_in_clause, book_in_params = _book_in_clause(book_ids)
-        pos_clause = ""
-        pos_params = []
-        if pos:
-            pos_clause = "AND f.pos = ?"
-            pos_params = [pos.upper()]
         rows = db.execute(
             f"""
             SELECT f.lemma_id,
@@ -393,7 +358,7 @@ def get_vocab(
                 "pos": r["dict_pos"],
                 "count": r["cnt"],
                 "verses": r["verses"],
-                "definition_preview": (r["definition"][:160].rstrip() + "…") if r["definition"] and len(r["definition"]) > 160 else r["definition"],
+                "definition_preview": truncate(r["definition"], 160),
             }
             for r in rows
         ],
@@ -403,7 +368,7 @@ def get_vocab(
 @router.get("/{lang}/occurrences")
 def get_occurrences(
     lang: str,
-    id: str = Query(..., description="Lemma id"),
+    lemma_id: str = Query(..., alias="id", description="Lemma id"),
     source_type: str | None = Query(
         None, description="Filter to one source type (bible-verse | patristic-section)"
     ),
@@ -415,7 +380,7 @@ def get_occurrences(
     """Paginated list of texts that contain this lemma, with text snippets."""
     _check_lang(lang)
     where = ["lang = ?", "lemma_id = ?"]
-    params: list = [lang, id]
+    params: list = [lang, lemma_id]
     if source_type:
         where.append("source_type = ?")
         params.append(source_type)
@@ -453,22 +418,17 @@ def get_occurrences(
     results = []
     for r in rows:
         sid = r["source_id"]
-        if r["source_type"] == "bible-verse":
-            text = bible_text.get(sid, "")
-        else:
-            text = pat_text.get(sid, "")
-        if snippet_chars and text and len(text) > snippet_chars:
-            text = text[:snippet_chars].rstrip() + "…"
+        raw = bible_text.get(sid, "") if r["source_type"] == "bible-verse" else pat_text.get(sid, "")
         results.append({
             "source_type": r["source_type"],
             "source_id": sid,
             "token_count": r["token_count"],
             "forms": (r["forms"] or "").split(",") if r["forms"] else [],
-            "text": text,
+            "text": truncate(raw, snippet_chars) if snippet_chars else raw,
         })
 
     return {
-        "id": id,
+        "id": lemma_id,
         "lang": lang,
         "total": total,
         "limit": limit,
@@ -506,12 +466,111 @@ def search_lexicon(
         raise HTTPException(400, f"Invalid FTS query: {e}")
 
     results = [
-        {
-            "id": r["id"],
-            "lemma": r["lemma"],
-            "snippet": r["snippet"],
-            "rank": r["rank"],
-        }
+        {"id": r["id"], "lemma": r["lemma"], "snippet": r["snippet"], "rank": r["rank"]}
         for r in rows
     ]
     return {"query": q, "lang": lang, "count": len(results), "results": results}
+
+
+@router.get("/{lang}/{lemma_id:path}/doctrine")
+def get_lemma_doctrine(
+    lang: str,
+    lemma_id: str,
+    source_type: str | None = Query(
+        None, description="Restrict to 'bible-verse' or 'patristic-section'"
+    ),
+    limit: int = Query(20, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    db: sqlite3.Connection = Depends(get_db),
+):
+    """Trace the doctrinal chain for a lemma: word → texts → CCC paragraphs.
+
+    Follows contains_lemma edges (lemma ← source) then cites edges
+    (paragraph → source) to find every CCC paragraph that cites a Bible verse
+    or patristic section containing this word. Surfaces the philological
+    grounding behind doctrinal statements.
+    """
+    _check_lang(lang)
+
+    lemma_node = f"lemma-{lang}:{lemma_id}"
+
+    # Verify the lemma exists
+    lemma_row = db.execute(
+        f"SELECT id, lemma, pos, definition_en FROM lemma_{lang} WHERE id = ?", (lemma_id,)
+    ).fetchone()
+    if not lemma_row:
+        raise HTTPException(404, f"No {lang} lemma with id {lemma_id!r}")
+
+    # Step 1: find all sources (bible-verse / patristic-section) containing this lemma
+    source_filter = ""
+    source_params: list = [lemma_node]
+    if source_type:
+        source_filter = f"AND ge_lem.source LIKE '{source_type}:%'"
+
+    # Step 2: join to find paragraphs that cite those sources, count distinct
+    # sources per paragraph as relevance signal
+    count_row = db.execute(
+        f"""
+        SELECT COUNT(DISTINCT ge_cite.source) AS total
+        FROM graph_edges ge_lem
+        JOIN graph_edges ge_cite
+          ON ge_cite.target = ge_lem.source
+         AND ge_cite.edge_type = 'cites'
+         AND ge_cite.source LIKE 'p:%'
+        WHERE ge_lem.edge_type = 'contains_lemma'
+          AND ge_lem.target = ?
+          {source_filter}
+        """,
+        source_params,
+    ).fetchone()
+    total = count_row["total"] if count_row else 0
+
+    rows = db.execute(
+        f"""
+        SELECT ge_cite.source AS para_node,
+               COUNT(DISTINCT ge_lem.source) AS source_count,
+               GROUP_CONCAT(DISTINCT ge_lem.source) AS source_ids
+        FROM graph_edges ge_lem
+        JOIN graph_edges ge_cite
+          ON ge_cite.target = ge_lem.source
+         AND ge_cite.edge_type = 'cites'
+         AND ge_cite.source LIKE 'p:%'
+        WHERE ge_lem.edge_type = 'contains_lemma'
+          AND ge_lem.target = ?
+          {source_filter}
+        GROUP BY ge_cite.source
+        ORDER BY source_count DESC, ge_cite.source
+        LIMIT ? OFFSET ?
+        """,
+        [*source_params, limit, offset],
+    ).fetchall()
+
+    # Fetch paragraph text for results
+    para_ids = [int(r["para_node"][2:]) for r in rows]
+    para_text: dict[int, str] = {}
+    if para_ids:
+        ph = ",".join("?" for _ in para_ids)
+        for p in db.execute(
+            f"SELECT id, text_en FROM paragraphs WHERE id IN ({ph})", para_ids
+        ):
+            para_text[p["id"]] = p["text_en"]
+
+    return {
+        "lemma_id": lemma_id,
+        "lemma": lemma_row["lemma"],
+        "lang": lang,
+        "pos": lemma_row["pos"],
+        "definition": lemma_row["definition_en"],
+        "total_paragraphs": total,
+        "limit": limit,
+        "offset": offset,
+        "paragraphs": [
+            {
+                "id": int(r["para_node"][2:]),
+                "source_count": r["source_count"],
+                "source_ids": r["source_ids"].split(","),
+                "text_en": truncate(para_text.get(int(r["para_node"][2:]), ""), 300),
+            }
+            for r in rows
+        ],
+    }
