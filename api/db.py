@@ -24,6 +24,10 @@ def get_connection() -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA query_only = ON")
     conn.execute("PRAGMA temp_store = MEMORY")
+    # Node-id LIKE prefixes are all lowercase ASCII. case_sensitive_like=1
+    # lets SQLite use idx_graph_edges_tgt_type for range scans on queries
+    # like `target LIKE 'document-section:trent/%'`.
+    conn.execute("PRAGMA case_sensitive_like = ON")
     return conn
 
 
