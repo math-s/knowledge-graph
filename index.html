@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FideMap — The Catholic Church Knowledge Graph</title>
+  <meta name="description" content="Every document of the Catholic Church, indexed and linked. A free knowledge graph for scholars, faithful, and seekers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FAFAF7;
+      --surface:   #F2F1EC;
+      --border:    #E4E2DA;
+      --gold:      #9B7B3E;
+      --gold-lt:   #C9A96E;
+      --text:      #1C1A17;
+      --muted:     #6B6659;
+      --radius:    12px;
+      --max-w:     1100px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle radial glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(155,123,62,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold-lt);
+    }
+
+    .hero h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 2.75rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.75rem 1.75rem;
+      border-radius: 999px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(28,26,23,0.12);
+    }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(155,123,62,0.3); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--gold-lt); color: var(--gold); transform: translateY(-2px); }
+
+    /* graph preview */
+    .hero-graph {
+      margin-top: 4rem;
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 16/7;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 40px rgba(28,26,23,0.07);
+    }
+
+    .graph-svg {
+      width: 100%; height: 100%;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 0.5rem 3rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-num span { color: var(--gold); }
+
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 7rem 2rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      max-width: 520px;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--gold-lt);
+      box-shadow: 0 8px 30px rgba(155,123,62,0.1);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.01em;
+    }
+
+    .feature-card p {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 7rem 2rem;
+    }
+
+    .how-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-body h4 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-body p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .how-visual {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 40px rgba(28,26,23,0.06);
+    }
+
+    .how-visual svg { width: 80%; height: 80%; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 8rem 2rem;
+      text-align: center;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .cta-section h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.2;
+      max-width: 620px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .cta-section h2 em { font-style: italic; color: var(--gold); }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .cta-note {
+      margin-top: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    footer .footer-logo {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    footer .footer-logo span { color: var(--gold); }
+
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .how-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .how-visual { display: none; }
+      .stat { padding: 0.75rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); width: 50%; }
+      .stat:nth-child(even) { border-right: none; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .stat { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Fide<span>Map</span></a>
+    <a class="nav-cta" href="#">Explore the Map →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Free &amp; open to all
+    </div>
+
+    <h1>Every word of the Church,<br><em>connected.</em></h1>
+
+    <p class="hero-sub">
+      FideMap is a living knowledge graph of the Catholic Church's complete body of teaching —
+      every encyclical, council document, catechism, and canon, indexed and linked together.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Explore the Map →</a>
+      <a href="#features" class="btn-ghost">See how it works</a>
+    </div>
+
+    <!-- Decorative graph preview -->
+    <div class="hero-graph">
+      <svg class="graph-svg" viewBox="0 0 720 315" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- background grid -->
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E4E2DA" stroke-width="0.5"/>
+          </pattern>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#C9A96E" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#C9A96E" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="720" height="315" fill="url(#grid)"/>
+        <ellipse cx="360" cy="157" rx="260" ry="120" fill="url(#glow)"/>
+
+        <!-- edges -->
+        <line x1="360" y1="157" x2="180" y2="90" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="360" y1="157" x2="540" y2="90" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="360" y1="157" x2="200" y2="230" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="360" y1="157" x2="530" y2="240" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="360" y1="157" x2="360" y2="60" stroke="#C9A96E" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="180" y1="90" x2="90" y2="150" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="180" y1="90" x2="150" y2="40" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="540" y1="90" x2="620" y2="140" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="540" y1="90" x2="590" y2="45" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="200" y1="230" x2="120" y2="270" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="530" y1="240" x2="630" y2="270" stroke="#E4E2DA" stroke-width="1"/>
+        <line x1="200" y1="230" x2="270" y2="280" stroke="#E4E2DA" stroke-width="1"/>
+
+        <!-- secondary edges -->
+        <line x1="90" y1="150" x2="120" y2="270" stroke="#E4E2DA" stroke-width="0.75" stroke-opacity="0.6"/>
+        <line x1="620" y1="140" x2="630" y2="270" stroke="#E4E2DA" stroke-width="0.75" stroke-opacity="0.6"/>
+
+        <!-- satellite nodes -->
+        <circle cx="90" cy="150" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="150" cy="40" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="180" cy="90" r="8" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="360" cy="60" r="6" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="540" cy="90" r="8" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="590" cy="45" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="620" cy="140" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="200" cy="230" r="8" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="120" cy="270" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="270" cy="280" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="530" cy="240" r="8" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="630" cy="270" r="5" fill="#F2F1EC" stroke="#C9A96E" stroke-width="1.5"/>
+
+        <!-- center node -->
+        <circle cx="360" cy="157" r="18" fill="#1C1A17"/>
+        <circle cx="360" cy="157" r="23" fill="none" stroke="#9B7B3E" stroke-width="1.5" stroke-opacity="0.4"/>
+
+        <!-- labels -->
+        <text x="360" y="192" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#6B6659">Lumen Gentium</text>
+        <text x="180" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#6B6659">Catechism</text>
+        <text x="540" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#6B6659">Dei Verbum</text>
+        <text x="200" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#6B6659">Rerum Novarum</text>
+        <text x="530" y="258" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#6B6659">Gaudium et Spes</text>
+        <text x="360" y="50" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#6B6659">Nicene Creed</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">2<span>k+</span></div>
+      <div class="stat-label">Documents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">20<span>+</span></div>
+      <div class="stat-label">Centuries of teaching</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Connections</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Free</div>
+      <div class="stat-label">Always &amp; for all</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">The full treasury of Catholic thought</h2>
+    <p class="section-sub">Explore the entire Magisterium — not as isolated texts, but as a living, interconnected tradition.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📜</div>
+        <h3>Complete Index</h3>
+        <p>Every papal encyclical, apostolic letter, council document, catechism, canon, and creed — gathered in a single, searchable index.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Knowledge Graph</h3>
+        <p>Documents are linked to one another. Follow a reference in <em>Lumen Gentium</em> directly to its source in Scripture or a previous council.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧭</div>
+        <h3>Trace Any Idea</h3>
+        <p>See how a doctrine develops across centuries. Track a teaching from the early Church Fathers through to the modern Magisterium.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Powerful Search</h3>
+        <p>Find any phrase, person, council, or concept across the entire corpus instantly — whether you're a theologian or a curious newcomer.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⛪</div>
+        <h3>Organized by Era</h3>
+        <p>Browse by period — Early Church, Medieval, Counter-Reformation, Vatican I &amp; II, and the contemporary Church — or jump across time freely.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🕊️</div>
+        <h3>Free, Always</h3>
+        <p>No account, no subscription, no paywall. The deposit of faith belongs to the faithful. FideMap is committed to keeping it open to all.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="how-inner">
+      <div>
+        <div class="section-label">How it works</div>
+        <h2 class="section-title">From text to living tradition</h2>
+        <p class="section-sub">FideMap turns a vast library of documents into a navigable web of ideas.</p>
+
+        <div class="how-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Every document is indexed</h4>
+              <p>We ingest the full text of each Church document, preserving its structure, paragraphs, and citations.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Citations become connections</h4>
+              <p>Each reference to another document, council, or Scripture passage is resolved into a live link in the graph.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>You navigate freely</h4>
+              <p>Start anywhere — a question, a concept, a specific text — and follow the tradition wherever it leads.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-visual" aria-hidden="true">
+        <svg viewBox="0 0 300 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#C9A96E" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#C9A96E" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="150" cy="112" rx="120" ry="90" fill="url(#glow2)"/>
+
+          <!-- edges -->
+          <line x1="150" y1="112" x2="75" y2="65" stroke="#C9A96E" stroke-width="1.5" stroke-opacity="0.6"/>
+          <line x1="150" y1="112" x2="225" y2="65" stroke="#C9A96E" stroke-width="1.5" stroke-opacity="0.6"/>
+          <line x1="150" y1="112" x2="80" y2="170" stroke="#C9A96E" stroke-width="1.5" stroke-opacity="0.6"/>
+          <line x1="150" y1="112" x2="220" y2="170" stroke="#C9A96E" stroke-width="1.5" stroke-opacity="0.6"/>
+          <line x1="75" y1="65" x2="30" y2="100" stroke="#E4E2DA" stroke-width="1"/>
+          <line x1="225" y1="65" x2="270" y2="100" stroke="#E4E2DA" stroke-width="1"/>
+          <line x1="80" y1="170" x2="40" y2="195" stroke="#E4E2DA" stroke-width="1"/>
+          <line x1="220" y1="170" x2="265" y2="195" stroke="#E4E2DA" stroke-width="1"/>
+
+          <!-- nodes -->
+          <circle cx="30" cy="100" r="5" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="75" cy="65" r="10" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="270" cy="100" r="5" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="225" cy="65" r="10" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="80" cy="170" r="10" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="40" cy="195" r="5" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="220" cy="170" r="10" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="265" cy="195" r="5" fill="#FAFAF7" stroke="#C9A96E" stroke-width="1.5"/>
+          <circle cx="150" cy="112" r="22" fill="#1C1A17"/>
+          <circle cx="150" cy="112" r="28" fill="none" stroke="#9B7B3E" stroke-width="1" stroke-opacity="0.4"/>
+
+          <!-- center text -->
+          <text x="150" y="109" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#FAFAF7" font-weight="600">Sacrosanctum</text>
+          <text x="150" y="119" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#FAFAF7" font-weight="600">Concilium</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Start exploring the<br><em>living tradition</em></h2>
+    <p>Two thousand years of Catholic teaching, at your fingertips. Free, forever.</p>
+    <a href="#" class="btn-primary">Open FideMap →</a>
+    <p class="cta-note">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#9B7B3E" stroke-width="1.5"/><path d="M7 5v3M7 9.5v.5" stroke="#9B7B3E" stroke-width="1.5" stroke-linecap="round"/></svg>
+      No account required &nbsp;·&nbsp; Always free
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Fide<span>Map</span></span>
+    <span>fidemap.org — The Catholic Church Knowledge Graph</span>
+    <span>Built with care for the faithful</span>
+  </footer>
+
+</body>
+</html>
