@@ -1,15 +1,16 @@
 """Strip New Advent website navigation text contaminating patristic_sections.text_en.
 
-The scraper_patristic.py scraper missed the "CONTACT US | ADVERTISE WITH NEW ADVENT"
-string that New Advent embeds in its content <p> tags. This script:
+Handles two contamination flavours:
+  1. "CONTACT US | ADVERTISE WITH NEW ADVENT" — footer link text
+  2. "Contact information. The editor of New Advent is Kevin Knight" — contact footer
+  3. Pure TOC entries (Book I Book II ..., Homily N Homily N+1 ...) that have
+     no sentence structure (no periods or commas outside abbreviations)
 
-  1. Strips the nav string from all contaminated rows (in-place SQL REPLACE)
-  2. NULLs rows whose residual text is < 80 chars (pure TOC entries like
-     "Book I Book II Book III")
-  3. Rebuilds the patristic_sections_fts index
-
-Also applies the same strip to the latin text columns (text_la, text_el)
-in case any scraper variant wrote the string there.
+Steps:
+  1. Strip each nav string in-place via SQL REPLACE
+  2. NULL rows whose residual text is < 80 chars
+  3. NULL rows that look like pure TOC (no '.' or ',' in text_en)
+  4. Rebuild patristic_sections_fts
 
 Usage:
     python pipeline/scripts/fix_patristic_nav.py [--dry-run]
@@ -24,50 +25,62 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 
-NAV_STRING = "CONTACT US | ADVERTISE WITH NEW ADVENT"
+# Ordered from most to least specific so REPLACE chains work cleanly
+NAV_STRINGS = [
+    "CONTACT US | ADVERTISE WITH NEW ADVENT",
+    "Contact information. The editor of New Advent is Kevin Knight",
+    "Contact information.",
+]
 MIN_RESIDUAL = 80
 
 
-def _strip_and_null(conn: sqlite3.Connection, col: str, dry_run: bool) -> tuple[int, int]:
-    """Strip nav string from `col`, then NULL rows whose residual is too short.
+def _strip_nav_strings(conn: sqlite3.Connection, col: str, dry_run: bool) -> int:
+    """Strip all known nav strings from `col`. Returns number of rows touched."""
+    total = 0
+    for nav in NAV_STRINGS:
+        (cnt,) = conn.execute(
+            f"SELECT COUNT(*) FROM patristic_sections WHERE {col} LIKE ?",
+            (f"%{nav}%",),
+        ).fetchone()
+        if cnt:
+            print(f"  {col}: {cnt} rows contain '{nav[:50]}'")
+            if not dry_run:
+                conn.execute(
+                    f"UPDATE patristic_sections "
+                    f"SET {col} = TRIM(REPLACE({col}, ?, '')) "
+                    f"WHERE {col} LIKE ?",
+                    (nav, f"%{nav}%"),
+                )
+            total += cnt
+    return total
 
-    Returns (rows_stripped, rows_nulled).
-    """
-    # Count contaminated rows
-    (contaminated,) = conn.execute(
-        f"SELECT COUNT(*) FROM patristic_sections WHERE {col} LIKE ?",
-        (f"%{NAV_STRING}%",),
-    ).fetchone()
 
-    if contaminated == 0:
-        return 0, 0
-
-    print(f"  {col}: {contaminated} contaminated rows")
-
-    if not dry_run:
-        # Strip the nav string
-        conn.execute(
-            f"UPDATE patristic_sections "
-            f"SET {col} = TRIM(REPLACE({col}, ?, '')) "
-            f"WHERE {col} LIKE ?",
-            (NAV_STRING, f"%{NAV_STRING}%"),
-        )
-
-    # Count rows that are now too short (including already-stripped)
-    (to_null,) = conn.execute(
-        f"SELECT COUNT(*) FROM patristic_sections "
-        f"WHERE {col} IS NOT NULL AND LENGTH(TRIM({col})) < ?",
+def _null_short_and_toc(conn: sqlite3.Connection, col: str, dry_run: bool) -> int:
+    """NULL rows that are short OR have no sentence punctuation (pure TOC)."""
+    (cnt,) = conn.execute(
+        f"""SELECT COUNT(*) FROM patristic_sections
+            WHERE {col} IS NOT NULL AND (
+              LENGTH(TRIM({col})) < ?
+              OR (LENGTH({col}) < 500
+                  AND {col} NOT LIKE '%.%'
+                  AND {col} NOT LIKE '%,%')
+            )""",
         (MIN_RESIDUAL,),
     ).fetchone()
-
-    if not dry_run and to_null:
-        conn.execute(
-            f"UPDATE patristic_sections SET {col} = NULL "
-            f"WHERE {col} IS NOT NULL AND LENGTH(TRIM({col})) < ?",
-            (MIN_RESIDUAL,),
-        )
-
-    return contaminated, to_null
+    if cnt:
+        print(f"  {col}: NULLing {cnt} short/TOC-only rows")
+        if not dry_run:
+            conn.execute(
+                f"""UPDATE patristic_sections SET {col} = NULL
+                    WHERE {col} IS NOT NULL AND (
+                      LENGTH(TRIM({col})) < ?
+                      OR (LENGTH({col}) < 500
+                          AND {col} NOT LIKE '%.%'
+                          AND {col} NOT LIKE '%,%')
+                    )""",
+                (MIN_RESIDUAL,),
+            )
+    return cnt
 
 
 def _rebuild_fts(conn: sqlite3.Connection) -> None:
@@ -93,9 +106,10 @@ def main() -> None:
     conn = sqlite3.connect(str(DB_PATH))
     try:
         for col in ("text_en", "text_la", "text_el"):
-            stripped, nulled = _strip_and_null(conn, col, args.dry_run)
-            if stripped:
-                print(f"  {col}: stripped={stripped} → nulled={nulled}")
+            stripped = _strip_nav_strings(conn, col, args.dry_run)
+            nulled = _null_short_and_toc(conn, col, args.dry_run)
+            if stripped or nulled:
+                print(f"  {col}: nav_stripped={stripped} toc_nulled={nulled}")
 
         if not args.dry_run:
             conn.commit()

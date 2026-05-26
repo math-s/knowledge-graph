@@ -176,34 +176,31 @@ def parse_question_file(path: Path) -> tuple[dict, list[dict], list[tuple[str, s
         art_title = re.sub(r"^Article\s+\d+\.\s*", "", h.get_text(strip=True))
         article_id = f"{question_id}:{art_num}"
 
-        # Collect text + hrefs from all siblings until the next article h2 (or end)
+        # Collect text + hrefs from all elements until the next article h2.
+        # We use next_elements (document-order DFS) instead of next_siblings so
+        # that articles 2-N, which New Advent wraps in <p> containers, are
+        # correctly cut off rather than swallowed whole via get_text().
         next_stop = h2s[i + 1] if i + 1 < len(h2s) else None
         text_parts: list[str] = []
-        for sib in h.next_siblings:
-            if sib is next_stop:
+        for elem in h.next_elements:
+            if elem is next_stop:
                 break
-            if isinstance(sib, NavigableString):
-                text_parts.append(str(sib))
-                continue
-            if not isinstance(sib, Tag):
-                continue
-            # Another article h2 could also be a direct descendant under weird nesting
-            if sib.name == "h2" and re.match(r"article\d+", sib.get("id", "")):
-                break
-            text_parts.append(sib.get_text(" ", strip=True))
-            for a in sib.find_all("a", href=True):
-                href = a["href"]
-                m_cath = CATHEN_HREF.match(href)
-                if m_cath:
-                    cites.append((article_id, f"ency:{m_cath.group(1)}"))
-                    continue
-                bv = parse_bible_href(href)
-                if bv:
-                    cites.append((article_id, bv))
-                    continue
-                m_fathers = FATHERS_HREF.match(href)
-                if m_fathers:
-                    cites.append((article_id, f"fathers-page:{m_fathers.group(1)}"))
+            if isinstance(elem, NavigableString):
+                text_parts.append(str(elem))
+            elif isinstance(elem, Tag):
+                if elem.name == "a" and elem.get("href"):
+                    href = elem["href"]
+                    m_cath = CATHEN_HREF.match(href)
+                    if m_cath:
+                        cites.append((article_id, f"ency:{m_cath.group(1)}"))
+                        continue
+                    bv = parse_bible_href(href)
+                    if bv:
+                        cites.append((article_id, bv))
+                        continue
+                    m_fathers = FATHERS_HREF.match(href)
+                    if m_fathers:
+                        cites.append((article_id, f"fathers-page:{m_fathers.group(1)}"))
 
         text = re.sub(r"\s+", " ", " ".join(text_parts)).strip()
         articles.append({
