@@ -282,6 +282,7 @@ def parse_chapter_page(html: str, url: str) -> Chapter | None:
             "Please help support the mission of New Advent",
             "Copyright ©", "New Advent is maintained by",
             "Kevin Knight", "Home >",
+            "CONTACT US", "ADVERTISE WITH NEW ADVENT",
         ]):
             continue
 
@@ -581,6 +582,7 @@ def _reload_aquinas_v1(aquinas_dir: Path, conn: sqlite3.Connection, dry_run: boo
                     "Submit Search", "Home Encyclopedia",
                     "Please help support", "Copyright ©",
                     "New Advent is maintained", "Kevin Knight",
+                    "CONTACT US", "ADVERTISE WITH NEW ADVENT",
                 ]):
                     continue
                 if len(text) < 10:
