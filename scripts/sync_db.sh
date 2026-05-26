@@ -67,18 +67,30 @@ for DB in "${DATABASES[@]}"; do
 
   LOCAL="$DATA_DIR/$DB"
   REMOTE="$BUCKET/$DB"
+  META_NAME="${DB%.db}.meta.json"
+  LOCAL_META="$DATA_DIR/$META_NAME"
+  REMOTE_META="$BUCKET/$META_NAME"
 
   case "$ACTION" in
     push)
+      echo "Generating $META_NAME (sha256 over $(du -h "$LOCAL" | cut -f1))..."
+      python "$(dirname "$0")/../pipeline/scripts/write_meta_json.py" \
+        --db "$LOCAL" --out "$LOCAL_META"
       echo "Uploading $DB..."
       aws "${AWS_ARGS[@]}" s3 cp "$LOCAL" "$REMOTE" --storage-class STANDARD_IA
       echo "  done: $REMOTE"
+      echo "Uploading $META_NAME..."
+      aws "${AWS_ARGS[@]}" s3 cp "$LOCAL_META" "$REMOTE_META"
+      echo "  done: $REMOTE_META"
       ;;
     pull)
       echo "Downloading $DB..."
       mkdir -p "$DATA_DIR"
       aws "${AWS_ARGS[@]}" s3 cp "$REMOTE" "$LOCAL"
       echo "  done: $LOCAL"
+      aws "${AWS_ARGS[@]}" s3 cp "$REMOTE_META" "$LOCAL_META" 2>/dev/null \
+        && echo "  done: $LOCAL_META" \
+        || echo "  (no $META_NAME in S3 yet — skipping)"
       ;;
     *)
       usage

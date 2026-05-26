@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 from .db import DB_PATH, get_connection
-from .routers import authors, bible, documents, encyclopedia, fathers, graph, lexicon, library, paragraphs, search, summa
+from .routers import authors, bible, documents, encyclopedia, fathers, graph, lexicon, library, paragraphs, search, summa, version
 from .chat import router as chat_router
 
 # Cache durations (seconds)
@@ -55,7 +55,7 @@ async def add_cache_headers(request: Request, call_next):
         response.headers["Cache-Control"] = "no-cache"
     elif path.startswith("/search"):
         response.headers["Cache-Control"] = f"public, max-age={CACHE_SHORT}"
-    elif path == "/health":
+    elif path == "/health" or path == "/version":
         response.headers["Cache-Control"] = "no-cache"
     else:
         response.headers["Cache-Control"] = f"public, max-age={CACHE_IMMUTABLE}"
@@ -74,6 +74,7 @@ app.include_router(summa.router)
 app.include_router(library.router)
 app.include_router(fathers.router)
 app.include_router(encyclopedia.router)
+app.include_router(version.router)
 
 # LLM chat router
 app.include_router(chat_router)

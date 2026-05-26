@@ -4,7 +4,7 @@
 PYTHON ?= python
 PIPELINE = $(PYTHON) pipeline/scripts/run_pipeline.py
 
-.PHONY: help install pipeline resume from quick status clean test lint dev build
+.PHONY: help install pipeline resume from quick status clean test lint dev build deploy deploy-force
 
 help: ## Show this help
 	@echo ""
@@ -64,3 +64,11 @@ dev: ## Start web dev server
 
 build: ## Build web for production
 	cd web && npm run build
+
+# ── Deploy ──────────────────────────────────────────────────────────────────
+
+deploy: ## Deploy to fly.io, skipping if S3 DB matches what's live
+	./scripts/deploy.sh
+
+deploy-force: ## Deploy to fly.io regardless of version match
+	./scripts/deploy.sh --force

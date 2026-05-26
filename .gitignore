@@ -6,6 +6,7 @@ data/*.db-shm
 data/*.db-wal
 data/*.db.bak
 data/*.bak
+data/*.meta.json
 pipeline/data/raw/
 pipeline/data/checkpoints/
 
