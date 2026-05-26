@@ -29,6 +29,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 BIBLE_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "newadvent" / "bible"
@@ -240,6 +242,13 @@ def main() -> None:
     )
     conn.commit()
     log.info("Inserted %d verse rows across %d books", len(new_rows), len(per_book))
+
+    with CorpusWriter("bible") as w:
+        for book_id, chapter, verse, text_en, text_la, text_pt, text_el in new_rows:
+            w.write({"book_id": book_id, "chapter": chapter, "verse": verse,
+                     "text_en": text_en, "text_la": text_la,
+                     "text_pt": text_pt, "text_el": text_el})
+    log.info("Wrote corpus JSONL for bible (%d verses)", len(new_rows))
 
     # Rebuild FTS if present — this FTS is a standalone table (no `content=`),
     # so the 'rebuild' command is a no-op. Wipe + re-insert from bible_verses.

@@ -27,6 +27,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 LIBRARY_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "newadvent" / "library"
@@ -217,6 +219,12 @@ def main() -> None:
     cur.executemany("INSERT INTO library_docs VALUES (?,?,?,?,?)", rows)
     conn.commit()
     log.info("Inserted %d library rows", len(rows))
+
+    with CorpusWriter("library") as w:
+        for doc_id, category, title, year, text in rows:
+            w.write({"id": doc_id, "category": category, "title": title,
+                     "year": year, "text": text})
+    log.info("Wrote corpus JSONL for library (%d docs)", len(rows))
 
     # Graph nodes
     empty_json = json.dumps([])

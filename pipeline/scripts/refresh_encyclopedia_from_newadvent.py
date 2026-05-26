@@ -25,6 +25,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 CATHEN_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "newadvent" / "cathen"
@@ -164,6 +166,12 @@ def main() -> None:
         article_rows,
     )
     conn.commit()
+
+    with CorpusWriter("encyclopedia") as w:
+        for article_id, title, summary, text, url in article_rows:
+            w.write({"id": article_id, "title": title, "summary": summary,
+                     "text_en": text, "url": url})
+    log.info("Wrote corpus JSONL for encyclopedia (%d articles)", len(article_rows))
 
     cur.executemany(
         "INSERT OR IGNORE INTO encyclopedia_cross_refs VALUES (?,?)",

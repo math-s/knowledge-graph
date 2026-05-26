@@ -24,6 +24,8 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 RAW_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "documents" / "cic"
@@ -264,6 +266,10 @@ def main() -> int:
     finally:
         conn.close()
 
+    with CorpusWriter("documents") as w:
+        for doc_id, section_num, text_en, text_la, text_pt in section_rows:
+            w.write({"document_id": doc_id, "section_num": section_num, "text_en": text_en})
+    log.info("wrote corpus JSONL for cic")
     return 0
 
 

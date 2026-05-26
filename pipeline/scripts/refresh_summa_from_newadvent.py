@@ -33,6 +33,8 @@ import sqlite3
 from collections import defaultdict
 from pathlib import Path
 
+from pipeline.src.staging import CorpusWriter
+
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -296,6 +298,12 @@ def main() -> None:
     conn.commit()
     log.info("Inserted %d questions, %d articles, %d raw cites",
              len(q_rows), len(a_rows), len(cite_rows))
+
+    with CorpusWriter("summa") as w:
+        for art_id, question_id, article_num, title, text in a_rows:
+            w.write({"id": art_id, "question_id": question_id,
+                     "article_num": article_num, "title": title, "text": text})
+    log.info("Wrote corpus JSONL for summa (%d articles)", len(a_rows))
 
     # --- Graph nodes ---
     empty_json = json.dumps([])

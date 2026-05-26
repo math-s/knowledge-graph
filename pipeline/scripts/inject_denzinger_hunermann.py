@@ -37,6 +37,8 @@ import logging
 import sqlite3
 from pathlib import Path
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 SOURCE_DIR = Path("/Users/matheusandradesilva/src/converter/out-pt")
@@ -172,8 +174,19 @@ def main() -> int:
         )
 
         conn.commit()
-
         log.info("inserted %d document_sections rows for %s", len(section_rows), DOC_ID)
+
+        with CorpusWriter("documents") as w:
+            for doc_id, section_num, text_en, text_la, text_pt, meta_str in section_rows:
+                w.write({
+                    "document_id": doc_id,
+                    "section_num": section_num,
+                    "text_en": text_en,
+                    "text_la": text_la,
+                    "text_pt": text_pt,
+                    "meta_json": json.loads(meta_str) if meta_str else None,
+                })
+        log.info("wrote corpus JSONL for %s", DOC_ID)
     finally:
         conn.close()
 

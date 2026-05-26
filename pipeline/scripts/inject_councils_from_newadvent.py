@@ -22,6 +22,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+from pipeline.src.staging import CorpusWriter
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 PIPELINE_ROOT = PROJECT_ROOT / "pipeline"
 FATHERS_DIR = PIPELINE_ROOT / "data" / "raw" / "newadvent" / "fathers"
@@ -169,6 +171,15 @@ def main() -> int:
     finally:
         conn.close()
 
+    with CorpusWriter("documents") as w:
+        for doc_id, section_num, text_en, text_la, text_pt in section_rows:
+            w.write({
+                "document_id": doc_id,
+                "section_num": section_num,
+                "text_en": text_en,
+                "text_la": text_la,
+                "text_pt": text_pt,
+            })
     log.info("Wrote %d councils, %d sections total", len(doc_rows), len(section_rows))
     return 0
 
