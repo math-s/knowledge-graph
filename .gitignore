@@ -1,4 +1,7 @@
 # Data directories
+# NOTE: data/corpus/ is intentionally tracked in git — it is the canonical
+#       source of truth for all text content. The SQLite DB lives on S3 and
+#       is rebuilt from these files via pipeline/scripts/load_corpus_to_db.py.
 data/raw/
 data/processed/
 data/*.db

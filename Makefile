@@ -4,7 +4,7 @@
 PYTHON ?= python
 PIPELINE = $(PYTHON) pipeline/scripts/run_pipeline.py
 
-.PHONY: help install pipeline resume from quick status clean test lint dev build deploy deploy-force
+.PHONY: help install pipeline resume from quick status clean test lint dev build deploy deploy-force corpus-export db-push db-pull
 
 help: ## Show this help
 	@echo ""
@@ -64,6 +64,19 @@ dev: ## Start web dev server
 
 build: ## Build web for production
 	cd web && npm run build
+
+# ── Corpus JSONL ────────────────────────────────────────────────────────────
+
+corpus-export: ## Export DB → data/corpus/ JSONL (run after any DB change)
+	$(PYTHON) pipeline/scripts/export_corpus_jsonl.py
+
+# ── DB sync (S3) ─────────────────────────────────────────────────────────────
+
+db-push: ## Push local DB to S3
+	./scripts/sync_db.sh push
+
+db-pull: ## Pull DB from S3 (first-time setup or after a deploy)
+	./scripts/sync_db.sh pull
 
 # ── Deploy ──────────────────────────────────────────────────────────────────
 

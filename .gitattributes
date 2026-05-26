@@ -1,0 +1,3 @@
+# Corpus JSONL files — always LF, treat as text for diffs
+data/corpus/**/*.jsonl text eol=lf diff=json
+data/corpus/**/*.json  text eol=lf diff=json

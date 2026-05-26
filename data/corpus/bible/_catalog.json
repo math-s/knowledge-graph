@@ -1,0 +1,513 @@
+[
+  {
+    "id": "1-chronicles",
+    "name": "1 Chronicles",
+    "abbreviation": "1 Chron",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "1-corinthians",
+    "name": "1 Corinthians",
+    "abbreviation": "1 Cor",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "1-john",
+    "name": "1 John",
+    "abbreviation": "1 Jn",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "1-kings",
+    "name": "1 Kings",
+    "abbreviation": "1 Kings",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "1-maccabees",
+    "name": "1 Maccabees",
+    "abbreviation": "1 Macc",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "1-peter",
+    "name": "1 Peter",
+    "abbreviation": "1 Pet",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "1-samuel",
+    "name": "1 Samuel",
+    "abbreviation": "1 Sam",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "1-thessalonians",
+    "name": "1 Thessalonians",
+    "abbreviation": "1 Thess",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "1-timothy",
+    "name": "1 Timothy",
+    "abbreviation": "1 Tim",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "2-chronicles",
+    "name": "2 Chronicles",
+    "abbreviation": "2 Chron",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "2-corinthians",
+    "name": "2 Corinthians",
+    "abbreviation": "2 Cor",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "2-john",
+    "name": "2 John",
+    "abbreviation": "2 Jn",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "2-kings",
+    "name": "2 Kings",
+    "abbreviation": "2 Kings",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "2-maccabees",
+    "name": "2 Maccabees",
+    "abbreviation": "2 Macc",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "2-peter",
+    "name": "2 Peter",
+    "abbreviation": "2 Pet",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "2-samuel",
+    "name": "2 Samuel",
+    "abbreviation": "2 Sam",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "2-thessalonians",
+    "name": "2 Thessalonians",
+    "abbreviation": "2 Thess",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "2-timothy",
+    "name": "2 Timothy",
+    "abbreviation": "2 Tim",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "3-john",
+    "name": "3 John",
+    "abbreviation": "3 Jn",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "acts",
+    "name": "Acts",
+    "abbreviation": "Acts",
+    "testament": "new",
+    "category": "historical-nt"
+  },
+  {
+    "id": "amos",
+    "name": "Amos",
+    "abbreviation": "Amos",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "baruch",
+    "name": "Baruch",
+    "abbreviation": "Bar",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "colossians",
+    "name": "Colossians",
+    "abbreviation": "Col",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "daniel",
+    "name": "Daniel",
+    "abbreviation": "Dan",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "deuteronomy",
+    "name": "Deuteronomy",
+    "abbreviation": "Deut",
+    "testament": "old",
+    "category": "pentateuch"
+  },
+  {
+    "id": "ecclesiastes",
+    "name": "Ecclesiastes",
+    "abbreviation": "Eccl",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "ephesians",
+    "name": "Ephesians",
+    "abbreviation": "Eph",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "esther",
+    "name": "Esther",
+    "abbreviation": "Esth",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "exodus",
+    "name": "Exodus",
+    "abbreviation": "Ex",
+    "testament": "old",
+    "category": "pentateuch"
+  },
+  {
+    "id": "ezekiel",
+    "name": "Ezekiel",
+    "abbreviation": "Ezek",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "ezra",
+    "name": "Ezra",
+    "abbreviation": "Ezra",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "galatians",
+    "name": "Galatians",
+    "abbreviation": "Gal",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "genesis",
+    "name": "Genesis",
+    "abbreviation": "Gen",
+    "testament": "old",
+    "category": "pentateuch"
+  },
+  {
+    "id": "habakkuk",
+    "name": "Habakkuk",
+    "abbreviation": "Hab",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "haggai",
+    "name": "Haggai",
+    "abbreviation": "Hag",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "hebrews",
+    "name": "Hebrews",
+    "abbreviation": "Heb",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "hosea",
+    "name": "Hosea",
+    "abbreviation": "Hos",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "isaiah",
+    "name": "Isaiah",
+    "abbreviation": "Isa",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "james",
+    "name": "James",
+    "abbreviation": "Jas",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "jeremiah",
+    "name": "Jeremiah",
+    "abbreviation": "Jer",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "job",
+    "name": "Job",
+    "abbreviation": "Job",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "joel",
+    "name": "Joel",
+    "abbreviation": "Joel",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "john",
+    "name": "John",
+    "abbreviation": "Jn",
+    "testament": "new",
+    "category": "gospel"
+  },
+  {
+    "id": "jonah",
+    "name": "Jonah",
+    "abbreviation": "Jonah",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "joshua",
+    "name": "Joshua",
+    "abbreviation": "Josh",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "jude",
+    "name": "Jude",
+    "abbreviation": "Jude",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "judges",
+    "name": "Judges",
+    "abbreviation": "Judg",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "judith",
+    "name": "Judith",
+    "abbreviation": "Jdt",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "lamentations",
+    "name": "Lamentations",
+    "abbreviation": "Lam",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "leviticus",
+    "name": "Leviticus",
+    "abbreviation": "Lev",
+    "testament": "old",
+    "category": "pentateuch"
+  },
+  {
+    "id": "luke",
+    "name": "Luke",
+    "abbreviation": "Lk",
+    "testament": "new",
+    "category": "gospel"
+  },
+  {
+    "id": "malachi",
+    "name": "Malachi",
+    "abbreviation": "Mal",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "mark",
+    "name": "Mark",
+    "abbreviation": "Mk",
+    "testament": "new",
+    "category": "gospel"
+  },
+  {
+    "id": "matthew",
+    "name": "Matthew",
+    "abbreviation": "Mt",
+    "testament": "new",
+    "category": "gospel"
+  },
+  {
+    "id": "micah",
+    "name": "Micah",
+    "abbreviation": "Mic",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "nahum",
+    "name": "Nahum",
+    "abbreviation": "Nah",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "nehemiah",
+    "name": "Nehemiah",
+    "abbreviation": "Neh",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "numbers",
+    "name": "Numbers",
+    "abbreviation": "Num",
+    "testament": "old",
+    "category": "pentateuch"
+  },
+  {
+    "id": "obadiah",
+    "name": "Obadiah",
+    "abbreviation": "Obad",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "philemon",
+    "name": "Philemon",
+    "abbreviation": "Phlm",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "philippians",
+    "name": "Philippians",
+    "abbreviation": "Phil",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "proverbs",
+    "name": "Proverbs",
+    "abbreviation": "Prov",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "psalms",
+    "name": "Psalms",
+    "abbreviation": "Ps",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "revelation",
+    "name": "Revelation",
+    "abbreviation": "Rev",
+    "testament": "new",
+    "category": "apocalyptic"
+  },
+  {
+    "id": "romans",
+    "name": "Romans",
+    "abbreviation": "Rom",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "ruth",
+    "name": "Ruth",
+    "abbreviation": "Ruth",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "sirach",
+    "name": "Sirach",
+    "abbreviation": "Sir",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "song-of-solomon",
+    "name": "Song of Solomon",
+    "abbreviation": "Song",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "titus",
+    "name": "Titus",
+    "abbreviation": "Titus",
+    "testament": "new",
+    "category": "epistle"
+  },
+  {
+    "id": "tobit",
+    "name": "Tobit",
+    "abbreviation": "Tob",
+    "testament": "old",
+    "category": "historical"
+  },
+  {
+    "id": "wisdom",
+    "name": "Wisdom",
+    "abbreviation": "Wis",
+    "testament": "old",
+    "category": "wisdom"
+  },
+  {
+    "id": "zechariah",
+    "name": "Zechariah",
+    "abbreviation": "Zech",
+    "testament": "old",
+    "category": "prophetic"
+  },
+  {
+    "id": "zephaniah",
+    "name": "Zephaniah",
+    "abbreviation": "Zeph",
+    "testament": "old",
+    "category": "prophetic"
+  }
+]
