@@ -204,7 +204,11 @@ def main() -> None:
     rows: list[tuple[str, str, str, int | None, str]] = []
     all_cites: dict[str, list[tuple[str, str]]] = {}
     for doc_id, path in files:
-        html = path.read_text(encoding="utf-8", errors="replace")
+        raw = path.read_bytes()
+        try:
+            html = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            html = raw.decode("windows-1252")
         title, year, text, cites = parse_doc(html)
         category = "docs" if doc_id.startswith("docs_") else "almanac"
         rows.append((doc_id, category, title, year, text))
