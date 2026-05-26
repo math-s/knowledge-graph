@@ -151,7 +151,7 @@
       1570,
       1571
     ],
-    "section_count": 12,
+    "section_count": 50,
     "available_langs_json": [
       "en",
       "la",
@@ -308,7 +308,7 @@
       2446,
       2832
     ],
-    "section_count": 8,
+    "section_count": 33,
     "available_langs_json": [
       "en",
       "la",
@@ -389,7 +389,7 @@
       1510,
       1520
     ],
-    "section_count": 57,
+    "section_count": 58,
     "available_langs_json": [
       "en"
     ]
@@ -456,7 +456,7 @@
       1697,
       2688
     ],
-    "section_count": 10,
+    "section_count": 109,
     "available_langs_json": [
       "en",
       "pt"
@@ -536,7 +536,7 @@
       2441,
       2444
     ],
-    "section_count": 20,
+    "section_count": 62,
     "available_langs_json": [
       "en",
       "la",
@@ -584,7 +584,7 @@
       828,
       899
     ],
-    "section_count": 1,
+    "section_count": 64,
     "available_langs_json": [
       "en",
       "la",
@@ -609,7 +609,7 @@
       1569,
       1586
     ],
-    "section_count": 6,
+    "section_count": 44,
     "available_langs_json": [
       "en",
       "la",
@@ -791,7 +791,7 @@
     "source_url": "",
     "fetchable": 0,
     "citing_paragraphs_json": [],
-    "section_count": 110,
+    "section_count": 111,
     "available_langs_json": [
       "en"
     ]
@@ -1063,7 +1063,7 @@
       2653,
       2663
     ],
-    "section_count": 23,
+    "section_count": 26,
     "available_langs_json": [
       "en",
       "la",
@@ -1294,7 +1294,7 @@
       2109,
       2467
     ],
-    "section_count": 9,
+    "section_count": 30,
     "available_langs_json": [
       "en",
       "la",
@@ -1392,7 +1392,7 @@
       1864,
       2516
     ],
-    "section_count": 3,
+    "section_count": 67,
     "available_langs_json": [
       "en",
       "la",
@@ -1535,7 +1535,7 @@
       1676,
       2820
     ],
-    "section_count": 5,
+    "section_count": 107,
     "available_langs_json": [
       "en",
       "la",
@@ -1615,7 +1615,7 @@
       2390,
       2391
     ],
-    "section_count": 19,
+    "section_count": 85,
     "available_langs_json": [
       "en",
       "la",
@@ -1801,7 +1801,7 @@
       2783,
       2820
     ],
-    "section_count": 49,
+    "section_count": 93,
     "available_langs_json": [
       "en",
       "la",
@@ -1859,7 +1859,7 @@
       2221,
       2229
     ],
-    "section_count": 2,
+    "section_count": 36,
     "available_langs_json": [
       "en",
       "la",
@@ -1892,7 +1892,7 @@
       2370,
       2372
     ],
-    "section_count": 5,
+    "section_count": 31,
     "available_langs_json": [
       "en",
       "la",
@@ -2145,7 +2145,7 @@
       2495,
       2498
     ],
-    "section_count": 4,
+    "section_count": 24,
     "available_langs_json": [
       "en",
       "la",
@@ -2206,7 +2206,7 @@
       2433,
       2436
     ],
-    "section_count": 5,
+    "section_count": 27,
     "available_langs_json": [
       "en",
       "la",
@@ -2671,7 +2671,7 @@
       2674,
       2679
     ],
-    "section_count": 63,
+    "section_count": 193,
     "available_langs_json": [
       "en",
       "la",
@@ -2747,7 +2747,7 @@
     "citing_paragraphs_json": [
       971
     ],
-    "section_count": 2,
+    "section_count": 75,
     "available_langs_json": [
       "en",
       "la",
@@ -2883,7 +2883,7 @@
       1577,
       2334
     ],
-    "section_count": 2,
+    "section_count": 31,
     "available_langs_json": [
       "en",
       "la",
@@ -2915,7 +2915,7 @@
       1378,
       1381
     ],
-    "section_count": 3,
+    "section_count": 78,
     "available_langs_json": [
       "en",
       "pt"
@@ -3029,7 +3029,7 @@
       2104,
       2793
     ],
-    "section_count": 5,
+    "section_count": 7,
     "available_langs_json": [
       "en",
       "la",
@@ -3138,7 +3138,7 @@
       1565,
       1620
     ],
-    "section_count": 2,
+    "section_count": 48,
     "available_langs_json": [
       "en",
       "la",
@@ -3220,7 +3220,7 @@
     "citing_paragraphs_json": [
       1389
     ],
-    "section_count": 1,
+    "section_count": 34,
     "available_langs_json": [
       "en",
       "la",
@@ -3240,7 +3240,7 @@
       1903,
       1930
     ],
-    "section_count": 4,
+    "section_count": 171,
     "available_langs_json": [
       "en",
       "pt"
@@ -3582,7 +3582,7 @@
       2684,
       2691
     ],
-    "section_count": 6,
+    "section_count": 25,
     "available_langs_json": [
       "en",
       "la",
@@ -3639,7 +3639,7 @@
       2315,
       2372
     ],
-    "section_count": 2,
+    "section_count": 87,
     "available_langs_json": [
       "en",
       "la",
@@ -3677,7 +3677,7 @@
       1582,
       2686
     ],
-    "section_count": 7,
+    "section_count": 62,
     "available_langs_json": [
       "en",
       "la",
@@ -3868,7 +3868,7 @@
       1869,
       2850
     ],
-    "section_count": 2,
+    "section_count": 35,
     "available_langs_json": [
       "en",
       "la",
@@ -3918,7 +3918,7 @@
       856,
       927
     ],
-    "section_count": 6,
+    "section_count": 92,
     "available_langs_json": [
       "en",
       "la",
@@ -4090,7 +4090,7 @@
       2132,
       2503
     ],
-    "section_count": 47,
+    "section_count": 130,
     "available_langs_json": [
       "en",
       "la",
@@ -4245,7 +4245,7 @@
       2441,
       2442
     ],
-    "section_count": 8,
+    "section_count": 49,
     "available_langs_json": [
       "en",
       "la",
@@ -4517,7 +4517,7 @@
       2132,
       2515
     ],
-    "section_count": 253,
+    "section_count": 254,
     "available_langs_json": [
       "en"
     ]
@@ -4631,7 +4631,7 @@
       1400,
       2791
     ],
-    "section_count": 14,
+    "section_count": 26,
     "available_langs_json": [
       "en",
       "la",
@@ -4683,7 +4683,7 @@
       834,
       891
     ],
-    "section_count": 179,
+    "section_count": 180,
     "available_langs_json": [
       "en"
     ]
@@ -4713,7 +4713,7 @@
       2068,
       2132
     ],
-    "section_count": 240,
+    "section_count": 241,
     "available_langs_json": [
       "en"
     ]
