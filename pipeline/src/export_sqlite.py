@@ -13,6 +13,8 @@ from pathlib import Path
 
 import networkx as nx
 
+from .staging import CorpusWriter
+
 from .models import (
     AuthorSource,
     BibleBookFull,
@@ -378,6 +380,24 @@ def _populate_paragraphs(cur: sqlite3.Cursor, paragraphs: list[Paragraph]) -> No
         len(entity_rows), len(topic_rows),
         len(bible_cite_rows), len(doc_cite_rows), len(author_cite_rows),
     )
+
+    with CorpusWriter("ccc") as w:
+        for (pid, text_en, text_la, text_pt,
+             part, section, chapter, article,
+             themes_json, footnotes_json) in para_rows:
+            w.write({
+                "id": pid,
+                "text_en": text_en or None,
+                "text_la": text_la or None,
+                "text_pt": text_pt or None,
+                "part": part or None,
+                "section": section or None,
+                "chapter": chapter or None,
+                "article": article or None,
+                "themes_json": json.loads(themes_json) if themes_json else None,
+                "footnotes_json": json.loads(footnotes_json) if footnotes_json else None,
+            })
+    logger.info("  wrote corpus JSONL for ccc (%d paragraphs)", len(para_rows))
 
 
 def _populate_graph(

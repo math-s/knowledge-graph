@@ -21,6 +21,8 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 LIBRARY_DIR = PROJECT_ROOT / "pipeline" / "data" / "raw" / "newadvent" / "library"
@@ -167,6 +169,10 @@ def main() -> None:
 
         if not args.dry_run:
             conn.commit()
+            sync_corpus("library")
+            for doc_id in affected_docs:
+                sync_corpus("documents", doc_id=doc_id)
+            print(f"synced corpus JSONL (library + {len(affected_docs)} document(s))")
             (remaining,) = conn.execute(
                 "SELECT COUNT(*) FROM document_sections "
                 "WHERE text_en LIKE '%' || char(65533) || '%'"

@@ -238,6 +238,33 @@ def export_library(conn: sqlite3.Connection) -> None:
     print(f"  library/docs.jsonl: {n} rows")
 
 
+# ── programmatic sync (used by fix scripts) ───────────────────────────────────
+
+def sync(corpus: str, doc_id: str | None = None,
+         db_path: Path = DB_PATH) -> None:
+    """Re-export a single corpus (or one document) from DB → JSONL.
+
+    Called by fix scripts after they commit DB changes so the JSONL
+    stays in sync without a full re-export.
+
+    Example:
+        from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+        sync_corpus("documents", doc_id="denzinger-hunermann")
+        sync_corpus("summa")
+    """
+    if not db_path.exists():
+        raise FileNotFoundError(f"DB not found: {db_path}")
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        if corpus == "documents" and doc_id:
+            export_documents(conn, doc_filter=doc_id)
+        else:
+            EXPORTERS[corpus](conn)
+    finally:
+        conn.close()
+
+
 # ── main ─────────────────────────────────────────────────────────────────────
 
 EXPORTERS = {

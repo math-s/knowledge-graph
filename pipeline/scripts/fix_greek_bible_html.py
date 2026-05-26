@@ -28,6 +28,8 @@ import time
 from dataclasses import asdict
 from pathlib import Path
 
+from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 
@@ -97,6 +99,7 @@ def main() -> None:
         [(new, book, chap, verse) for (book, chap, verse, new) in cleaned_pairs],
     )
     conn.commit()
+    sync_corpus("bible")
     print(f"  ✓ rewrote bible_verses.text_el for {len(cleaned_pairs)} rows")
 
     # 2. Invalidate cache

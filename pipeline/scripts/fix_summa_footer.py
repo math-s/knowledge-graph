@@ -21,6 +21,8 @@ import argparse
 import sqlite3
 from pathlib import Path
 
+from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 
@@ -70,6 +72,9 @@ def main() -> None:
         )
         conn.commit()
         print(f"Updated {len(updates)} summa_articles.")
+        if updates:
+            sync_corpus("summa")
+            print("synced corpus JSONL")
 
         (remaining,) = conn.execute(
             "SELECT COUNT(*) FROM summa_articles WHERE text LIKE ?",

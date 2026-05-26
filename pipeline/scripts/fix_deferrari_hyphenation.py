@@ -19,6 +19,8 @@ import re
 import sqlite3
 from pathlib import Path
 
+from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 
@@ -72,6 +74,10 @@ def main() -> None:
         )
         conn.commit()
         print(f"Updated {len(updates)} Deferrari EN sections.")
+        if updates:
+            for doc_id in {u[1] for u in updates}:
+                sync_corpus("documents", doc_id=doc_id)
+            print(f"synced corpus JSONL for {len({u[1] for u in updates})} document(s)")
 
         (remaining,) = conn.execute(
             "SELECT COUNT(*) FROM document_sections "

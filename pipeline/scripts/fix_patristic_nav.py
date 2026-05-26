@@ -22,6 +22,8 @@ import argparse
 import sqlite3
 from pathlib import Path
 
+from pipeline.scripts.export_corpus_jsonl import sync as sync_corpus
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = PROJECT_ROOT / "data" / "knowledge-graph.db"
 
@@ -113,6 +115,8 @@ def main() -> None:
 
         if not args.dry_run:
             conn.commit()
+            sync_corpus("patristic")
+            print("synced corpus JSONL")
             _rebuild_fts(conn)
             conn.commit()
             print("Done.")
